@@ -2,12 +2,12 @@
 
 ## Property
 
-”Ô–Ú‚Ìˆø”‚ÍAŠÄ‹‘ÎÛ‚Ì’l‚ª•ÏX‚³‚ê‚½Û‚ÌReactiveProperty‚Ì‹““®‚ğw’è‚µ‚Ä‚¢‚Ü‚·B
-uReactivePropertyMode.DistinctUntilChangedv‚ğw’è‚·‚é‚ÆAŠÄ‹‘ÎÛ‚©‚ç•ÏX’Ê’m‚Í‚ ‚Á‚½‚¯‚ê‚Ç‚àÀÛ‚Ì’l‚Í•Ï‰»‚µ‚Ä‚¢‚È‚¢ê‡‚ÉA©g‚Í•ÏX’Ê’m‚ğ”­s‚µ‚Ü‚¹‚ñB
+ã€ŒReactivePropertyMode.DistinctUntilChangedã€ã‚’æŒ‡å®šã™ã‚‹ã¨ã€ç›£è¦–å¯¾è±¡ã‹ã‚‰å¤‰æ›´é€šçŸ¥ã¯ã‚ã£ãŸã‘ã‚Œã©ã‚‚
+å®Ÿéš›ã®å€¤ã¯å¤‰åŒ–ã—ã¦ã„ãªã„å ´åˆã«ã€è‡ªèº«ã¯å¤‰æ›´é€šçŸ¥ã‚’ç™ºè¡Œã—ã¾ã›ã‚“ã€‚
 
-_ => ‚Í using System.Windows?
+_ => ãªã©ã¯ using SystemãŒå¿…è¦ãªã®ã§æ³¨æ„
 
-### Šî–{
+### åŸºæœ¬
 
 ```C#
     public ReactiveProperty<string> Input { get; private set; }
@@ -15,7 +15,7 @@ _ => ‚Í using System.Windows?
 
     public MainViewModel()
     {
-        this.Input = new ReactiveProperty<string>("‰Šú’l");
+        this.Input = new ReactiveProperty<string>("åˆæœŸå€¤");
         this.Output = this.Input
             .Select(s => s != null ? s.ToUpper() : null)
             .ToReactiveProperty();
@@ -35,9 +35,9 @@ _ => ‚Í using System.Windows?
             .ToReactiveProperty();
 
 		this.Age = model
-			.ObserveProperty(x => x.Age) // AgeƒvƒƒpƒeƒB‚ğŠÄ‹‚·‚éIObservable‚É•ÏŠ·
-			.Select(x => x.ToString()) // LINQ‚Å‰ÁH‚µ‚Ä
-			.ToReactiveProperty(); // ReactiveProperty‚É•ÏŠ·1
+			.ObserveProperty(x => x.Age) // Ageãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ç›£è¦–ã™ã‚‹IObservableã«å¤‰æ›
+			.Select(x => x.ToString()) // LINQã§åŠ å·¥ã—ã¦
+			.ToReactiveProperty(); // ReactivePropertyã«å¤‰æ›1
 
 		//M <-> VM
         this.IO = this.model
@@ -45,24 +45,24 @@ _ => ‚Í using System.Windows?
 
             this.Age = model
                 .ToReactivePropertyAsSynchronized(
-                    x => x.Age, // AgeƒvƒƒpƒeƒB‚ğ
-                    convert: x => x.ToString(), // M -> VM‚Ì‚Æ‚«‚Í•¶š—ñ‚É•ÏŠ·
-                    convertBack: x => int.Parse(x)); // VM -> M‚Ì‚É‚Íint‚É•ÏŠ·
+                    x => x.Age, // Ageãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’
+                    convert: x => x.ToString(), // M -> VMã®ã¨ãã¯æ–‡å­—åˆ—ã«å¤‰æ›
+                    convertBack: x => int.Parse(x)); // VM -> Mã®æ™‚ã«ã¯intã«å¤‰æ›
 
 		//VM -> M only
             this.Name = ReactiveProperty.FromObject(
-                model, // ‚à‚Æ‚É‚È‚éModel‚ğw’è‚µ‚Ä
-                x => x.Name); // ƒvƒƒpƒeƒB‚ğw’è‚·‚é
+                model, // ã‚‚ã¨ã«ãªã‚‹Modelã‚’æŒ‡å®šã—ã¦
+                x => x.Name); // ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’æŒ‡å®šã™ã‚‹
 
             this.Age = ReactiveProperty.FromObject(
-                model, // ‚à‚Æ‚É‚È‚éModel‚ğw’è‚µ‚Ä
-                x => x.Age, // ƒvƒƒpƒeƒB‚ğw’è‚·‚é
-                convert: x => x.ToString(), // M -> VM‚Ì•ÏŠ·ˆ—
-                convertBack: x => int.Parse(x)); // VM -> M‚Ì•ÏŠ·ˆ—
+                model, // ã‚‚ã¨ã«ãªã‚‹Modelã‚’æŒ‡å®šã—ã¦
+                x => x.Age, // ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’æŒ‡å®šã™ã‚‹
+                convert: x => x.ToString(), // M -> VMã®å¤‰æ›å‡¦ç†
+                convertBack: x => int.Parse(x)); // VM -> Mã®å¤‰æ›å‡¦ç†
     }
 ```
 
-### ‡¬
+### åˆæˆ
 
 ```C#
 	public ReactiveProperty<int> Lhs { get; }
@@ -75,20 +75,20 @@ _ => ‚Í using System.Windows?
                 .ToReadOnlyReactiveProperty();
 ```
 
-### “ü—ÍŒŸ¸
+### å…¥åŠ›æ¤œæŸ»
 
 ```C#
            this.Name = model
                 .ToReactivePropertyAsSynchronized(x => x.Name)
-                .SetValidateNotifyError((IObservable<string> ox) => // “ü—Í’l‚ÌƒXƒgƒŠ[ƒ€
+                .SetValidateNotifyError((IObservable<string> ox) => // å…¥åŠ›å€¤ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ 
                     Observable.Merge(
-                        ox.Where(x => string.IsNullOrWhiteSpace(x)).Select(_ => "Error"), // ‹ó•¶š‚Ì‚Æ‚«‚ÍƒGƒ‰[ƒƒbƒZ[ƒW‚ğ•Ô‚·
-                        ox.Where(x => !string.IsNullOrWhiteSpace(x)).Select(_ => default(string))) // ‹ó•¶šˆÈŠO‚Ì‚Æ‚«‚ÍƒGƒ‰[‚ª‚È‚¢‚Ì‚Ånull
+                        ox.Where(x => string.IsNullOrWhiteSpace(x)).Select(_ => "Error"), // ç©ºæ–‡å­—ã®ã¨ãã¯ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¿”ã™
+                        ox.Where(x => !string.IsNullOrWhiteSpace(x)).Select(_ => default(string))) // ç©ºæ–‡å­—ä»¥å¤–ã®ã¨ãã¯ã‚¨ãƒ©ãƒ¼ãŒãªã„ã®ã§null
                 );
 
 this.NameError = Observable.Merge(
-        this.Name.ObserveErrorChanged.Where(x => x == null).Select(_ => default(string)), // ƒGƒ‰[‚Ì‚È‚¢‚Æ‚«‚Ínull
-        this.Name.ObserveErrorChanged.Where(x => x != null).Select(x => x.OfType<string>().FirstOrDefault()) // ƒGƒ‰[‚Ì‚ ‚é‚Æ‚«‚ÍÅ‰‚Ìstring
+        this.Name.ObserveErrorChanged.Where(x => x == null).Select(_ => default(string)), // ã‚¨ãƒ©ãƒ¼ã®ãªã„ã¨ãã¯null
+        this.Name.ObserveErrorChanged.Where(x => x != null).Select(x => x.OfType<string>().FirstOrDefault()) // ã‚¨ãƒ©ãƒ¼ã®ã‚ã‚‹ã¨ãã¯æœ€åˆã®string
     )
     .ToReactiveProperty();
 
@@ -99,33 +99,33 @@ this.Name = model
         return string.IsNullOrWhiteSpace(x) ? "Error" : null;
     });
 
-// ’è‹`•”•ª
+// å®šç¾©éƒ¨åˆ†
 [Required(ErrorMessage = "Error!!")]
 public ReactiveProperty<string> Name { get; private set; }
-// ƒCƒ“ƒXƒ^ƒ“ƒX‰»ˆ—
+// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–å‡¦ç†
 this.Name = new ReactiveProperty<string>()
     .SetValidateAttribute(() => this.Name);
 
 this.Name = model
     .ToReactivePropertyAsSynchronized(
         x => x.Name,
-        ignoreValidationErrorValue: true) // ŒŸØƒGƒ‰[‚Ì‚ ‚é’l‚ÍModel‚É“n‚³‚È‚¢
+        ignoreValidationErrorValue: true) // æ¤œè¨¼ã‚¨ãƒ©ãƒ¼ã®ã‚ã‚‹å€¤ã¯Modelã«æ¸¡ã•ãªã„
     .SetValidateNotifyError((string x) => string.IsNullOrWhiteSpace(x) ? "Error" : null);
 ```
-### Œãn––
+### å¾Œå§‹æœ«
 
-```this.Name = model.ObserveProperty(x => x.Name).ToReactiveProperty();```
+``` this.Name = model.ObserveProperty(x => x.Name).ToReactiveProperty(); ```
 
-‚Ì‚æ‚¤‚ÈƒP[ƒX‚Å‚ÍDispose‚µ‚È‚¢‚Æ—\Šú‚µ‚È‚¢“®ì‚·‚é‰Â”\«‚ ‚èB
+ã®ã‚ˆã†ãªã‚±ãƒ¼ã‚¹ã§ã¯Disposeã—ãªã„ã¨äºˆæœŸã—ãªã„å‹•ä½œã™ã‚‹å¯èƒ½æ€§ã‚ã‚Šã€‚
 
 ```C#
-	//Aƒpƒ^[ƒ“
+	//Aãƒ‘ã‚¿ãƒ¼ãƒ³
 	private CompositeDisposable Disposable { get; } = new CompositeDisposable();
     public Main()
 	{
 		this.PropA = hogeObservable.ToReactiveProperty();
 	    this.PropB = fugaObservable.ToReactiveProperty();
-	    // Dispose‚ğW‚ß‚Ä‚¨‚­
+	    // Disposeã‚’é›†ã‚ã¦ãŠã
 	    this.Disposable.Add(this.PropA);
 	    this.Disposable.Add(this.PropA);
 	}
@@ -134,7 +134,7 @@ this.Name = model
 		this.Disposable.Dispose();
 	}
 
-	//Bƒpƒ^[ƒ“
+	//Bãƒ‘ã‚¿ãƒ¼ãƒ³
 	private CompositeDisposable Disposable { get; } = new CompositeDisposable();
     public Main()
 	{
@@ -147,29 +147,29 @@ this.Name = model
 	}
 ```
 
-### ‚»‚Ì‘¼
+### ãã®ä»–
 
 ```C#
             this.Output = this.Input
-                .Delay(TimeSpan.FromSeconds(1)) // 1•bŠÔ‘Ò‹@‚µ‚Ä
-                .Select(x => x.ToUpper()) // ‘å•¶š‚É•ÏŠ·‚µ‚Ä
-                .ToReactiveProperty(); // ReactiveProperty‰»‚·‚é
+                .Delay(TimeSpan.FromSeconds(1)) // 1ç§’é–“å¾…æ©Ÿã—ã¦
+                .Select(x => x.ToUpper()) // å¤§æ–‡å­—ã«å¤‰æ›ã—ã¦
+                .ToReactiveProperty(); // ReactivePropertyåŒ–ã™ã‚‹
 ```
 
 ## Command
 
-###Šî–{
+###åŸºæœ¬
 
 ```C#
 	public ReactiveCommand ClearCommand { get; private set; }
             
 	this.ClearCommand = this.Input
-      	.Select(x => !string.IsNullOrWhiteSpace(x)) // Input.Value‚ª‹ó‚¶‚á‚È‚¢‚Æ‚«
-      	.ToReactiveCommand(); // Às‰Â”\‚ÈCommand‚ğì‚é
+      	.Select(x => !string.IsNullOrWhiteSpace(x)) // Input.ValueãŒç©ºã˜ã‚ƒãªã„ã¨ã
+      	.ToReactiveCommand(); // å®Ÿè¡Œå¯èƒ½ãªCommandã‚’ä½œã‚‹
   	this.ClearCommand.Subscribe(_ => this.Input.Value = "")
 ```
 
-### ‡¬
+### åˆæˆ
 
 ```C#
         IsCheckedA = new ReactiveProperty<bool>();
@@ -180,6 +180,6 @@ this.Name = model
             .CombineLatestValuesAreAllTrue()
             .ToReactiveCommand();
  
-        ExecCommand.Subscribe(_ => MessageBox.Show("‚µ‚ñ‚Õ‚éI"));
+        ExecCommand.Subscribe(_ => MessageBox.Show("ã—ã‚“ã·ã‚‹ï¼"));
 ```
 
