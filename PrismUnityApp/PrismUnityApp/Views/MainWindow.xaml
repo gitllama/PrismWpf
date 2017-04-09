@@ -1,0 +1,44 @@
+﻿<Window x:Class="PrismUnityApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET45"
+        xmlns:vm="clr-namespace:PrismUnityApp.ViewModels"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        Title="{Binding Title.Value}" Height="350" Width="525">
+
+    <ScrollViewer x:Name="sv"
+                  VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Auto">
+        <!--<i:Interaction.Behaviors>
+            <prism: />
+        </i:Interaction.Behaviors>-->
+        <Canvas x:Name="cnv"
+                Width="{Binding Width.Value}" 
+                Height="{Binding Height.Value}">
+            
+            <i:Interaction.Behaviors>
+                <vm:MouseMoveBehavior Position="{Binding MouseMove.Value, Mode=OneWayToSource}"/>
+            </i:Interaction.Behaviors>
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseWheel">
+                    <r:EventToReactive ReactiveProperty="{Binding MouseWheel}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            
+            <Canvas.Background>
+                <ImageBrush ImageSource="{Binding img.Value}" Stretch="Fill" />
+            </Canvas.Background>
+
+            <Line
+                X1="10" Y1="10"
+                X2="50" Y2="50"
+                Stroke="Black"
+                StrokeThickness="4" />
+        </Canvas>
+
+    </ScrollViewer>
+
+</Window>
