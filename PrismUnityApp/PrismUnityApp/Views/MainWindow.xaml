@@ -3,14 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET45"
+        xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET46"
         xmlns:vm="clr-namespace:PrismUnityApp.ViewModels"
+        xmlns:behav="clr-namespace:PrismUnityApp.Behavior"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title.Value}" Height="350" Width="525">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <i:Interaction.Behaviors>
-            <vm:ScroolBarBehavior Position="{Binding ScrollBar.Value, Mode=TwoWay}"/>
+            <behav:ScroolBarBehavior Position="{Binding ScrollBar.Value, Mode=TwoWay}"/>
         </i:Interaction.Behaviors>
         
         <Canvas x:Name="cnv"
@@ -18,9 +19,9 @@
                 Height="{Binding Height.Value}">
             
             <i:Interaction.Behaviors>
-                <vm:CanvasBehavior
+                <behav:CanvasBehavior
                         MouseMove="{Binding MouseMove.Value, Mode=OneWayToSource}"
-                        Shapes="{Binding Shape.Value, Mode=TwoWay}"/>
+                        Shapes="{Binding Shapes.Value, Mode=TwoWay}"/>
             </i:Interaction.Behaviors>
 
             <i:Interaction.Triggers>
