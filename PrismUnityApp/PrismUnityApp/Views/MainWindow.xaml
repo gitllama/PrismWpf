@@ -11,15 +11,14 @@
     <ScrollViewer x:Name="sv"
                   VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Auto">
-        <!--<i:Interaction.Behaviors>
-            <prism: />
-        </i:Interaction.Behaviors>-->
         <Canvas x:Name="cnv"
                 Width="{Binding Width.Value}" 
                 Height="{Binding Height.Value}">
             
             <i:Interaction.Behaviors>
-                <vm:MouseMoveBehavior Position="{Binding MouseMove.Value, Mode=OneWayToSource}"/>
+                <vm:CanvasBehavior
+                        MouseMove="{Binding MouseMove.Value, Mode=OneWayToSource}"
+                        Shapes="{Binding Shape.Value, Mode=TwoWay}"/>
             </i:Interaction.Behaviors>
 
             <i:Interaction.Triggers>
@@ -31,14 +30,8 @@
             <Canvas.Background>
                 <ImageBrush ImageSource="{Binding img.Value}" Stretch="Fill" />
             </Canvas.Background>
-
-            <Line
-                X1="10" Y1="10"
-                X2="50" Y2="50"
-                Stroke="Black"
-                StrokeThickness="4" />
+                
         </Canvas>
-
     </ScrollViewer>
 
 </Window>
