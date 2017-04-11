@@ -42,6 +42,22 @@ namespace PrismUnityApp.Behavior
             crtl?.ReDraw();
         }
 
+        public static readonly DependencyProperty ScalingModeProperty = DependencyProperty.Register(
+            "ScalingMode",
+            typeof(BitmapScalingMode),
+            typeof(CanvasBehavior),
+            new UIPropertyMetadata(BitmapScalingMode.Unspecified, ScalingModePropertyChanged));
+        public BitmapScalingMode ScalingMode
+        {
+            get => (BitmapScalingMode)GetValue(ScalingModeProperty);
+            set => SetValue(ScalingModeProperty, value);
+        }
+        private static void ScalingModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var crtl = d as CanvasBehavior;
+            RenderOptions.SetBitmapScalingMode(crtl.cnv, (BitmapScalingMode)e.NewValue);
+        }
+
 
         protected override void OnSetup()
         {

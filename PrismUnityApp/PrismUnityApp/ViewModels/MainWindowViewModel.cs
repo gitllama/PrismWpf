@@ -11,6 +11,8 @@ using System.Windows.Interactivity;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
+using PrismUnityApp.Models;
+using System.Windows.Media;
 
 namespace PrismUnityApp.ViewModels
 {
@@ -30,19 +32,30 @@ namespace PrismUnityApp.ViewModels
         
         public ReactiveProperty<(double H, double V)> ScrollBar { get; private set; }
         public ReactiveProperty<IEnumerable<string>> Shapes { get; private set; }
-        
+
+        public ReactiveProperty<BitmapScalingMode> ScalingMode { get; private set; }
+
+        Model model = new Model();
+        public ReactiveProperty<Object> obj { get; private set; }
+
         public MainWindowViewModel()
         {
+            obj = new ReactiveProperty<object>(model);
+
+
+            Scale = model.ObserveProperty(x => x.Scale).ToReactiveProperty();
+            ScalingMode = model.ObserveProperty(x => x.ScalingMode).ToReactiveProperty();
+
+
+
             MouseMove = new ReactiveProperty<Point>();
-
-
 
             MouseWheel = new ReactiveProperty<MouseWheelEventArgs>();
             MouseWheel.Subscribe(x => { if (x != null) x.Handled = true; } ); //ホイールでのスクロール抑制
 
             var m_srcBitmap = new BitmapImage(new Uri(@"C76wJkLVMAUbiDl.jpg", UriKind.Relative));
 
-            Scale = new ReactiveProperty<double>(1.0);
+            
             img = new ReactiveProperty<WriteableBitmap>(new WriteableBitmap(m_srcBitmap));
 
             Scale = MouseWheel.Select(x => Scale.Value * Math.Pow(2,(x?.Delta / 120 ?? 0))).ToReactiveProperty();
@@ -61,9 +74,12 @@ namespace PrismUnityApp.ViewModels
                 (IEnumerable<string>)new List<string>()
                 {
                     //$"Circle,{x.X},{x.Y},5",
-                    $"Text,{x.X},{x.Y-20},20,{x.X / Scale.Value}-{x.Y/ Scale.Value}",
-                    $"Rect,{x.X},{x.Y-10,0},{1* Scale.Value},{1* Scale.Value}"
+                    $"Text,{x.X},{x.Y-20},20,{(int)(x.X / Scale.Value)}-{(int)(x.Y/ Scale.Value)}",
+                    $"Rect,{(int)(x.X / Scale.Value) *Scale.Value },{(int)(x.Y / Scale.Value) *Scale.Value},{1* Scale.Value},{1* Scale.Value}"
                 }).ToReactiveProperty();
+
+
+
         }
     }
 }
