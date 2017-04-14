@@ -1,7 +1,12 @@
 # その他Prismに関わらず使いそう
 
 ## Enum
-
+```C#
+string strVal = Enum.GetName(typeof(Season),  Season.Spring);
+int intVal = (int)(Season.Autumn | Season.Winter);
+Season enmVal = (Season)Enum.Parse(typeof(Season), "spring, summer", true);
+Season enmVal = (Season)Enum.ToObject(typeof(Season), 2);
+```
 ## 動的なEnum
 
 ```C#
