@@ -1,0 +1,11 @@
+﻿BMP:
+  Regex  : ^.+\.(bmp|jpg)$
+  Type   : BMP
+Raw:
+  Regex  : ^.+\.(bmp|jpg)$
+  Width  : 200
+  Height : 100
+Raw:
+  Regex  : ^.+\.(bmp|jpg)$
+  Width  : 200
+  Height : 100
