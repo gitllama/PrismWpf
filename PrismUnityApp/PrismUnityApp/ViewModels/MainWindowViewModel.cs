@@ -43,9 +43,6 @@ namespace PrismUnityApp.ViewModels
 
         public ReactiveProperty<BitmapScalingMode> ScalingMode { get; private set; }
 
-
-
-
         public ReactiveCommand PropertyCommand { get; private set; }
         public InteractionRequest<INotification> PropertyRequest { get; private set; }
 
@@ -56,13 +53,8 @@ namespace PrismUnityApp.ViewModels
 
         public MainWindowViewModel()
         {
-
-
-
             Scale = model.ObserveProperty(x => x.Scale).ToReactiveProperty();
             ScalingMode = model.ObserveProperty(x => x.ScalingMode).ToReactiveProperty();
-
-
 
             MouseMove = new ReactiveProperty<Point>();
 
@@ -115,10 +107,8 @@ namespace PrismUnityApp.ViewModels
                 }
                 else
                 {
-                    imgmodel.FileName = i[0];
+                    imgmodel.ReadFile(ii, i[0]);
                 }
-
-
             });
 
 

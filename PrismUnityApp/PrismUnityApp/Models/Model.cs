@@ -34,11 +34,9 @@ namespace PrismUnityApp.Models
     {
 
         private string _FileName;
-        public string FileName { get => _FileName; set => SetProperty(ref _FileName, value,() => ReadFile(value)); }
+        public string FileName { get => _FileName; set => SetProperty(ref _FileName, value); }
 
         public int[] raw;
-
-
 
         private int _Width;
         public int Width { get => _Width; set => SetProperty(ref _Width, value); }
@@ -49,8 +47,9 @@ namespace PrismUnityApp.Models
         private WriteableBitmap _Bitmap;
         public WriteableBitmap Bitmap { get => _Bitmap; set => SetProperty(ref _Bitmap, value); }
 
-        private void ReadFile(FileTypes t,string value)
+        public void ReadFile(FileTypes t,string value)
         {
+            FileName = value;
             Width = t.Width;
             Height = t.Height;
 
