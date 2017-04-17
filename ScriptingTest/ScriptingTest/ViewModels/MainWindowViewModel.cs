@@ -56,7 +56,6 @@ namespace ScriptingTest.ViewModels
 
             Document.Text = "int j = 0;\r\nfor(int i=0;i<4;i++)\r\n  j+=i;";
 
-            //式の評価
             var globals = new Globals { X = 1, Y = 2 };
 
             RunCommand = new DelegateCommand(async () =>
