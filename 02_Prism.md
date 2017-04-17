@@ -2,7 +2,7 @@
 
 https://github.com/PrismLibrary/Prism-Samples-Wpf
 
-## Notifies 
+## Property Notifies 
 
 ```C#
   private string _title = "Prism Unity Application";
@@ -16,6 +16,22 @@ https://github.com/PrismLibrary/Prism-Samples-Wpf
   public void Method()
   {
     RaisePropertyChanged("Title");
+  }
+```
+
+## Command
+
+```C#
+  public DelegateCommand ToUpperCommand { get; }
+  public DelegateCommandSampleViewModel()
+  {
+    this.ToUpperCommand = new DelegateCommand(() =>
+    {
+      this.Output = this.Input.ToUpper();
+    },
+    () => !string.IsNullOrWhiteSpace(this.Input));
+    
+    this.ToUpperCommand.ObservesProperty(() => this.Input);
   }
 ```
 
