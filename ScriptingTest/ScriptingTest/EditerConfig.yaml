@@ -1,0 +1,7 @@
+﻿HighlightCurrentLine : True
+IndentationSize      : 4
+#ShowTabs             : True
+ConvertTabsToSpaces  : True
+ShowColumnRuler      : True
+ShowEndOfLine        : True
+ShowSpaces           : True
