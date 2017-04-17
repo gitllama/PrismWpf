@@ -44,9 +44,6 @@ namespace ScriptingTest.ViewModels
 
         public MainWindowViewModel()
         {
-            //初期値の設定
-
-
             using (var sr = new StreamReader("EditerConfig.yaml"))
             {
                 var deserializer = new Deserializer();
@@ -54,25 +51,29 @@ namespace ScriptingTest.ViewModels
                 Option = hoge;
             }
 
-            Document.Text = "int j = 0;\r\nfor(int i=0;i<4;i++)\r\n  j+=i;";
+            //初期値の設定
+            var globals = new Globals { P = new Pixel(10,10) };
 
-            var globals = new Globals { X = 1, Y = 2 };
 
+            Document.Text = File.ReadAllText("Script.csx");
+            
             RunCommand = new DelegateCommand(async () =>
             {
-                //var state = await CSharpScript.EvaluateAsync(
-                //    Document.Text,
-                //    ScriptOptions.Default.WithImports("System.Math")
-                //    , globals: globals);
-
-                var state = await CSharpScript.RunAsync(
-                    Document.Text,
-                    ScriptOptions.Default.WithImports("System.Math")
-                    , globals: globals);
-
-                foreach (var variable in state.Variables)
+                try
                 {
-                    Result += $"{variable.Name} = {variable.Value} of type {variable.Type}\r\n";
+                    var state = await CSharpScript.RunAsync(
+                        Document.Text,
+                        ScriptOptions.Default.WithImports("System.Math")
+                        , globals: globals);
+
+                    foreach (var variable in state.Variables)
+                    {
+                        Result += $"{variable.Name} = {variable.Value} of type {variable.Type}\r\n";
+                    }
+                }
+                catch(Exception e)
+                {
+                    Result += e.ToString();
                 }
             });
         }
@@ -80,7 +81,24 @@ namespace ScriptingTest.ViewModels
 
     public class Globals
     {
-        public int X;
-        public int Y;
+        public Pixel P;
+    }
+
+    public class Pixel
+    {
+        public int[] P;
+        public int Width;
+        public int Height;
+
+        public int this[int i] { get => P[i]; set => P[i] = value; }
+        public int this[int x, int y] { get => P[x + y * Width]; set => P[x + y * Width] = value; }
+
+
+        public Pixel(int width,int height)
+        {
+            Width = width;
+            Height = height;
+            P = new int[Width * Height];
+        }
     }
 }
