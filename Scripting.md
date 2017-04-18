@@ -58,6 +58,7 @@ public class Globals
   public int Y;
 }
 ```
+
 ## 結果の取得
 
 ```C#
@@ -122,5 +123,33 @@ WithSearchPathなんてのもある
     {
         comp.Emit(ms);
         File.WriteAllBytes("test.dll", ms.ToArray());
+    }
+```
+
+## 事前にコンパイルして効率化
+
+オーバヘッド大きいので繰り返しでは事前にコンパイルかけて  
+使いまわした方が有利  
+(キャッシュが効くとかってはなしあった気がするけど )
+
+```C#
+    var ssr = ScriptSourceResolver.Default.WithBaseDirectory(Environment.CurrentDirectory);
+
+    var script = CSharpScript.Create(
+                    command,
+                    ScriptOptions.Default.WithImports(new string[]
+                    {
+                        "System",
+                        "System.Math",
+                    })
+                    .WithSourceResolver(ssr)
+                    .WithReferences(System.Reflection.Assembly.GetEntryAssembly()),
+                    typeof(Globals));
+
+    foreach (var i in globals)
+    {
+        var state = script.RunAsync(i).Result;
+        foreach (var variable in state.Variables)
+            Console.WriteLine($"{variable.Name} = {variable.Value} of type {variable.Type}");
     }
 ```
