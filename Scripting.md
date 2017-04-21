@@ -12,9 +12,18 @@ Microsoft.CodeAnalysis.CSharp.Scripting
 CSharpScript.RunAsync("System.Console.WriteLine(\"Hello, World!\");").Wait();
 
 CSharpScript.RunAsync(File.ReadAllText("test.csx")).Wait();
+
+var script = CSharpScript.Create(code, options, typeof(Globals));
+script.RunAsync(new Globals(){}).Wait();
 ```
 
 AsyncしかないのでConsoleのMainなどの時はWaitするか戻り値を受け取るか
+
+オーバヘッド大きいので繰り返しでは事前にCreateして  
+使いまわした方が有利  
+(キャッシュが効くとかってはなしあった気がするけど )
+
+ただし、使いまわした場合staticな変数も保持されるので注意
 
 ## Script内部
 
@@ -114,42 +123,11 @@ WithSearchPathなんてのもある
 
 で、DLLにして保存できる
 
-```C#
-    var script = CSharpScript.Create(File.ReadAllText(@"test.csx"));
-    script.RunAsync().Wait();
- 
+```C# 
     var comp = script.GetCompilation();
     using (var ms = new MemoryStream())
     {
         comp.Emit(ms);
         File.WriteAllBytes("test.dll", ms.ToArray());
-    }
-```
-
-## 事前にコンパイルして効率化
-
-オーバヘッド大きいので繰り返しでは事前にコンパイルかけて  
-使いまわした方が有利  
-(キャッシュが効くとかってはなしあった気がするけど )
-
-```C#
-    var ssr = ScriptSourceResolver.Default.WithBaseDirectory(Environment.CurrentDirectory);
-
-    var script = CSharpScript.Create(
-                    command,
-                    ScriptOptions.Default.WithImports(new string[]
-                    {
-                        "System",
-                        "System.Math",
-                    })
-                    .WithSourceResolver(ssr)
-                    .WithReferences(System.Reflection.Assembly.GetEntryAssembly()),
-                    typeof(Globals));
-
-    foreach (var i in globals)
-    {
-        var state = script.RunAsync(i).Result;
-        foreach (var variable in state.Variables)
-            Console.WriteLine($"{variable.Name} = {variable.Value} of type {variable.Type}");
     }
 ```
