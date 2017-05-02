@@ -57,17 +57,20 @@
         public void SayHello() => Console.WriteLine(this.greeter.Greet());
     }
 ```
+### あとから登録
 
-### lifetime付きで登録
+破棄予定。Prismもそれに応じて変更するみたい。
+
 ```C#
     var builder = new ContainerBuilder();
-
-    builder.Register(c => new TaskController(c.Resolve<ITaskRepository>()));
     builder.RegisterType<TaskController>();
-    builder.RegisterInstance(new TaskController());
-    builder.RegisterAssemblyTypes(controllerAssembly);
+    builder.Update(container);
+```
 
-    var container = builder.Build();
+### lifetime付きで登録
+
+```C#
+    builder.RegisterType<Greeter>().As<IGreeter>().SingleInstance();
 ```
 
 
@@ -110,10 +113,10 @@ var service = container.ResolveType<ITextSpeechService>();
 var i = (p == c.Resolve<ITextSpeechService>());
 ```
 
-- ContainerControlledLifetimeManager : 1 containerに1 instance。IDisposable実装してりLifetimeManager破棄でインスタンス破棄
-- ExternallyControlledLifetimeManager : 呼出場所のスコープ範囲内。GCに回収されない限り同一。WeakReference使用。
-- PerThreadLifetimeManager : Thread毎のSingleton
-- TransientLifetimeManager : 単なるFactoryMethod。DIコンテナに要求する度にinstance生成。newと同じ。
+- ContainerControlledLifetimeManager : 1 containerに1 instance。IDisposable実装してりLifetimeManager破棄でインスタンス破棄  
+- ExternallyControlledLifetimeManager : 呼出場所のスコープ範囲内。GCに回収されない限り同一。WeakReference使用  
+- PerThreadLifetimeManager : Thread毎のSingleton  
+- TransientLifetimeManager : 単なるFactoryMethod。DIコンテナに要求する度にinstance生成。newと同じ  
 
 ### 依存性注入
 
