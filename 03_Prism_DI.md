@@ -1,20 +1,79 @@
-# 
+# DI
 
-##
+## Autofac
 
-## コードビハインド
-
-### Bindingを強制的に評価
+### 登録して取得
 
 ```C#
-  private void Button_Click(object sender, RoutedEventArgs e)
-  {
-    var expression = this.e.GetBindingExpression(TextBox.TextProperty);
-    expression.UpdateTarget();
-  }
+    var builder = new ContainerBuilder();
+
+    builder.Register(c => new TaskController(c.Resolve<ITaskRepository>()));
+    builder.RegisterType<TaskController>();
+    builder.RegisterInstance(new TaskController());
+    builder.RegisterAssemblyTypes(controllerAssembly);
+
+    var container = builder.Build();
+```
+```C#
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //コンテナの作成
+            var builder = new ContainerBuilder();
+            builder.RegisterType<Greeter>().As<IGreeter>().SingleInstance();
+            builder.RegisterType<GreeterClient>().As<IGreeterClient>();
+
+            //コンテナ作成
+            var container = builder.Build();
+            var greeter = container.Resolve<IGreeterClient>();
+            
+            greeter.SayHello();
+        }
+    }
+
+    interface IGreeter
+    {
+        string Greet();
+    }
+
+    class Greeter : IGreeter
+    {
+        public string Greet() { return "Hello world"; }
+    }
+
+    interface IGreeterClient
+    {
+        void SayHello();
+    }
+
+    class GreeterClient : IGreeterClient
+    {
+        private IGreeter greeter;
+        public GreeterClient(IGreeter greeter)
+        {
+            this.greeter = greeter;
+        }
+        public void SayHello() => Console.WriteLine(this.greeter.Greet());
+    }
 ```
 
+### lifetime付きで登録
+```C#
+    var builder = new ContainerBuilder();
+
+    builder.Register(c => new TaskController(c.Resolve<ITaskRepository>()));
+    builder.RegisterType<TaskController>();
+    builder.RegisterInstance(new TaskController());
+    builder.RegisterAssemblyTypes(controllerAssembly);
+
+    var container = builder.Build();
+```
+
+
 ## UnityContainer
+
+プロジェクトがR.I.P.なされたっぽくてあまり。
 
 ### （名前付きで）登録して取得するだけ
 
@@ -140,6 +199,5 @@ static void Main(string[] args)
 
 別名使用しないで```<type type="BuildUpSample.IAnimal, BuildUpSample" mapTo="BuildUpSample.Cat, BuildUpSample"/>  ```でもOK  
 xmlめんどうなのでscriptで書いた方がはやそう
-
 
 UnityContainerExtension 
