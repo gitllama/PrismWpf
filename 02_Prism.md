@@ -60,3 +60,15 @@ https://github.com/PrismLibrary/Prism-Samples-Wpf
     NotificationRequest.Raise(new Notification { Content = "Notification Message", Title = "Notification" }, r => Title = "Notified");
   }
 ```
+
+## コードビハインド
+
+### Bindingを強制的に評価
+
+```C#
+  private void Button_Click(object sender, RoutedEventArgs e)
+  {
+    var expression = this.e.GetBindingExpression(TextBox.TextProperty);
+    expression.UpdateTarget();
+  }
+```
