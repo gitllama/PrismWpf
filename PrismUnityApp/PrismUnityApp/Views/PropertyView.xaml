@@ -5,6 +5,6 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-        <xctk:PropertyGrid ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="2" SelectedObject="{Binding obj.Value}"/>
+        <xctk:PropertyGrid ScrollViewer.VerticalScrollBarVisibility="Auto" SelectedObject="{Binding obj.Value}"/>
     </Grid>
 </UserControl>
