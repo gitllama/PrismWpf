@@ -16,5 +16,12 @@ namespace PrismUnityApp
         {
             Application.Current.MainWindow.Show();
         }
+
+//        protected override IUnityContainer CreateContainer()
+//        {
+//            var i = base.CreateContainer();
+
+//return i;
+//        }
     }
 }

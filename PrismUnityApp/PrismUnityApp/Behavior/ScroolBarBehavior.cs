@@ -11,23 +11,46 @@ namespace PrismUnityApp.Behavior
 {
     public class ScroolBarBehavior : BehaviorBase<ScrollViewer>
     {
-        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register(
-            "Position",
-            typeof((double H, double V)),
+        public static readonly DependencyProperty HPositionProperty = DependencyProperty.Register(
+            "HPosition",
+            typeof(double),
             typeof(ScroolBarBehavior),
-            new UIPropertyMetadata((0.0, 0.0)));
-        public (double H, double V) Position
+            new UIPropertyMetadata(0.0, HPropertyChanged));
+        public double HPosition
         {
-            get => ((double H, double V))GetValue(PositionProperty);
+            get => (double)GetValue(HPositionProperty);
             set
             {
-                SetValue(PositionProperty, value);
-
-                //obj.ScrollToVerticalOffset
-                //obj.ScrollToHorizontalOffset
+                SetValue(HPositionProperty, value);
+            }
+        }
+        public static readonly DependencyProperty VPositionProperty = DependencyProperty.Register(
+            "VPosition",
+            typeof(double),
+            typeof(ScroolBarBehavior),
+            new UIPropertyMetadata(0.0, VPropertyChanged));
+        public double VPosition
+        {
+            get => (double)GetValue(VPositionProperty);
+            set
+            {
+                SetValue(VPositionProperty, value);
             }
         }
 
+        private static void VPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var crtl = d as ScroolBarBehavior;
+            if (crtl?.sv?.VerticalOffset == (double)e.NewValue) return;
+            crtl?.sv?.ScrollToVerticalOffset((double)e.NewValue);
+        }
+        private static void HPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var crtl = d as ScroolBarBehavior;
+            if (crtl?.sv?.HorizontalOffset == (double)e.NewValue) return;
+
+            crtl?.sv?.ScrollToHorizontalOffset((double)e.NewValue);
+        }
         protected override void OnSetup()
         {
             base.OnSetup();
@@ -49,10 +72,9 @@ namespace PrismUnityApp.Behavior
         }
         private void AssociatedObject_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            //var obj = sender as ScrollViewer;
-            //Position = (obj.HorizontalOffset, obj.VerticalOffset);
             if (sv == null) return;
-            Position = (sv.HorizontalOffset, sv.VerticalOffset);
+            HPosition = sv.HorizontalOffset;
+            VPosition = sv.VerticalOffset;
         }
     }
 }

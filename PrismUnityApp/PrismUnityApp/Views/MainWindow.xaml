@@ -18,9 +18,9 @@
         </prism:InteractionRequestTrigger>
 
         <Custom:InteractionRequestTrigger SourceObject="{Binding PropertyRequest}">
-            <Custom:PopupWindowAction CenterOverAssociatedObject="True" IsModal="True">
+            <Custom:PopupWindowAction CenterOverAssociatedObject="True" IsModal="False">
                 <Custom:PopupWindowAction.WindowContent>
-                    <v:PropertyGridView/>
+                    <v:PropertyView/>
                 </Custom:PopupWindowAction.WindowContent>
             </Custom:PopupWindowAction>
         </Custom:InteractionRequestTrigger>
@@ -40,7 +40,9 @@
         
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Column="0">
             <i:Interaction.Behaviors>
-                <behav:ScroolBarBehavior Position="{Binding ScrollBar.Value, Mode=TwoWay}"/>
+                <behav:ScroolBarBehavior 
+                    VPosition="{Binding VScrollBar.Value, Mode=TwoWay}"
+                    HPosition="{Binding HScrollBar.Value, Mode=TwoWay}"/>
             </i:Interaction.Behaviors>
 
             <Canvas x:Name="cnv"

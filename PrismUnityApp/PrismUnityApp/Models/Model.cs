@@ -5,10 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows;
 
 namespace PrismUnityApp.Models
 {
-    public class Model : BindableBase
+    public interface Imodel
+    {
+        double Scale { get; set; }
+        BitmapScalingMode ScalingMode { get; set; }
+
+        double HScrollBar { get; set; }
+        double VScrollBar { get; set; }
+
+        System.Windows.Point point { get; set; }
+    }
+    public class Model : BindableBase, Imodel
     {
         public Model()
         {
@@ -28,6 +39,21 @@ namespace PrismUnityApp.Models
             get { return _ScalingMode; }
             set { SetProperty(ref _ScalingMode, value); }
         }
+
+        private double _VScrollBar;
+        public double VScrollBar
+        {
+            get { return _VScrollBar; }
+            set { SetProperty(ref _VScrollBar, value); }
+        }
+        private double _HScrollBar;
+        public double HScrollBar
+        {
+            get { return _HScrollBar; }
+            set { SetProperty(ref _HScrollBar, value); }
+        }
+        private Point _point;
+        public Point point { get => _point; set => SetProperty(ref _point, value); }
     }
 
     public class ImageModel : BindableBase

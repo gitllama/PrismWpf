@@ -1,0 +1,117 @@
+﻿<Window x:Class="PrismAutofacAvalonDock.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:util="clr-namespace:AvalonDockUtil"
+        xmlns:Interactivity="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET46"
+        xmlns:v="clr-namespace:PrismAutofacAvalonDock.Views"
+        xmlns:vm="clr-namespace:PrismAutofacAvalonDock.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behav="clr-namespace:PrismAutofacAvalonDock.Behavior"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        Title="{Binding Title}" Height="350" Width="525">
+    
+    <Window.Resources>
+        <util:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
+        <avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <DataTemplate DataType="{x:Type vm:Document}">
+            <v:DocumentView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PropertyTool}">
+            <v:PropertyView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <!--<l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="LoadLayout" MethodParameter="{Binding ElementName=_dockingManager}" />-->
+            <!--<prism:InvokeCommandAction Command="{Binding LoadLayout}"  CommandParameter="{Binding ElementName=_dockingManager}"/>-->
+            <Interactivity:EventToReactiveCommand Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+        <!--<Interactivity:EventToReactiveCommand EventName="Unloaded">
+            <Interactivity:EventToReactiveCommand Command="{Binding Path=ClosedCommand}">
+                <vm:UnloadedConverter />
+            </Interactivity:EventToReactiveCommand>
+        </i:EventTrigger>-->
+
+
+        <!--<i:EventTrigger EventName="Unloaded">
+            <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="SaveAllDocuments" />
+            <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="SaveLayout" MethodParameter="{Binding ElementName=_dockingManager}" />
+        </i:EventTrigger>-->
+
+        <!--<l:InteractionMessageTrigger MessageKey="Info" Messenger="{Binding Messenger}" >
+            <l:InformationDialogInteractionMessageAction />
+        </l:InteractionMessageTrigger>
+        <l:InteractionMessageTrigger MessageKey="Confirm" Messenger="{Binding Messenger}" >
+            <l:ConfirmationDialogInteractionMessageAction/>
+        </l:InteractionMessageTrigger>
+        <l:InteractionMessageTrigger MessageKey="Open" Messenger="{Binding Messenger}" >
+            <l:OpenFileDialogInteractionMessageAction/>
+        </l:InteractionMessageTrigger>
+        <l:InteractionMessageTrigger MessageKey="Save" Messenger="{Binding Messenger}" >
+            <l:SaveFileDialogInteractionMessageAction/>
+        </l:InteractionMessageTrigger>-->
+    </i:Interaction.Triggers>
+    <!--<ContentControl prism:RegionManager.RegionName="ContentRegion" />-->
+    
+    
+    <DockPanel AllowDrop="True">
+
+        <i:Interaction.Behaviors>
+            <behav:FileDropBehavior TargetCommand="{Binding FileDropCommand}" />
+        </i:Interaction.Behaviors>
+
+
+            <Menu DockPanel.Dock="Top">
+            <MenuItem Header="ドキュメント">
+                <MenuItem Header="新規" Command="{Binding NewDocumentCommand}" />
+                <MenuItem Header="開く" Command="{Binding OpenCommand}" />
+            </MenuItem>
+
+            <MenuItem Header="ツール" ItemsSource="{Binding Tools.Value}">
+                <MenuItem.ItemTemplate>
+                    <DataTemplate>
+                        <MenuItem 
+                        Header="{Binding Title}"
+                        IsCheckable="True"
+                        IsChecked="{Binding IsVisible, Mode=TwoWay}" />
+                    </DataTemplate>
+                </MenuItem.ItemTemplate>
+            </MenuItem>
+
+            <!--<MenuItem Header="レイアウト" >
+                <MenuItem Header="配置を初期化する">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="DefaultLayout" MethodParameter="{Binding ElementName=_dockingManager}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </MenuItem>
+            </MenuItem>-->
+        </Menu>
+<!--prism:RegionManager.RegionName="ContentRegion"-->
+        <avalonDock:DockingManager 
+            x:Name="_dockingManager"
+            DocumentsSource="{Binding Documents.Value}"
+            ActiveContent="{Binding ActiveDocument.Value, 
+                            Mode=TwoWay, 
+                            Converter={StaticResource ActiveDocumentConverter}}"                              
+            AnchorablesSource="{Binding Tools.Value}">
+
+            <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+                <util:ContentPropertyStyleSelector />
+            </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+
+            <avalonDock:LayoutRoot>
+                <avalonDock:LayoutPanel Orientation="Vertical">
+                    <avalonDock:LayoutPanel Orientation="Horizontal">
+                        <avalonDock:LayoutDocumentPane />
+                    </avalonDock:LayoutPanel>
+                </avalonDock:LayoutPanel>
+            </avalonDock:LayoutRoot>
+
+        </avalonDock:DockingManager>
+    </DockPanel>
+</Window>

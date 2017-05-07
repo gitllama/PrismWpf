@@ -15,13 +15,13 @@ using PrismUnityApp.Models;
 using System.Windows.Media;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Commands;
-
+using Microsoft.Practices.Unity;
 namespace PrismUnityApp.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
 
-        Model model = new Model();
+        Model model;
         ImageModel imgmodel = new ImageModel();
 
 
@@ -38,7 +38,10 @@ namespace PrismUnityApp.ViewModels
 
         public ReactiveProperty<WriteableBitmap> img { get; private set; }
         
-        public ReactiveProperty<(double H, double V)> ScrollBar { get; private set; }
+        public ReactiveProperty<double> VScrollBar { get; private set; }
+        public ReactiveProperty<double> HScrollBar { get; private set; }
+
+
         public ReactiveProperty<IEnumerable<string>> Shapes { get; private set; }
 
         public ReactiveProperty<BitmapScalingMode> ScalingMode { get; private set; }
@@ -53,7 +56,15 @@ namespace PrismUnityApp.ViewModels
 
         public MainWindowViewModel()
         {
-            Scale = model.ObserveProperty(x => x.Scale).ToReactiveProperty();
+            model = App.Container.Resolve<Model>("Model");
+            model.Scale = 0.5;
+
+            Scale = model.ToReactivePropertyAsSynchronized(x => x.Scale);
+            VScrollBar = model.ToReactivePropertyAsSynchronized(x => x.VScrollBar);
+            HScrollBar = model.ToReactivePropertyAsSynchronized(x => x.HScrollBar);
+
+
+
             ScalingMode = model.ObserveProperty(x => x.ScalingMode).ToReactiveProperty();
 
             MouseMove = new ReactiveProperty<Point>();
@@ -64,7 +75,7 @@ namespace PrismUnityApp.ViewModels
             img = new ReactiveProperty<WriteableBitmap>();
             img = imgmodel.ObserveProperty(x => x.Bitmap).ToReactiveProperty();
 
-            Scale = MouseWheel.Select(x => Scale.Value * Math.Pow(2,(x?.Delta / 120 ?? 0))).ToReactiveProperty();
+            //Scale = MouseWheel.Select(x => Scale.Value * Math.Pow(2,(x?.Delta / 120 ?? 0))).ToReactiveProperty();
 
 
             // Scaleの後　順番注意
@@ -72,8 +83,7 @@ namespace PrismUnityApp.ViewModels
             Width = img.CombineLatest(Scale, (x,y)=> (x?.PixelWidth ?? 0) * y).ToReactiveProperty();
             Height = img.CombineLatest(Scale, (x, y) => (x?.PixelHeight ??0) * y).ToReactiveProperty();
 
-            ScrollBar = new ReactiveProperty<(double H, double V)>();
-            
+
             //Title = ScrollBar.Select(x => $"{x.H},{x.V}").ToReactiveProperty();
             Title = imgmodel.ObserveProperty(x => x.FileName).ToReactiveProperty();
 

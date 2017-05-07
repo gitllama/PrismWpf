@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Practices.Unity;
+using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
 using System;
@@ -14,7 +15,8 @@ namespace PrismUnityApp.ViewModels
 
         public PropertyViewModel()
         {
-            obj = new ReactiveProperty<object>();
+            var i = App.Container.Resolve<Models.Model>("Model");
+            obj = new ReactiveProperty<object>((object)i);
         }
     }
 }

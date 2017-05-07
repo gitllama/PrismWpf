@@ -3,11 +3,11 @@
 namespace PrismUnityApp.Views
 {
     /// <summary>
-    /// Interaction logic for PropertyGridView
+    /// Interaction logic for PropertyView
     /// </summary>
-    public partial class PropertyGridView : UserControl
+    public partial class PropertyView : UserControl
     {
-        public PropertyGridView()
+        public PropertyView()
         {
             InitializeComponent();
         }
