@@ -32,6 +32,7 @@ namespace PrismAutofacAvalonDock.ViewModels
 
         //Modelとの連携
 
+        public ReactiveCommand DMCommand { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -64,6 +65,11 @@ namespace PrismAutofacAvalonDock.ViewModels
                 SaveLayout((DockingManager)x);
             });
 
+            DMCommand = new ReactiveCommand();
+            DMCommand.Subscribe(x =>
+            {
+                var i = x;
+            });
         }
 
         //public override DocumentContent NewDocument()

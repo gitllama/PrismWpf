@@ -35,14 +35,14 @@ namespace PrismAutofacAvalonDock.ViewModels
 
 
 
-            var buf = new WriteableBitmap(new BitmapImage(new Uri(
-                @".png",
-                UriKind.Relative)));
-            img = new ReactiveProperty<WriteableBitmap>(buf);
+            //var buf = new WriteableBitmap(new BitmapImage(new Uri(
+            //    @".png",
+            //    UriKind.Relative)));
+            //img = new ReactiveProperty<WriteableBitmap>(buf);
             //img = imgmodel.ObserveProperty(x => x.Bitmap).ToReactiveProperty();
 
-            Width = img.CombineLatest(Scale, (x, y) => (x?.PixelWidth ?? 0) * y).ToReactiveProperty();
-            Height = img.CombineLatest(Scale, (x, y) => (x?.PixelHeight ?? 0) * y).ToReactiveProperty();
+            //Width = img.CombineLatest(Scale, (x, y) => (x?.PixelWidth ?? 0) * y).ToReactiveProperty();
+            //Height = img.CombineLatest(Scale, (x, y) => (x?.PixelHeight ?? 0) * y).ToReactiveProperty();
 
 
             isLinkage = model.ObserveProperty(x => x.isLinkage).ToReactiveProperty();

@@ -99,6 +99,9 @@
                             Mode=TwoWay, 
                             Converter={StaticResource ActiveDocumentConverter}}"                              
             AnchorablesSource="{Binding Tools.Value}">
+            <i:Interaction.Behaviors>
+                <behav:DMBehavior TargetCommand="{Binding DMCommand}" />
+            </i:Interaction.Behaviors>
 
             <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
                 <util:ContentPropertyStyleSelector />

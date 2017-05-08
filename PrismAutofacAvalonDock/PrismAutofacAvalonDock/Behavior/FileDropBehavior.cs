@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
+using Xceed.Wpf.AvalonDock;
 
 namespace PrismAutofacAvalonDock.Behavior
 {
@@ -76,6 +77,50 @@ namespace PrismAutofacAvalonDock.Behavior
             var files = data.GetData(DataFormats.FileDrop);
             if (files != null) TargetCommand.Execute(files);
         }
+
+    }
+
+    public class DMBehavior : Behavior<DockingManager>
+    {
+
+        public ICommand TargetCommand
+        {
+            get { return (ICommand)GetValue(TargetCommandProperty); }
+            set { SetValue(TargetCommandProperty, value); }
+        }
+        public static readonly DependencyProperty TargetCommandProperty = DependencyProperty.Register(
+                "TargetCommand",
+                typeof(ICommand),
+                typeof(DMBehavior),
+                new PropertyMetadata(null));
+
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            this.AssociatedObject.Loaded += AssociatedObject_Loaded; ;
+            this.AssociatedObject.DocumentClosed += AssociatedObject_DocumentClosed; ;
+        }
+
+        DockingManager m;
+        private void AssociatedObject_DocumentClosed(object sender, DocumentClosedEventArgs e)
+        {
+            if (TargetCommand == null) return;
+            var buf = e.Document.ContentId.ToString();
+            if (buf != null) TargetCommand.Execute(buf);
+
+        }
+
+        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
+        {
+            m = sender as DockingManager;
+        }
+
+        protected override void OnDetaching()
+        {
+            base.OnDetaching();
+        }
+
+
 
     }
 }
