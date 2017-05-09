@@ -68,6 +68,13 @@ namespace PrismAutofacAvalonDock.Behavior
                 {
                     PointR_old = e.GetPosition(null);
                 }
+                else
+                {
+                    double x = (i.X - PointR_old.X);
+                    double y = (i.Y - PointR_old.Y);
+                    DMove = new Point(x, y);
+                    PointR_old = i;
+                }
                 flagLeft = true;
             }
             else if (e.LeftButton == MouseButtonState.Released)
@@ -75,13 +82,6 @@ namespace PrismAutofacAvalonDock.Behavior
                 flagLeft = false;
             }
 
-            if (flagLeft)
-            {
-                double x = (i.X - PointR_old.X);
-                double y = (i.Y - PointR_old.Y);
-                DMove = new Point(x, y);
-                PointR_old = i;
-            }
         }
         
     }

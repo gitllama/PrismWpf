@@ -6,12 +6,7 @@
              xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET46"
              xmlns:behav="clr-namespace:PrismAutofacAvalonDock.Behavior">
 <!--prism:ViewModelLocator.AutoWireViewModel="True"-->
-    <Grid>
-        <i:Interaction.Behaviors>
-            <behav:GridBehavior
-                        MouseWheel="{Binding MouseWheel.Value,  Mode=OneWayToSource}"
-                        DMove="{Binding DMove.Value,  Mode=OneWayToSource}"/>
-        </i:Interaction.Behaviors>
+
         <ScrollViewer
         VerticalScrollBarVisibility="Auto"
         HorizontalScrollBarVisibility="Auto">
@@ -21,8 +16,14 @@
                 VPosition="{Binding ScrollBarV.Value, Mode=TwoWay}"
                 HPosition="{Binding ScrollBarH.Value, Mode=TwoWay}"/>
         </i:Interaction.Behaviors>
-
-        <Canvas x:Name="cnv"
+            
+        <Grid Background="Gray">
+            <i:Interaction.Behaviors>
+                <behav:GridBehavior
+                        MouseWheel="{Binding MouseWheel.Value,  Mode=OneWayToSource}"
+                        DMove="{Binding DMove.Value,  Mode=OneWayToSource}"/>
+            </i:Interaction.Behaviors>
+            <Canvas x:Name="cnv"
                 Width="{Binding Width.Value}" 
                 Height="{Binding Height.Value}">
 
@@ -45,6 +46,7 @@
             </Canvas.Background>
 
         </Canvas>
+        </Grid>
     </ScrollViewer>
-    </Grid>
+
 </UserControl>
