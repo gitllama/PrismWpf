@@ -13,6 +13,8 @@ namespace PrismAutofacAvalonDock.Models
     {
         public Dictionary<string, WriteableBitmap> Images;
 
+        public int _test;
+        public int test { get => _test; set => SetProperty(ref _test, value); }
 
         public bool _isLinkage = true;
         public bool isLinkage { get => _isLinkage; set => SetProperty(ref _isLinkage, value); }

@@ -6,8 +6,13 @@
              xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET46"
              xmlns:behav="clr-namespace:PrismAutofacAvalonDock.Behavior">
 <!--prism:ViewModelLocator.AutoWireViewModel="True"-->
-    
-    <ScrollViewer
+    <Grid>
+        <i:Interaction.Behaviors>
+            <behav:GridBehavior
+                        MouseWheel="{Binding MouseWheel.Value,  Mode=OneWayToSource}"
+                        DMove="{Binding DMove.Value,  Mode=OneWayToSource}"/>
+        </i:Interaction.Behaviors>
+        <ScrollViewer
         VerticalScrollBarVisibility="Auto"
         HorizontalScrollBarVisibility="Auto">
     
@@ -21,18 +26,19 @@
                 Width="{Binding Width.Value}" 
                 Height="{Binding Height.Value}">
 
-            <!--<i:Interaction.Behaviors>
+            <i:Interaction.Behaviors>
                 <behav:CanvasBehavior
                         MouseMove="{Binding MouseMove.Value, Mode=OneWayToSource}"
                         Shapes="{Binding Shapes.Value, Mode=TwoWay}"
-                        ScalingMode="{Binding ScalingMode.Value,  Mode=TwoWay}"/>
-            </i:Interaction.Behaviors>-->
+                        ScalingMode="{Binding ScalingMode.Value,  Mode=TwoWay}"
+                        />
+            </i:Interaction.Behaviors>
 
-            <i:Interaction.Triggers>
+            <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseWheel">
                     <r:EventToReactive ReactiveProperty="{Binding MouseWheel}"/>
                 </i:EventTrigger>
-            </i:Interaction.Triggers>
+            </i:Interaction.Triggers>-->
 
             <Canvas.Background>
                 <ImageBrush ImageSource="{Binding img.Value}" Stretch="Fill" />
@@ -40,4 +46,5 @@
 
         </Canvas>
     </ScrollViewer>
+    </Grid>
 </UserControl>
