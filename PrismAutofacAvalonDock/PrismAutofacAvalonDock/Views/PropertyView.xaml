@@ -4,9 +4,10 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
     <!--prism:ViewModelLocator.AutoWireViewModel="True"-->
-    <Grid>
+    <StackPanel>
+        <ComboBox ItemsSource="{Binding Documents.Value}" SelectedIndex="{Binding SelectedDoc.Value}"/>
         <xctk:PropertyGrid 
             ScrollViewer.VerticalScrollBarVisibility="Auto" 
             SelectedObject="{Binding obj.Value}"/>
-    </Grid>
+    </StackPanel>
 </UserControl>

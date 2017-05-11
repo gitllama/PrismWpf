@@ -8,6 +8,7 @@
         xmlns:v="clr-namespace:PrismAutofacAvalonDock.Views"
         xmlns:vm="clr-namespace:PrismAutofacAvalonDock.ViewModels"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:dockctrl="clr-namespace:Xceed.Wpf.AvalonDock.Controls;assembly=Xceed.Wpf.AvalonDock"
         xmlns:behav="clr-namespace:PrismAutofacAvalonDock.Behavior"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}" Height="350" Width="525">
@@ -20,6 +21,12 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:PropertyTool}">
             <v:PropertyView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:EditorTool}">
+            <v:EditorView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:OutputTool}">
+            <v:OutputView/>
         </DataTemplate>
     </Window.Resources>
 
@@ -43,31 +50,28 @@
 
         <!--<l:InteractionMessageTrigger MessageKey="Info" Messenger="{Binding Messenger}" >
             <l:InformationDialogInteractionMessageAction />
-        </l:InteractionMessageTrigger>
-        <l:InteractionMessageTrigger MessageKey="Confirm" Messenger="{Binding Messenger}" >
-            <l:ConfirmationDialogInteractionMessageAction/>
-        </l:InteractionMessageTrigger>
-        <l:InteractionMessageTrigger MessageKey="Open" Messenger="{Binding Messenger}" >
-            <l:OpenFileDialogInteractionMessageAction/>
-        </l:InteractionMessageTrigger>
-        <l:InteractionMessageTrigger MessageKey="Save" Messenger="{Binding Messenger}" >
-            <l:SaveFileDialogInteractionMessageAction/>
         </l:InteractionMessageTrigger>-->
     </i:Interaction.Triggers>
     <!--<ContentControl prism:RegionManager.RegionName="ContentRegion" />-->
     
     
     <DockPanel AllowDrop="True">
-
-        <i:Interaction.Behaviors>
-            <behav:FileDropBehavior TargetCommand="{Binding FileDropCommand}" />
-        </i:Interaction.Behaviors>
-
-
-            <Menu DockPanel.Dock="Top">
+        <DockPanel.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="New" Command="{Binding DocumentOpenCommand}"/>
+                <MenuItem Header="Tools" ItemsSource="{Binding Tools.Value}">
+                    <MenuItem.ItemTemplate>
+                        <DataTemplate>
+                            <MenuItem Header="{Binding Title}" IsCheckable="True" IsChecked="{Binding IsVisible, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </MenuItem.ItemTemplate>
+                </MenuItem>
+            </ContextMenu>
+        </DockPanel.ContextMenu>
+        
+        <!--<Menu DockPanel.Dock="Top">
             <MenuItem Header="ドキュメント">
-                <MenuItem Header="新規" Command="{Binding NewDocumentCommand}" />
-                <MenuItem Header="開く" Command="{Binding OpenCommand}" />
+                <MenuItem Header="新規" Command="{Binding DocumentOpenCommand}" />
             </MenuItem>
 
             <MenuItem Header="ツール" ItemsSource="{Binding Tools.Value}">
@@ -81,7 +85,7 @@
                 </MenuItem.ItemTemplate>
             </MenuItem>
 
-            <!--<MenuItem Header="レイアウト" >
+            --><!--<MenuItem Header="レイアウト" >
                 <MenuItem Header="配置を初期化する">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -89,28 +93,31 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </MenuItem>
-            </MenuItem>-->
-        </Menu>
-<!--prism:RegionManager.RegionName="ContentRegion"-->
+            </MenuItem>--><!--
+        </Menu>-->
+        
+        <!--prism:RegionManager.RegionName="ContentRegion"-->
         <avalonDock:DockingManager 
             x:Name="_dockingManager"
             DocumentsSource="{Binding Documents.Value}"
             ActiveContent="{Binding ActiveDocument.Value, 
                             Mode=TwoWay, 
                             Converter={StaticResource ActiveDocumentConverter}}"                              
-            AnchorablesSource="{Binding Tools.Value}">
+            AnchorablesSource="{Binding Tools.Value}" >
+
             <i:Interaction.Behaviors>
-                <behav:DMBehavior TargetCommand="{Binding DMCommand}" />
+                <behav:DockingBehavior TargetCommand="{Binding DocumentClosedCommand}"/>
             </i:Interaction.Behaviors>
 
             <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
                 <util:ContentPropertyStyleSelector />
             </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
-
+            
+            
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel Orientation="Vertical">
                     <avalonDock:LayoutPanel Orientation="Horizontal">
-                        <avalonDock:LayoutDocumentPane />
+                        <avalonDock:LayoutDocumentPane/>
                     </avalonDock:LayoutPanel>
                 </avalonDock:LayoutPanel>
             </avalonDock:LayoutRoot>

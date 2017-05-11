@@ -16,44 +16,10 @@ using System.Windows.Data;
 
 namespace AvalonDockUtil
 {
-    public abstract class WorkspaceBaseModel : BindableBase
-    {
-        ObservableCollection<DocumentContent> _Documents;
-        public ObservableCollection<DocumentContent> Documents
-        {
-            get
-            {
-                if (_Documents == null) _Documents = new ObservableCollection<DocumentContent>();
-                return _Documents;
-            }
-        }
 
-        ObservableCollection<ToolContent> _Tools;
-        public ObservableCollection<ToolContent> Tools
-        {
-            get
-            {
-                if (_Tools == null) _Tools = new ObservableCollection<ToolContent>();
-                return _Tools;
-            }
-        }
-
-        private DocumentContent _ActiveDocument;
-        public DocumentContent ActiveDocument { get => _ActiveDocument; set => SetProperty(ref _ActiveDocument, value); }
-
-        public DelegateCommand NewDocumentCommand { get; }
-
-        public virtual DocumentContent NewDocument() => new DocumentContent();
-
-        public WorkspaceBaseModel()
-        {
-            NewDocumentCommand = new DelegateCommand(() => Documents.Add(NewDocument()));
-        }
-    }
 
     public abstract class WorkspaceBase : BindableBase
     {
-
         protected abstract void InitializeTools();
 
         //protected DocumentContent GetDocumentByContentId(String contentId)
@@ -257,15 +223,14 @@ namespace AvalonDockUtil
 
     public class DocumentContent : BindableBase
     {
-
         private Guid _Guid;
-        [ContentProperty]
+        [ContentProperty, ReadOnly(true)]
         public Guid Guid { get => _Guid; set => SetProperty(ref _Guid, value,()=>RaisePropertyChanged("ContentId")); }
-        [ContentProperty]
+        [ContentProperty, ReadOnly(true)]
         public string ContentId { get => _Guid.ToString(); set => Guid = Guid.Parse(value); }
 
         private string _Title;
-        [ContentProperty]
+        [ContentProperty, ReadOnly(true)]
         public string Title { get => _Title; set => SetProperty(ref _Title, value); }
 
         public DocumentContent() : this(Guid.NewGuid().ToString())
@@ -277,6 +242,8 @@ namespace AvalonDockUtil
         {
             _Guid = Guid.Parse(contentId);
         }
+
+        public virtual void Close() => throw new Exception();
     }
 
     public class ToolContent : BindableBase

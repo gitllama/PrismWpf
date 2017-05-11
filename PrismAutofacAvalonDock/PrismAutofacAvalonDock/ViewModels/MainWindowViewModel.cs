@@ -19,7 +19,8 @@ namespace PrismAutofacAvalonDock.ViewModels
 
         public ReactiveCommand<object> LoadedCommand { get; private set; }
         public ReactiveCommand<object> UnloadedCommand { get; private set; }
-        public ReactiveCommand<object> OpenCommand { get; private set; }
+
+        public ReactiveCommand<object> DocumentClosingCommand { get; private set; }
 
         //Model
         Model model;
@@ -29,10 +30,11 @@ namespace PrismAutofacAvalonDock.ViewModels
         public ReactiveProperty<ObservableCollection<DocumentContent>> Documents { get; private set; }
         public ReactiveProperty<ObservableCollection<ToolContent>> Tools { get; private set; }
         public ReactiveProperty<DocumentContent> ActiveDocument { get; private set; }
+        public ReactiveCommand<object> DocumentOpenCommand { get; private set; }
+        public ReactiveCommand<string> DocumentClosedCommand { get; private set; }
 
         //Modelとの連携
 
-        public ReactiveCommand DMCommand { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -45,31 +47,31 @@ namespace PrismAutofacAvalonDock.ViewModels
             ActiveDocument = model.ToReactivePropertyAsSynchronized(x => x.ActiveDocument);
 
 
-
             LoadedCommand = new ReactiveCommand();
             LoadedCommand.Subscribe(_ =>
             {
                 LoadLayout(null);
             });
-
-            OpenCommand = new ReactiveCommand();
-            OpenCommand.Subscribe(_ =>
-            {
-                var document = new Document();
-                model.Documents.Add(document);
-            });
-
             UnloadedCommand = new ReactiveCommand<object>();
             UnloadedCommand.Subscribe(x =>
             {
                 SaveLayout((DockingManager)x);
             });
-
-            DMCommand = new ReactiveCommand();
-            DMCommand.Subscribe(x =>
+            DocumentClosingCommand = new ReactiveCommand<object>();
+            DocumentClosingCommand.Subscribe(x =>
             {
-                var i = x;
+                SaveLayout((DockingManager)x);
             });
+
+            DocumentOpenCommand = new ReactiveCommand();
+            DocumentOpenCommand.Subscribe(_ =>
+            {
+                var i = new Document();
+                model.Add(i);
+            });
+            DocumentClosedCommand = new ReactiveCommand<string>();
+            DocumentClosedCommand.Subscribe(x => model.Remove(x as string));
+
         }
 
         //public override DocumentContent NewDocument()
@@ -83,9 +85,9 @@ namespace PrismAutofacAvalonDock.ViewModels
             model.Tools.Clear();
             model.Tools.Add(new PropertyTool());
             model.Tools.Add(new EditorTool());
+            model.Tools.Add(new OutputTool());
 
-            //var document = new Document();//NewDocument() as Document;
-            //Documents.Add(document);
+            model.Add(new Document());
         }
 
         protected override void RestoreDocumentsFromBytes(byte[] bytes)

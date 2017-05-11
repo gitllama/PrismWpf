@@ -9,15 +9,12 @@ using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using YamlDotNet.Serialization;
 
 namespace PrismAutofacAvalonDock.Behavior
 {
     public class GridBehavior : BehaviorBase<Grid>
     {
-        public static readonly DependencyProperty DMoveProperty = DependencyProperty.Register(
-            "DMove", typeof(Point), typeof(GridBehavior), new UIPropertyMetadata(null));
-        public Point DMove { get => (Point)GetValue(DMoveProperty); set => SetValue(DMoveProperty, value); }
-
         public static readonly DependencyProperty MouseWheelProperty = DependencyProperty.Register(
             "MouseWheel", typeof(int), typeof(GridBehavior), new UIPropertyMetadata(0));
         public int MouseWheel { get => (int)GetValue(MouseWheelProperty); set => SetValue(MouseWheelProperty, value); }
@@ -26,90 +23,45 @@ namespace PrismAutofacAvalonDock.Behavior
         {
             base.OnSetup();
             this.AssociatedObject.Loaded += AssociatedObject_Loaded;
-            this.AssociatedObject.MouseMove += AssociatedObject_MouseMove;
-            this.AssociatedObject.MouseDown += AssociatedObject_MouseDown;
             this.AssociatedObject.MouseWheel += AssociatedObject_MouseWheel;
         }
+        protected override void OnCleanup()
+        {
+            this.AssociatedObject.Loaded -= AssociatedObject_Loaded;
+            this.AssociatedObject.MouseWheel -= AssociatedObject_MouseWheel;
+            base.OnCleanup();
+        }
 
+        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
         private void AssociatedObject_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             MouseWheel += e.Delta / 120;
             e.Handled = true;
         }
-
-        protected override void OnCleanup()
-        {
-            this.AssociatedObject.Loaded -= AssociatedObject_Loaded;
-            base.OnCleanup();
-        }
-
-
-        private Point PointR_old;
-        private Point PointR_new;
-        private bool flagLeft = false;
-        private void AssociatedObject_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
-        {
-            //cnv = sender as Canvas;
-        }
-        private void AssociatedObject_MouseMove(object sender, MouseEventArgs e)
-        {
-            //MouseMove = e.GetPosition((Canvas)sender);
-            var i = e.GetPosition(null);
-
-            //左
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                if (!flagLeft)
-                {
-                    PointR_old = e.GetPosition(null);
-                }
-                else
-                {
-                    double x = (i.X - PointR_old.X);
-                    double y = (i.Y - PointR_old.Y);
-                    DMove = new Point(x, y);
-                    PointR_old = i;
-                }
-                flagLeft = true;
-            }
-            else if (e.LeftButton == MouseButtonState.Released)
-            {
-                flagLeft = false;
-            }
-
-        }
-        
     }
+
     public class CanvasBehavior : BehaviorBase<Canvas>
     {
         public static readonly DependencyProperty MouseMoveProperty = DependencyProperty.Register(
             "MouseMove", typeof(Point), typeof(CanvasBehavior), new UIPropertyMetadata(null));
-        public Point MouseMove{ get => (Point)GetValue(MouseMoveProperty); set => SetValue(MouseMoveProperty, value);}
+        public Point MouseMove{ get => (Point)GetValue(MouseMoveProperty); set => SetValue(MouseMoveProperty, value); }
 
-        public static readonly DependencyProperty DMoveProperty = DependencyProperty.Register(
-            "DMove", typeof(Point), typeof(CanvasBehavior), new UIPropertyMetadata(null));
-        public Point DMove { get => (Point)GetValue(DMoveProperty); set => SetValue(DMoveProperty, value); }
+        public static readonly DependencyProperty ScaleProperty = DependencyProperty.Register(
+            "Scale", typeof(double), typeof(CanvasBehavior), new UIPropertyMetadata(1.0));
+        public double Scale { get => (double)GetValue(ScaleProperty); set => SetValue(ScaleProperty, value); }
 
-        public static readonly DependencyProperty MouseWheelProperty = DependencyProperty.Register(
-            "MouseWheel", typeof(int), typeof(CanvasBehavior), new UIPropertyMetadata(0));
-        public int MouseWheel{ get => (int)GetValue(MouseWheelProperty); set => SetValue(MouseWheelProperty, value);}
+        public static readonly DependencyProperty RectProperty = DependencyProperty.Register(
+            "Rect", typeof(Rect), typeof(CanvasBehavior), new UIPropertyMetadata(null));
+        public Rect Rect { get => (Rect)GetValue(RectProperty); set => SetValue(RectProperty, value); }
+
 
         //プロパティ変更時にイベント発火させたいときはPropertyChangedを実装
         public static readonly DependencyProperty ShapesProperty = DependencyProperty.Register(
-            "Shapes",
-            typeof(IEnumerable<string>),
-            typeof(CanvasBehavior),
-            new UIPropertyMetadata(null, ShapesPropertyChanged));
-        public IEnumerable<string> Shapes
-        {
-            get => (IEnumerable<string>)GetValue(ShapesProperty);
-            set => SetValue(ShapesProperty, value);
-        }
+            "Shapes", typeof(List<Shape>), typeof(CanvasBehavior), new UIPropertyMetadata(null, ShapesPropertyChanged));
+        public List<Shape> Shapes { get => (List<Shape>)GetValue(ShapesProperty); set => SetValue(ShapesProperty, value);}
         private static void ShapesPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var crtl = d as CanvasBehavior;
@@ -117,21 +69,19 @@ namespace PrismAutofacAvalonDock.Behavior
         }
 
         public static readonly DependencyProperty ScalingModeProperty = DependencyProperty.Register(
-            "ScalingMode",
-            typeof(BitmapScalingMode),
-            typeof(CanvasBehavior),
-            new UIPropertyMetadata(BitmapScalingMode.Unspecified, ScalingModePropertyChanged));
-        public BitmapScalingMode ScalingMode
-        {
-            get => (BitmapScalingMode)GetValue(ScalingModeProperty);
-            set => SetValue(ScalingModeProperty, value);
-        }
+            "ScalingMode", typeof(BitmapScalingMode), typeof(CanvasBehavior), new UIPropertyMetadata(BitmapScalingMode.Unspecified, ScalingModePropertyChanged));
+        public BitmapScalingMode ScalingMode { get => (BitmapScalingMode)GetValue(ScalingModeProperty); set => SetValue(ScalingModeProperty, value);}
         private static void ScalingModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            //Load前に呼び出される
             var crtl = d as CanvasBehavior;
+            if (crtl.cnv == null) return;
             RenderOptions.SetBitmapScalingMode(crtl.cnv, (BitmapScalingMode)e.NewValue);
         }
 
+        Canvas cnv;
+        bool flagLeftShift = false;
+        Point PointR_old;
 
         protected override void OnSetup()
         {
@@ -139,25 +89,31 @@ namespace PrismAutofacAvalonDock.Behavior
             this.AssociatedObject.Loaded += AssociatedObject_Loaded;
             this.AssociatedObject.MouseMove += AssociatedObject_MouseMove;
             this.AssociatedObject.MouseDown += AssociatedObject_MouseDown;
+            this.AssociatedObject.KeyDown += AssociatedObject_KeyDown;
             this.AssociatedObject.SizeChanged += AssociatedObject_LayoutUpdated;
-            //this.AssociatedObject.MouseWheel += AssociatedObject_MouseWheel;
         }
-
-        private void AssociatedObject_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            MouseWheel += e.Delta / 120;
-            e.Handled = true;
-        }
-
         protected override void OnCleanup()
         {
             this.AssociatedObject.Loaded -= AssociatedObject_Loaded;
             this.AssociatedObject.MouseMove -= AssociatedObject_MouseMove;
             this.AssociatedObject.MouseDown -= AssociatedObject_MouseDown;
             this.AssociatedObject.SizeChanged -= AssociatedObject_LayoutUpdated;
-            cnv = null;
+            //cnv = null;
             base.OnCleanup();
         }
+
+        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
+        {
+            cnv = sender as Canvas;
+            RenderOptions.SetBitmapScalingMode(cnv, ScalingMode);
+        }
+
+        private void AssociatedObject_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+
 
 
         private void AssociatedObject_LayoutUpdated(object sender, EventArgs e)
@@ -166,47 +122,45 @@ namespace PrismAutofacAvalonDock.Behavior
             ReDraw();
         }
 
-        private Point PointR_old;
-        private Point PointR_new;
-        private bool flagLeft = false;
         private void AssociatedObject_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
-        }
-
-        Canvas cnv;
-        double uScale = 1;
-        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
-        {
-            cnv = sender as Canvas;
         }
         private void AssociatedObject_MouseMove(object sender, MouseEventArgs e)
         {
-            //MouseMove = e.GetPosition((Canvas)sender);
-            MouseMove = e.GetPosition(cnv);
+            var buf = e.GetPosition(cnv);//(Canvas)sender
+            MouseMove = new Point(buf.X / Scale, buf.Y / Scale); 
 
-            //左
-            if (e.LeftButton == MouseButtonState.Pressed)
+            //Shift
+            if ((Keyboard.Modifiers & ModifierKeys.Shift) > 0)
             {
-                if (!flagLeft)
+                if (!flagLeftShift)
                 {
-                    PointR_old = e.GetPosition(cnv);
+                    PointR_old = MouseMove;
+                    Rect = RectClip(new Rect(PointR_old, MouseMove));
                 }
-                flagLeft = true;
+                else 
+                {
+                    Rect = RectClip(new Rect(PointR_old, MouseMove));
+                }
+                flagLeftShift = true;
             }
-            else if (e.LeftButton == MouseButtonState.Released)
+            else if ((Keyboard.Modifiers & ModifierKeys.Shift) == 0)
             {
-                flagLeft = false;
+                flagLeftShift = false;
             }
 
-            if (flagLeft)
+            Rect RectClip(Rect src)
             {
-                double i = (MouseMove.X - PointR_old.X);
-                double j = (MouseMove.Y - PointR_old.Y);
-                DMove = new Point(i, j);
-                PointR_old = MouseMove;
+                Point sta = src.TopLeft;
+                Point end = src.BottomRight;
+
+                sta = new Point((int)sta.X, (int)sta.Y);
+                end = new Point((int)end.X, (int)end.Y);
+
+                return new Rect(sta, end);
             }
         }
+
 
 
         public void ReDraw()
@@ -214,21 +168,63 @@ namespace PrismAutofacAvalonDock.Behavior
             if (cnv == null) return;
             cnv.Children.Clear();
             if (Shapes == null) return;
+            //List<Shape> shp = new List<Shape>();
+            ////シリアライズ
+            //try
+            //{
+            //    shp = (new Deserializer()).Deserialize<List<Shape>>(Shapes);
+            //}
+            //catch
+            //{
+            //    return;
+            //}
 
             foreach (var i in Shapes)
             {
-                var arry = i.Split(',');
-                switch (arry[0].Trim())
+                UIElement element = null;
+
+
+                switch (i.Key)
                 {
                     case "Circle":
-                        DrawCircle(arry);
+                        //DrawCircle(arry);
+                        break;
+                    case "Caption":
+                        if (i.Size < 0.0) return;
+                        element = new TextBlock
+                        {
+                            FontSize = i.Size,
+                            Foreground = new SolidColorBrush(i.Brush),
+                            Text = i.Text
+                        };
+                        Canvas.SetLeft(element, i.Left);
+                        Canvas.SetTop(element, i.Top);
                         break;
                     case "Text":
-                        DrawText(arry);
+                        if (i.Size < 0.0) return;
+                        element = new TextBlock
+                        {
+                            FontSize = i.Size,
+                            Foreground = new SolidColorBrush(i.Brush),
+                            Text = i.Text
+                        };
+                        Canvas.SetLeft(element, i.Left * Scale);
+                        Canvas.SetTop(element, i.Top * Scale);
                         break;
                     case "Rectangle":
                     case "Rect":
-                        DrawRectangle(arry);
+                        if (i.Width <= 0.0 || i.Height <= 0.0) return;
+                        
+                        element = new Rectangle
+                        {
+                            Width = i.Width * Scale,
+                            Height = i.Height * Scale,
+                            StrokeThickness = 1.0,
+                            Stroke = new SolidColorBrush(i.Brush),
+                            Fill = new SolidColorBrush(i.Fill)
+                        };
+                        Canvas.SetLeft(element, i.Left * Scale);
+                        Canvas.SetTop(element, i.Top * Scale);
                         break;
                     //case "Grid":
                     //    DrawGrid(arry);
@@ -236,7 +232,7 @@ namespace PrismAutofacAvalonDock.Behavior
                     default:
                         break;
                 }
-
+                if(element != null) cnv.Children.Add(element);
             }
         }
 
@@ -279,15 +275,11 @@ namespace PrismAutofacAvalonDock.Behavior
         //        num4 += num;
         //    }
         //}
-
-        /**/
-
-        //Circle, x ,y, size
         private void DrawCircle(string[] c)
         {
-            double x = uScale * c[1].TryParse(0) * uScale;
-            double y = uScale * c[2].TryParse(0) * uScale;
-            double size = uScale * c[3].TryParse(0) * uScale;
+            double x = Scale * c[1].TryParse(0) * Scale;
+            double y = Scale * c[2].TryParse(0) * Scale;
+            double size = Scale * c[3].TryParse(0) * Scale;
 
             if (size <= 0.0) return;
 
@@ -302,47 +294,8 @@ namespace PrismAutofacAvalonDock.Behavior
             Canvas.SetTop(element, y - size);
             cnv.Children.Add(element);
         }
-        //Rect, x ,y, w, h
-        private void DrawRectangle(string[] c)
-        {
-            double x = uScale * c[1].TryParse(0) * uScale;
-            double y = uScale * c[2].TryParse(0) * uScale;
-            double w = uScale * c[3].TryParse(0) * uScale;
-            double h = uScale * c[4].TryParse(0) * uScale;
 
-            if (w <= 0.0 || h <= 0.0) return;
 
-            var element = new Rectangle
-            {
-                Width = w,
-                Height = h,
-                StrokeThickness = 1.0,
-                Stroke = Brushes.Red
-            };
-            Canvas.SetLeft(element, x);
-            Canvas.SetTop(element, y);
-            cnv.Children.Add(element);
-        }
-        //Text, x ,y, s, text
-        private void DrawText(string[] c)
-        {
-            double x = uScale * c[1].TryParse(0) * uScale;
-            double y = uScale * c[2].TryParse(0) * uScale;
-            double s = uScale * c[3].TryParse(0) * uScale;
-
-            string text = c[4] ?? "";
-            if (s < 0.0) return;
-
-            var element = new TextBlock
-            {
-                FontSize = s,
-                Foreground = Brushes.Red,
-                Text = text
-            };
-            Canvas.SetLeft(element, x);
-            Canvas.SetTop(element, y);
-            cnv.Children.Add(element);
-        }
     }
 
     public static class CanvasBehaviorExtentions
@@ -351,5 +304,19 @@ namespace PrismAutofacAvalonDock.Behavior
         {
             return double.TryParse(value, out double i) ? i : defaultValue;
         }
+    }
+
+    public class Shape
+    {
+        //実座標いれて
+        public string Key { get; set; }
+        public string Text { get; set; } = "";
+        public double Left { get; set; }
+        public double Top { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public double Size { get; set; }
+        public Color Brush { get; set; } = Colors.Red;
+        public Color Fill { get; set; } = new Color() { A = 0 };
     }
 }

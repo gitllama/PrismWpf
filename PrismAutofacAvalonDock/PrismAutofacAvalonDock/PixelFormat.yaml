@@ -1,0 +1,181 @@
+﻿- Model : A
+  FileName :
+  - "ave\\.bin$"
+  - "dev\\.bin$"
+  - "ave_hob\\.bin$"
+  - "dev_hob\\.bin$"
+  Width  : 2256
+  Height : 1178
+  Type   : Single
+  Note : 暫定
+  Maps :
+    Full : 
+      Left   : 0 
+      Top    : 0
+      Width  : 2256
+      Height : 1178
+    Normal : 
+      Left   : 149 
+      Top    : 39
+      Width  : 1956
+      Height : 1116
+    Effective : 
+      Left   : 153 
+      Top    : 43
+      Width  : 1948
+      Height : 1108
+    Active : 
+      Left   : 160 
+      Top    : 49
+      Width  : 1936
+      Height : 1096
+    ActiveStaggerL : 
+      Left   : 159 
+      Top    : 49
+      Width  : 1936
+      Height : 1096
+    Center : 
+      Left   : 223
+      Top    : 112
+      Width  : 1837
+      Height : 970
+    HOB-L : 
+      Left   : 12 
+      Top    : 49
+      Width  : 128
+      Height : 1096
+    HOB-R : 
+      Left   : 2116 
+      Top    : 49
+      Width  : 128
+      Height : 1096
+    HOB-Lx : 
+      Left   : 2 
+      Top    : 49
+      Width  : 8
+      Height : 1096
+    HOB-Rx : 
+      Left   : 2246 
+      Top    : 49
+      Width  : 8
+      Height : 1096
+    VOB-TL : 
+      Left   : 12 
+      Top    : 13
+      Width  : 128
+      Height : 16
+    VOB-TC : 
+      Left   : 160 
+      Top    : 13
+      Width  : 128
+      Height : 16
+    VOB-TR : 
+      Left   : 2116 
+      Top    : 13
+      Width  : 128
+      Height : 16
+    VOB-BL : 
+      Left   : 12 
+      Top    : 1168
+      Width  : 128
+      Height : 5
+    VOB-BC : 
+      Left   : 160 
+      Top    : 1168
+      Width  : 1936
+      Height : 5
+    VOB-BR : 
+      Left   : 2116 
+      Top    : 1168
+      Width  : 128
+      Height : 5
+- Model : B
+  FileName :
+  - "\\d{1,12}\\.bin$"
+  - "sgl\\.bin$"
+  - "sgl_hob\\.bin$"
+  Width  : 2256
+  Height : 1178
+  Type   : Int32
+  Note : 暫定
+  Maps :
+    Full : 
+      Left   : 0 
+      Top    : 0
+      Width  : 2256
+      Height : 1178
+    Normal : 
+      Left   : 149 
+      Top    : 39
+      Width  : 1956
+      Height : 1116
+    Effective : 
+      Left   : 153 
+      Top    : 43
+      Width  : 1948
+      Height : 1108
+    Active : 
+      Left   : 160 
+      Top    : 49
+      Width  : 1936
+      Height : 1096
+    ActiveStaggerL : 
+      Left   : 159 
+      Top    : 49
+      Width  : 1936
+      Height : 1096
+    Center : 
+      Left   : 223
+      Top    : 112
+      Width  : 1837
+      Height : 970
+    HOB-L : 
+      Left   : 12 
+      Top    : 49
+      Width  : 128
+      Height : 1096
+    HOB-R : 
+      Left   : 2116 
+      Top    : 49
+      Width  : 128
+      Height : 1096
+    HOB-Lx : 
+      Left   : 2 
+      Top    : 49
+      Width  : 8
+      Height : 1096
+    HOB-Rx : 
+      Left   : 2246 
+      Top    : 49
+      Width  : 8
+      Height : 1096
+    VOB-TL : 
+      Left   : 12 
+      Top    : 13
+      Width  : 128
+      Height : 16
+    VOB-TC : 
+      Left   : 160 
+      Top    : 13
+      Width  : 128
+      Height : 16
+    VOB-TR : 
+      Left   : 2116 
+      Top    : 13
+      Width  : 128
+      Height : 16
+    VOB-BL : 
+      Left   : 12 
+      Top    : 1168
+      Width  : 128
+      Height : 5
+    VOB-BC : 
+      Left   : 160 
+      Top    : 1168
+      Width  : 1936
+      Height : 5
+    VOB-BR : 
+      Left   : 2116 
+      Top    : 1168
+      Width  : 128
+      Height : 5

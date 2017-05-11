@@ -5,48 +5,53 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET46"
              xmlns:behav="clr-namespace:PrismAutofacAvalonDock.Behavior">
-<!--prism:ViewModelLocator.AutoWireViewModel="True"-->
+            <!--prism:ViewModelLocator.AutoWireViewModel="True"-->
 
-        <ScrollViewer
+    
+    <ScrollViewer
         VerticalScrollBarVisibility="Auto"
         HorizontalScrollBarVisibility="Auto">
-    
+        
         <i:Interaction.Behaviors>
+            <behav:FileDropBehavior TargetCommand="{Binding FileDropCommand}" />
             <behav:ScroolBarBehavior
-                VPosition="{Binding ScrollBarV.Value, Mode=TwoWay}"
-                HPosition="{Binding ScrollBarH.Value, Mode=TwoWay}"/>
+                ScrollBarPosition="{Binding ScrollBar.Value, Mode=TwoWay}" />
         </i:Interaction.Behaviors>
-            
-        <Grid Background="Gray">
+
+        <Grid Background="{Binding model.Background}">
             <i:Interaction.Behaviors>
                 <behav:GridBehavior
-                        MouseWheel="{Binding MouseWheel.Value,  Mode=OneWayToSource}"
-                        DMove="{Binding DMove.Value,  Mode=OneWayToSource}"/>
+                    MouseWheel ="{Binding MouseWheel.Value, Mode=TwoWay}"/>
             </i:Interaction.Behaviors>
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="ReLoad" Command="{Binding ReLoadCommand}"/>
+                    <MenuItem Header="Script">
+                        <MenuItem Header="ReLoadAndRun" Command="{Binding ReLoadAndRunCommand}"/>
+                        <MenuItem Header="Run" Command="{Binding ScriptRunCommand}"/>
+                    </MenuItem>
+                </ContextMenu>
+            </Grid.ContextMenu>
+
             <Canvas x:Name="cnv"
-                Width="{Binding Width.Value}" 
-                Height="{Binding Height.Value}">
+                    Margin="50,50,50,50"
+                    Width="{Binding Width.Value}" 
+                    Height="{Binding Height.Value}">
 
-            <i:Interaction.Behaviors>
-                <behav:CanvasBehavior
-                        MouseMove="{Binding MouseMove.Value, Mode=OneWayToSource}"
-                        Shapes="{Binding Shapes.Value, Mode=TwoWay}"
-                        ScalingMode="{Binding ScalingMode.Value,  Mode=TwoWay}"
-                        />
-            </i:Interaction.Behaviors>
+                <i:Interaction.Behaviors>
+                    <behav:CanvasBehavior
+                            Scale="{Binding Scale.Value, Mode=OneWay}"
+                            MouseMove="{Binding MouseMove.Value, Mode=OneWayToSource}"
+                            Shapes="{Binding Shapes.Value, Mode=TwoWay}"
+                            ScalingMode="{Binding model.ScalingMode,  Mode=TwoWay}"
+                            Rect="{Binding RectMove.Value, Mode=OneWayToSource}"/>
+                </i:Interaction.Behaviors>
 
-            <!--<i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseWheel">
-                    <r:EventToReactive ReactiveProperty="{Binding MouseWheel}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>-->
+                <Canvas.Background>
+                    <ImageBrush ImageSource="{Binding img.Value}" Stretch="Fill" />
+                </Canvas.Background>
 
-            <Canvas.Background>
-                <ImageBrush ImageSource="{Binding img.Value}" Stretch="Fill" />
-            </Canvas.Background>
-
-        </Canvas>
+            </Canvas>
         </Grid>
     </ScrollViewer>
-
 </UserControl>

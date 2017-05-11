@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Xceed.Wpf.AvalonDock;
 
 namespace PrismAutofacAvalonDock.Views
 {
@@ -11,5 +12,6 @@ namespace PrismAutofacAvalonDock.Views
         {
             InitializeComponent();
         }
+
     }
 }
