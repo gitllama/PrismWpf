@@ -2,7 +2,9 @@
 
 ## Autofac
 
-### 登録して取得
+### 基本
+
+#### 登録して取得
 
 ```C#
     var builder = new ContainerBuilder();
@@ -24,10 +26,10 @@
             builder.RegisterType<Greeter>().As<IGreeter>().SingleInstance();
             builder.RegisterType<GreeterClient>().As<IGreeterClient>();
 
-            //コンテナ作成
+            //コンテナの呼び出し
             var container = builder.Build();
             var greeter = container.Resolve<IGreeterClient>();
-            
+
             greeter.SayHello();
         }
     }
@@ -57,7 +59,7 @@
         public void SayHello() => Console.WriteLine(this.greeter.Greet());
     }
 ```
-### あとから登録
+#### あとから登録
 
 破棄予定。Prismもそれに応じて変更するみたい。
 
@@ -67,12 +69,70 @@
     builder.Update(container);
 ```
 
-### lifetime付きで登録
+#### lifetime付きで登録
 
 ```C#
     builder.RegisterType<Greeter>().As<IGreeter>().SingleInstance();
 ```
+### Prismでの使用
 
+#### Shellの登録
+
+```C#
+class Bootstrapper : AutofacBootstrapper
+{
+    //ConfigureContainerBuilderをoverrideしてShellの登録
+    protected override void ConfigureContainerBuilder(ContainerBuilder builder)
+    {
+        base.ConfigureContainerBuilder(builder);
+        builder.RegisterType<Shell>();　         // Shell の登録
+    }
+
+    protected override DependencyObject CreateShell()
+    {
+        return Container.Resolve<MainWindow>();
+    }
+
+    protected override void InitializeShell()
+    {
+        Application.Current.MainWindow.Show();
+    }
+}
+```
+
+#### Modelの登録
+
+ShellのContainerと共有する場合、  
+class Bootstrapperをpublicにしてclass AppにBootstrapper bootstrapperをpublicにするとできそうだが、めんどうなので分ける。
+
+```C#
+//App.xaml.cs
+public partial class App : Application
+{
+    public static IContainer modelcontainer;
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
+        var modelbuilder = new ContainerBuilder();
+        modelbuilder.RegisterType<Models.Model>().SingleInstance();
+        modelcontainer = modelbuilder.Build();
+
+        var bootstrapper = new Bootstrapper();
+        bootstrapper.Run();
+    }
+}
+
+//ViewModel.cs
+public class MainWindowViewModel : BindableBase
+{
+    public MainWindowViewModel()
+    {
+        var model = App.modelcontainer.Resolve<Models.Model>();
+    }
+}
+```
 
 ## UnityContainer
 
@@ -85,7 +145,7 @@
   container.RegisterInstance<IMasterManager>("Customer", new CustomerManager());  
 
   IMasterManager manager = container.Resolve<IMasterManager>("Customer");
-  
+
   //全部呼び出し
   IEnumerable<IMasterManager> managers = container.ResolveAll<IMasterManager>();
   foreach (IMasterManager manager in managers)
@@ -128,16 +188,16 @@ public interface IAnimal
 public class Cat : IAnimal  
 {  
   public string Cry() => "ニャ～";
-} 
+}
 public class Dog : IAnimal  
 {  
   public string Cry() => "バウ！";
-} 
+}
 
 public class Person  
 {  
     [Dependency("Dog")] //Dependency属性で注入する依存を決定
-    public IAnimal Pet { get;set; } 
+    public IAnimal Pet { get;set; }
     public string CallPet() => Pet.Cry();
 }
 
@@ -148,7 +208,7 @@ static void Main(string[] args)
   container.RegisterInstance<IAnimal>("Cat", new Cat());  
   //Container.RegisterType<IAnimal, Dog>("Dog");  
   //Container.RegisterType<IAnimal, Cat>("Cat");
-        
+
   Person person = new Person();  
   person = container.BuildUp<Person>(person); //依存性の注入
 }  
@@ -166,10 +226,10 @@ static void Main(string[] args)
 {
   UnityContainer container = new UnityContainer();  
   UnityConfigurationSection section = (UnityConfigurationSection)ConfigurationManager.GetSection("unity");  
-  
+
   // 構成ファイルの内容を適用する  
   section.Containers["Sample"].Configure(container);
-  
+
   Person person = new Person();
   person = container.BuildUp<Person>(person);  
 }
@@ -187,7 +247,7 @@ static void Main(string[] args)
             <typeAlias alias="Cat" type="BuildUpSample.Cat, BuildUpSample"/>  
             <typeAlias alias="Dog" type="BuildUpSample.Dog, BuildUpSample"/>  
         </typeAliases>  
-          
+
         <containers>  
             <container name="Sample">  
                 <!--DI コンテナに登録する型を記述-->                  
@@ -203,4 +263,4 @@ static void Main(string[] args)
 別名使用しないで```<type type="BuildUpSample.IAnimal, BuildUpSample" mapTo="BuildUpSample.Cat, BuildUpSample"/>  ```でもOK  
 xmlめんどうなのでscriptで書いた方がはやそう
 
-UnityContainerExtension 
+UnityContainerExtension

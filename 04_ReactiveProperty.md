@@ -28,7 +28,7 @@ _ => などは using Systemが必要なので注意
     public MainViewModel()
     {
         Model model = new Model();
-        
+
 		//M -> VM
 		this.Output = this.model
 			.ObserveProperty(x => x.output)
@@ -38,6 +38,10 @@ _ => などは using Systemが必要なので注意
 			.ObserveProperty(x => x.Age) // Ageプロパティを監視するIObservableに変換
 			.Select(x => x.ToString()) // LINQで加工して
 			.ToReactiveProperty(); // ReactivePropertyに変換1
+
+      model
+        .ObserveProperty(x => x.Age) // Ageプロパティを監視するIObservableに変換
+        .Subscribe(_=>);
 
 		//M <-> VM
         this.IO = this.model
@@ -162,7 +166,7 @@ this.Name = model
 
 ```C#
 	public ReactiveCommand ClearCommand { get; private set; }
-            
+
 	this.ClearCommand = this.Input
       	.Select(x => !string.IsNullOrWhiteSpace(x)) // Input.Valueが空じゃないとき
       	.ToReactiveCommand(); // 実行可能なCommandを作る
@@ -175,11 +179,15 @@ this.Name = model
         IsCheckedA = new ReactiveProperty<bool>();
         IsCheckedB = new ReactiveProperty<bool>();
         IsCheckedC = new ReactiveProperty<bool>();
- 
+
         ExecCommand = new[] { IsCheckedA, IsCheckedB, IsCheckedC }
             .CombineLatestValuesAreAllTrue()
             .ToReactiveCommand();
- 
+
         ExecCommand.Subscribe(_ => MessageBox.Show("しんぷる！"));
 ```
 
+###
+
+http://blog.okazuki.jp/entry/2015/02/22/212827
+http://sssslide.com/www.slideshare.net/okazuki0130/prism-reactiveproperty

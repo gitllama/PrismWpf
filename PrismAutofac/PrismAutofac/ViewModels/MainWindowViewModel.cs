@@ -4,6 +4,8 @@ using Prism.Interactivity.InteractionRequest;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
+using Autofac;
+using Autofac.Builder;
 
 namespace PrismAutofac.ViewModels
 {
@@ -21,7 +23,8 @@ namespace PrismAutofac.ViewModels
 
         public MainWindowViewModel()
         {
-            Models.Model model = new Models.Model();
+            var model = App.modelcontainer.Resolve<Models.Model>();
+
             obj = new ReactiveProperty<object>((object)model);
 
             this.text = model.ObserveProperty(x => x.Text).ToReactiveProperty();

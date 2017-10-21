@@ -2,7 +2,7 @@
 
 https://github.com/PrismLibrary/Prism-Samples-Wpf
 
-## Property Notifies 
+## Property Notifies
 
 ```C#
   private string _title = "Prism Unity Application";
@@ -12,10 +12,21 @@ https://github.com/PrismLibrary/Prism-Samples-Wpf
 
   private string _title = "Prism Unity Application";
   public string Title { get => _title; set => SetProperty(ref _title, value,()=>onChanged(value)); }
-  
+
   public void Method()
   {
     RaisePropertyChanged("Title");
+  }
+```
+
+```C#  
+  public void ViewModel()
+  {
+    model.PropertyChanged += Model_PropertyChanged;
+  }
+  private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+  {
+    if(e.PropertyName == "Title"){ }
   }
 ```
 
@@ -30,7 +41,7 @@ https://github.com/PrismLibrary/Prism-Samples-Wpf
       this.Output = this.Input.ToUpper();
     },
     () => !string.IsNullOrWhiteSpace(this.Input));
-    
+
     this.ToUpperCommand.ObservesProperty(() => this.Input);
   }
 ```
@@ -48,7 +59,7 @@ https://github.com/PrismLibrary/Prism-Samples-Wpf
 ```C#
   public InteractionRequest<INotification> NotificationRequest { get; set; }
   public DelegateCommand NotificationCommand { get; set; }
-  
+
   public MainWindowViewModel()
   {
     NotificationRequest = new InteractionRequest<INotification>();
