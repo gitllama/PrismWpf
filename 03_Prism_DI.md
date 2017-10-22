@@ -9,11 +9,22 @@
 ```C#
     var builder = new ContainerBuilder();
 
+    // Register types that expose interfaces...
+    builder.RegisterType<ConsoleLogger>().As<ILogger>();
+    // Register instances of objects you create...
+    var output = new StringWriter();
+    builder.RegisterInstance(output).As<TextWriter>();
+
+    // Register expressions that execute to create objects...
+    builder.Register(c => new ConfigReader("mysection")).As<IConfigReader>();
+
     builder.Register(c => new TaskController(c.Resolve<ITaskRepository>()));
     builder.RegisterType<TaskController>();
     builder.RegisterInstance(new TaskController());
     builder.RegisterAssemblyTypes(controllerAssembly);
 
+    // Build the container to finalize registrations
+    // and prepare for object resolution.
     var container = builder.Build();
 ```
 ```C#
@@ -25,12 +36,16 @@
             var builder = new ContainerBuilder();
             builder.RegisterType<Greeter>().As<IGreeter>().SingleInstance();
             builder.RegisterType<GreeterClient>().As<IGreeterClient>();
+            var container = builder.Build();
 
             //コンテナの呼び出し
-            var container = builder.Build();
             var greeter = container.Resolve<IGreeterClient>();
-
             greeter.SayHello();
+
+            using(var scope = container.BeginLifetimeScope())
+            {
+              var reader = container.Resolve<IConfigReader>();
+            }
         }
     }
 
@@ -102,8 +117,7 @@ class Bootstrapper : AutofacBootstrapper
 
 #### Modelの登録
 
-ShellのContainerと共有する場合、  
-class Bootstrapperをpublicにしてclass AppにBootstrapper bootstrapperをpublicにするとできそうだが、めんどうなので分ける。
+ShellのContainerと共有する場合、class Bootstrapperをpublicにしてclass AppにBootstrapper bootstrapperをpublicにするとできそうだが、めんどうなので分ける。
 
 ```C#
 //App.xaml.cs
