@@ -1,5 +1,30 @@
 # DI
 
+PrismでのDIコンテナは以下
+
+- Autofac ( Nuget / v6.3.0 )
+- DryIoc ( Nuget / v6.3.0 )
+- Mef ( Nuget / v6.3.0 )
+- Ninject ( Nuget / inaccessible )
+- StructureMap ( Nuget / v6.3.0 )
+- Unity ( Nuget / v6.3.0 )
+
+UWPなら
+
+- Autofac
+- SimpleInjector
+- Unity
+
+Xamarin
+
+- Autofac
+- DryIoc
+- Ninject
+- Unity
+
+Unityが標準らしいが、開発終了っぽい。  
+どうせUWPやXamarin元考えるならAutofacでよろしいのではないでしょうか。
+
 ## Autofac
 
 ### 基本
