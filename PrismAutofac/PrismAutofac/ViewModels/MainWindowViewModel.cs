@@ -1,17 +1,19 @@
 ﻿using Prism.Mvvm;
-using Prism.Events;
-using Prism.Interactivity.InteractionRequest;
+using Prism.Regions;
+using PrismAutofac.Models;
+using PrismAutofac.Views;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
-using Autofac;
-using Autofac.Builder;
+using System.Collections.Specialized;
 
 namespace PrismAutofac.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private string _title = "Prism Autofac Application";
+        private ModelBase model;
+        private IRegionManager _regionManager;
+        private string _title = "Prism Application";
         public string Title
         {
             get { return _title; }
@@ -19,15 +21,52 @@ namespace PrismAutofac.ViewModels
         }
 
         public ReactiveProperty<string> text { get; private set; }
-        public ReactiveProperty<object> obj { get; private set; }
 
-        public MainWindowViewModel()
+        public ReactiveCommand Button1Command { get; private set; }
+
+        public MainWindowViewModel(ModelBase model, IRegionManager rm)
         {
-            var model = App.modelcontainer.Resolve<Models.Model>();
-
-            obj = new ReactiveProperty<object>((object)model);
+            this.model = model;
+            this._regionManager = rm;
+            //_regionManager.Regions.CollectionChanged += Regions_CollectionChanged;
 
             this.text = model.ObserveProperty(x => x.Text).ToReactiveProperty();
+
+
+            this.Button1Command = new ReactiveCommand();
+            this.Button1Command.Subscribe(x =>
+            {
+                Console.WriteLine(x);
+                //_regionManager.RequestNavigate("SubRegion", "PropertyGridUserControl");
+                //_regionManager.RequestNavigate("SubRegion", new Uri("PropertyGridUserControl", UriKind.Relative));
+
+                //rm.RegisterViewWithRegion("SubRegion", typeof(PropertyGridUserControl));
+
+            });
+
+        }
+
+        private void Regions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                var region = (IRegion)e.NewItems[0];
+                region.Views.CollectionChanged += Views_CollectionChanged;
+            }
+        }
+
+        private void Views_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            //if (e.Action == NotifyCollectionChangedAction.Add)
+            //{
+            //    Views.Add(e.NewItems[0].GetType().Name);
+            //}
+            //else if (e.Action == NotifyCollectionChangedAction.Remove)
+            //{
+            //    Views.Remove(e.OldItems[0].GetType().Name);
+            //}
         }
     }
 }
+
+//this.RegionManager.RequestNavigate("MainRegion", nameof(AView), new NavigationParameters($"id={x}"));

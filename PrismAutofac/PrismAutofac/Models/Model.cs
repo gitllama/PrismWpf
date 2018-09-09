@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace PrismAutofac.Models
 {
-
-    public class Model : BindableBase
+    public class Model : ModelBase
     {
-        private string _text = "Prism Unity Application";
-        public string Text { get => _text; set => SetProperty(ref _text, value); }
+
     }
 }
