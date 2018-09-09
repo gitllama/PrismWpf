@@ -5,6 +5,7 @@ using Autofac;
 using Prism.Autofac;
 using PrismAutofac.Models;
 using Prism.Regions;
+using System;
 
 namespace PrismAutofac
 {
@@ -24,19 +25,22 @@ namespace PrismAutofac
         {
             var moduleCatalog = (ModuleCatalog)ModuleCatalog;
             moduleCatalog.AddModule(typeof(MainWindowModule));
+
         }
 
         protected override void ConfigureContainerBuilder(ContainerBuilder builder)
         {
             base.ConfigureContainerBuilder(builder);
             builder.RegisterType<Model>().As<ModelBase>().SingleInstance();
-
             //builder.RegisterTypeForNavigation<PropertyGridUserControl>();
+            builder.RegisterModule<MainWindowModulRegistry>();
+
             //builder.RegisterModule<MainWindowModulRegistry>();
         }
 
 
     }
+
 
     public class MainWindowModule : IModule
     {
@@ -57,16 +61,16 @@ namespace PrismAutofac
 
     }
 
-    //public class MainWindowModulRegistry : Module
-    //{
-    //    protected override void Load(ContainerBuilder builder)
-    //    {
-    //        base.Load(builder);
+    public class MainWindowModulRegistry : Module
+    {
+        protected override void Load(ContainerBuilder builder)
+        {
+            base.Load(builder);
 
-    //        builder.RegisterType<MainWindowModule>();
-    //        builder.RegisterType<PropertyGridUserControl>();
-    //    }
-    //}
+            //builder.RegisterType<MainWindowModule>();
+            builder.RegisterTypeForNavigation<PropertyGridUserControl>();
+        }
+    }
 
 }
 

@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Modularity;
+using Prism.Mvvm;
 using Prism.Regions;
 using PrismAutofac.Models;
 using PrismAutofac.Views;
@@ -13,6 +14,8 @@ namespace PrismAutofac.ViewModels
     {
         private ModelBase model;
         private IRegionManager _regionManager;
+
+
         private string _title = "Prism Application";
         public string Title
         {
@@ -23,23 +26,26 @@ namespace PrismAutofac.ViewModels
         public ReactiveProperty<string> text { get; private set; }
 
         public ReactiveCommand Button1Command { get; private set; }
+        public int ModuleManager_LoadModuleCompleted { get; }
 
         public MainWindowViewModel(ModelBase model, IRegionManager rm)
         {
             this.model = model;
             this._regionManager = rm;
+
+            //this.mm.LoadModuleCompleted += this.ModuleManager_LoadModuleCompleted;
             //_regionManager.Regions.CollectionChanged += Regions_CollectionChanged;
 
             this.text = model.ObserveProperty(x => x.Text).ToReactiveProperty();
 
+            //mm.LoadModule("MainWindowModule");
 
             this.Button1Command = new ReactiveCommand();
             this.Button1Command.Subscribe(x =>
             {
                 Console.WriteLine(x);
-                //_regionManager.RequestNavigate("SubRegion", "PropertyGridUserControl");
-                //_regionManager.RequestNavigate("SubRegion", new Uri("PropertyGridUserControl", UriKind.Relative));
-
+                _regionManager.RequestNavigate("SubRegion", "PropertyGridUserControl");
+                
                 //rm.RegisterViewWithRegion("SubRegion", typeof(PropertyGridUserControl));
 
             });
