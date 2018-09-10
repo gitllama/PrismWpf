@@ -33,9 +33,8 @@ namespace PrismAutofac
             base.ConfigureContainerBuilder(builder);
             builder.RegisterType<Model>().As<ModelBase>().SingleInstance();
             //builder.RegisterTypeForNavigation<PropertyGridUserControl>();
-            builder.RegisterModule<MainWindowModulRegistry>();
 
-            //builder.RegisterModule<MainWindowModulRegistry>();
+            builder.RegisterModule<MainWindowModulRegistry>();
         }
 
 

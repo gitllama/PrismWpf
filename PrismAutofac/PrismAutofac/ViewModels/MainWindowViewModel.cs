@@ -25,40 +25,39 @@ namespace PrismAutofac.ViewModels
 
         public ReactiveProperty<string> text { get; private set; }
 
-        public ReactiveCommand Button1Command { get; private set; }
-        public int ModuleManager_LoadModuleCompleted { get; }
+        public ReactiveCommand NavigateCommand { get; private set; }
+
 
         public MainWindowViewModel(ModelBase model, IRegionManager rm)
         {
             this.model = model;
             this._regionManager = rm;
 
+            //mm.LoadModule("MainWindowModule");
             //this.mm.LoadModuleCompleted += this.ModuleManager_LoadModuleCompleted;
             //_regionManager.Regions.CollectionChanged += Regions_CollectionChanged;
 
             this.text = model.ObserveProperty(x => x.Text).ToReactiveProperty();
 
-            //mm.LoadModule("MainWindowModule");
 
-            this.Button1Command = new ReactiveCommand();
-            this.Button1Command.Subscribe(x =>
+
+            this.NavigateCommand = new ReactiveCommand();
+            this.NavigateCommand.Subscribe(x =>
             {
-                Console.WriteLine(x);
-                _regionManager.RequestNavigate("SubRegion", "PropertyGridUserControl");
-                
-                //rm.RegisterViewWithRegion("SubRegion", typeof(PropertyGridUserControl));
-
+                _regionManager.RequestNavigate("SubRegion", x.ToString());
+                //this.RegionManager.RequestNavigate("MainRegion", nameof(AView), new NavigationParameters($"id={x}"));
+                //_regionManager.RegisterViewWithRegion("SubRegion", typeof(PropertyGridUserControl));
             });
 
         }
 
         private void Regions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                var region = (IRegion)e.NewItems[0];
-                region.Views.CollectionChanged += Views_CollectionChanged;
-            }
+            //if (e.Action == NotifyCollectionChangedAction.Add)
+            //{
+            //    var region = (IRegion)e.NewItems[0];
+            //    region.Views.CollectionChanged += Views_CollectionChanged;
+            //}
         }
 
         private void Views_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -75,4 +74,3 @@ namespace PrismAutofac.ViewModels
     }
 }
 
-//this.RegionManager.RequestNavigate("MainRegion", nameof(AView), new NavigationParameters($"id={x}"));

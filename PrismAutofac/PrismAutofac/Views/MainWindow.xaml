@@ -15,7 +15,7 @@
 
         <Grid Grid.Column="0">
             <Button Content="Button1" 
-                    Command="{Binding Button1Command}" CommandParameter="ViewA"
+                    Command="{Binding NavigateCommand}" CommandParameter="PropertyGridUserControl"
                     HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top" Width="75"/>
             <Button Content="Button2" 
                     Command="{Binding Button2Command}"
