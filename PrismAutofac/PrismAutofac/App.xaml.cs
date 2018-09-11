@@ -19,6 +19,10 @@ namespace PrismAutofac
 
             var bootstrapper = new Bootstrapper();
             bootstrapper.Run();
+            
+            // StartupEventArgsがほしい場合は
+            // bootstrapperのコンストラクタかRunをoverrideして
+            // StartupEventArgs受けれるようにするのがよろしい
         }
     }
 }
