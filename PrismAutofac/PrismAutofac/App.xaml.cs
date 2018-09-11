@@ -15,6 +15,9 @@ namespace PrismAutofac
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            // 取りこぼしの例外をすべてCatchする
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            
             base.OnStartup(e);
 
             var bootstrapper = new Bootstrapper();
@@ -23,6 +26,13 @@ namespace PrismAutofac
             // StartupEventArgsがほしい場合は
             // bootstrapperのコンストラクタかRunをoverrideして
             // StartupEventArgs受けれるようにするのがよろしい
+        }
+        
+        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Exception ex = (Exception)e.ExceptionObject;
+            MessageBox.Show(ex.ToString(), "UnhandledException",
+                      MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
