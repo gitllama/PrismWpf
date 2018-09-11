@@ -1,4 +1,4 @@
-﻿using PrismAutofac.Views;
+using PrismAutofac.Views;
 using System.Windows;
 using Prism.Modularity;
 using Autofac;
@@ -13,6 +13,15 @@ namespace PrismAutofac
     {
         protected override DependencyObject CreateShell()
         {
+            // Bootstrapper.Run()内、CreateShell～InitializeShellで
+            // コンストラクタが呼ばれるので、初期化するなら直前がよさそう
+            /*
+            using (var sr = new System.IO.StreamReader("config.json"))
+            {
+                var model = Container.Resolve<Models.ModelBase>();
+                Newtonsoft.Json.JsonSerializer.CreateDefault().Populate(sr, model);
+            }
+            */
             return Container.Resolve<MainWindow>();
         }
 
@@ -25,19 +34,22 @@ namespace PrismAutofac
         {
             var moduleCatalog = (ModuleCatalog)ModuleCatalog;
             moduleCatalog.AddModule(typeof(MainWindowModule));
-
         }
 
         protected override void ConfigureContainerBuilder(ContainerBuilder builder)
         {
             base.ConfigureContainerBuilder(builder);
+            
+            //Modelの登録
             builder.RegisterType<Model>().As<ModelBase>().SingleInstance();
+            //builder.RegisterType<Model>().As<ModelBase>()
+            //    .WithParameter("ParamName", "ParamValue")
+            //    .SingleInstance();
+　　　　　　 
+            //Viewの登録
             //builder.RegisterTypeForNavigation<PropertyGridUserControl>();
-
             builder.RegisterModule<MainWindowModulRegistry>();
         }
-
-
     }
 
 
@@ -70,11 +82,19 @@ namespace PrismAutofac
             builder.RegisterTypeForNavigation<PropertyGridUserControl>();
         }
     }
-
+    
+    // Prism-Autofac外でAutofacのコンテナ管理する場合
+    /* 
+    public static IContainer modelcontainer;
+    public static void RegistContainer()
+    {
+        var modelbuilder = new ContainerBuilder();
+        modelbuilder.RegisterType<Models.Model>().SingleInstance();
+        modelcontainer = modelbuilder.Build();
+        
+        //同時に初期化する場合
+        var model = modelcontainer.Resolve<ModelBase>();
+        model.HogeHoge();
+    }
+    */
 }
-
-
-//public static IContainer modelcontainer;
-//var modelbuilder = new ContainerBuilder();
-//modelbuilder.RegisterType<Models.Model>().SingleInstance();
-//modelcontainer = modelbuilder.Build();
