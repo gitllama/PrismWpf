@@ -14,7 +14,6 @@ namespace Behavior
     {
 
         Window win;
-        ColumnDefinition mainDefinition;
         TextBlock foldingMarkLeft;
         TextBlock foldingMarkRight;
 
@@ -27,6 +26,37 @@ namespace Behavior
         //    new UIPropertyMetadata(false)
         //);
         //public bool VisibleFoldingMark { get => (bool)GetValue(VisibleFoldingMarkProperty); set => SetValue(VisibleFoldingMarkProperty, value); }
+
+
+        public static readonly DependencyProperty VisibleLeftRegionProperty = DependencyProperty.Register(
+            nameof(VisibleLeftRegion),
+            typeof(bool),
+            typeof(WindowBehavior),
+            new UIPropertyMetadata(true, LeftRegionPropertyChanged)
+        );
+        public bool VisibleLeftRegion { get => (bool)GetValue(VisibleLeftRegionProperty); set => SetValue(VisibleLeftRegionProperty, value); }
+
+        private static void LeftRegionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var obj = d as WindowBehavior;
+            if (obj.win == null) return;
+            LeftRegionShow(obj);
+        }
+
+        public static readonly DependencyProperty VisibleRightRegionProperty = DependencyProperty.Register(
+            nameof(VisibleRightRegion),
+            typeof(bool),
+            typeof(WindowBehavior),
+            new UIPropertyMetadata(true, RightRegionPropertyChanged)
+        );
+        public bool VisibleRightRegion { get => (bool)GetValue(VisibleRightRegionProperty); set => SetValue(VisibleRightRegionProperty, value); }
+
+        private static void RightRegionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var obj = d as WindowBehavior;
+            if (obj.win == null) return;
+            RightRegionShow(obj);
+        }
 
         public static readonly DependencyProperty OffsetProperty = DependencyProperty.Register(
             nameof(Offset),
@@ -52,6 +82,10 @@ namespace Behavior
             new UIPropertyMetadata(100)
         );
         public int AnimationTime { get => (int)GetValue(AnimationTimeProperty); set => SetValue(AnimationTimeProperty, value); }
+
+
+
+
 
 
         public static readonly DependencyProperty LeftProperty = DependencyProperty.Register(
@@ -136,7 +170,6 @@ namespace Behavior
             //this.AssociatedObject.MouseDown -= AssociatedObject_MouseDown;
             //this.AssociatedObject.QueryCursor -= AssociatedObject_QueryCursor;
             win = null;
-            mainDefinition = null;
             foldingMarkLeft = null;
             foldingMarkRight = null;
             base.OnCleanup();
@@ -159,7 +192,7 @@ namespace Behavior
         private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
         {
             win = sender as Window;
-            mainDefinition = win.FindName("mainDefinition") as ColumnDefinition;
+            //mainDefinition = win.FindName("mainDefinition") as ColumnDefinition;
             foldingMarkLeft = win.FindName("foldingMarkLeft") as TextBlock;
             foldingMarkRight = win.FindName("foldingMarkRight") as TextBlock;
             foldingMarkLeft.Width = 0;
@@ -198,16 +231,21 @@ namespace Behavior
             if (win == null) return;
             
             var mousePosition = e.GetPosition(win);
+            Point parent = win.PointToScreen(new Point(0.0d, 0.0d));
+            Point left = foldingMarkLeft.PointToScreen(new Point(0.0d, 0.0d)); 
+            Point right = foldingMarkRight.PointToScreen(new Point(0.0d, 0.0d));
+
+            //mainDefinition?.Offset ?? 0, 
+            //(mainDefinition?.Offset ?? 0) + (mainDefinition?.Width.Value ?? 0), 
 
             FoldingMarkLeftAnimation(foldingMarkLeft, 
                 mousePosition.X,
-                mainDefinition?.Offset ?? 0, 
+                left.X - parent.X, 
                 Offset, FoldingMarkWidth, AnimationTime);
             FoldingMarkRightAnimation(foldingMarkRight, 
                 mousePosition.X,
-                (mainDefinition?.Offset ?? 0) + (mainDefinition?.Width.Value ?? 0), 
+                right.X - parent.X, 
                 Offset, FoldingMarkWidth, AnimationTime);
-
         }
 
         private void AssociatedObject_MouseDown(object sender, MouseButtonEventArgs e)
@@ -270,6 +308,37 @@ namespace Behavior
 
 
         #endregion
+
+        GridLength _columnWidthLeft;
+        GridLength _columnWidthRight;
+
+        private static void LeftRegionShow(WindowBehavior obj)
+        {
+            var child = obj.win.FindName("leftDefinition") as ColumnDefinition;
+            if (obj.VisibleLeftRegion)
+            {
+                obj._columnWidthLeft = child.Width;
+                child.Width = new GridLength(0);
+            }
+            else
+            {
+                child.Width = obj._columnWidthLeft;
+            }
+        }
+
+        private static void RightRegionShow(WindowBehavior obj)
+        {
+            var child = obj.win.FindName("rightDefinition") as ColumnDefinition;
+            if (obj.VisibleRightRegion)
+            {
+                obj._columnWidthRight = child.Width;
+                child.Width = new GridLength(0);
+            }
+            else
+            {
+                child.Width = obj._columnWidthRight;
+            }
+        }
 
 
         #region Animation
@@ -354,4 +423,7 @@ namespace Behavior
         #endregion
 
     }
+
+
+
 }

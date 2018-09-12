@@ -31,10 +31,9 @@ namespace PrismAutofac.ViewModels
 
         // Visible SubRegion
 
-        public ReactiveProperty<string> VisibleLeftRegion { get; private set; }
-        public ReactiveProperty<string> VisibleRightRegion { get; private set; }
-        private string _columnWidthLeft;
-        private string _columnWidthRight;
+        public ReactiveProperty<bool> VisibleLeftRegion { get; private set; }
+        public ReactiveProperty<bool> VisibleRightRegion { get; private set; }
+
         public ReactiveProperty<string> ColumnWidthLeft { get; private set; }
         public ReactiveProperty<string> ColumnWidthRight { get; private set; }
         public ReactiveCommand ClickFoldingMarkLeftCommand { get; private set; }
@@ -62,43 +61,19 @@ namespace PrismAutofac.ViewModels
 
             // Visible SubRegion
 
-            this.VisibleLeftRegion = new ReactiveProperty<string>("Visible");
-            this.VisibleRightRegion = new ReactiveProperty<string>("Visible");
-            this.ColumnWidthLeft = new ReactiveProperty<string>("10*");
-            this.ColumnWidthRight = new ReactiveProperty<string>("10*");
-            this._columnWidthLeft = null;
-            this._columnWidthRight = null;
+            this.VisibleLeftRegion = new ReactiveProperty<bool>(true);
+            this.VisibleRightRegion = new ReactiveProperty<bool>(true);
+            this.ColumnWidthLeft = new ReactiveProperty<string>("1*");
+            this.ColumnWidthRight = new ReactiveProperty<string>("1*");
             this.ClickFoldingMarkLeftCommand = new ReactiveCommand();
             this.ClickFoldingMarkLeftCommand.Subscribe(_ =>
             {
-                if (_columnWidthLeft == null)
-                {
-                    _columnWidthLeft = ColumnWidthLeft.Value;
-                    ColumnWidthLeft.Value = "0";
-                    VisibleLeftRegion.Value = "Hidden";
-                }
-                else
-                {
-                    ColumnWidthLeft.Value = _columnWidthLeft;
-                    _columnWidthLeft = null;
-                    VisibleLeftRegion.Value = "Visible";
-                }
+                VisibleLeftRegion.Value = !VisibleLeftRegion.Value;
             });
             this.ClickFoldingMarkRightCommand = new ReactiveCommand();
             this.ClickFoldingMarkRightCommand.Subscribe(_ =>
             {
-                if (_columnWidthRight == null)
-                {
-                    _columnWidthRight = ColumnWidthRight.Value;
-                    ColumnWidthRight.Value = "0";
-                    VisibleRightRegion.Value = "Hidden";
-                }
-                else
-                {
-                    ColumnWidthRight.Value = _columnWidthRight;
-                    _columnWidthRight = null;
-                    VisibleRightRegion.Value = "Visible";
-                }
+                VisibleRightRegion.Value = !VisibleRightRegion.Value;
             });
 
 

@@ -67,6 +67,8 @@ namespace PrismAutofac
         public void Initialize()
         {
             //_builder.RegisterTypeForNavigation<PropertyGridUserControl>();
+            _regionManager.RegisterViewWithRegion("LeftRegion", typeof(TreeUserControl));
+
             _regionManager.RegisterViewWithRegion("ContentRegion", typeof(ContentUserControl));
         }
 

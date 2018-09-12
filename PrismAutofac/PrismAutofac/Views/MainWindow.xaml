@@ -6,18 +6,21 @@
         xmlns:behav="clr-namespace:Behavior"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title.Value}" Height="350" Width="525">
-     
-    
+
+
     <i:Interaction.Behaviors>
         <behav:WindowBehavior
-            FoldingMarkWidth="25"
+            FoldingMarkWidth="30"
             AnimationTime="200"
-            Offset = "30" />
+            Offset = "30"
+            VisibleLeftRegion ="{Binding VisibleLeftRegion.Value}"
+            VisibleRightRegion ="{Binding VisibleRightRegion.Value}"
+            />
         <!--VisibleFoldingMark="{Binding VisibleFoldingMarkFromBehavior.Value, Mode=OneWayToSource}"-->
     </i:Interaction.Behaviors>
 
 
-    
+
     <DockPanel>
 
         <Menu DockPanel.Dock="Top">
@@ -29,7 +32,7 @@
                 <MenuItem Header="Exit" />
             </MenuItem>
         </Menu>
-        
+
         <StatusBar DockPanel.Dock="Bottom" Height="30">
             <StatusBarItem>
                 <TextBlock Text="{Binding StatusMessage.Value}"/>
@@ -39,51 +42,58 @@
         <Grid>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="0" Width="{Binding ColumnWidthLeft.Value, Mode=TwoWay}"/>
+                <ColumnDefinition x:Name="leftDefinition" MinWidth="10" Width="20*"/>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition x:Name="mainDefinition" Width="80*"/>
+                <ColumnDefinition x:Name="mainDefinition" Width="100*"/>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition MinWidth="0" Width="{Binding ColumnWidthRight.Value, Mode=TwoWay}"/>
+                <ColumnDefinition x:Name="rightDefinition" MinWidth="10" Width="20*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Visibility="{Binding VisibleLeftRegion.Value}">
+
+            <GridSplitter Grid.Column="1" Width="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+            
+            <GridSplitter Grid.Column="3" Width="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+            
+            
+            <Grid Grid.Column="0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <ContentControl prism:RegionManager.RegionName="LeftRegion" />
                 </ScrollViewer>
             </Grid>
 
-            <GridSplitter Grid.Column="1" Visibility="{Binding VisibleLeftRegion.Value}"
-                Width="5" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
 
             <Grid Grid.Column="2">
-                
+
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <ContentControl prism:RegionManager.RegionName="ContentRegion" />
                 </ScrollViewer>
-                
+
                 <TextBlock x:Name="foldingMarkLeft" VerticalAlignment="Center" HorizontalAlignment="Left">
                     <Hyperlink Command="{Binding ClickFoldingMarkLeftCommand}" TextDecorations="None">
-                        <Image Width="25" Source="/img/p2.png"/>
+                        <Image Width="30" HorizontalAlignment="Right" Source="/img/bear.png">
+                        </Image>
                     </Hyperlink>
                 </TextBlock>
-                <TextBlock x:Name="foldingMarkRight" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <TextBlock x:Name="foldingMarkRight" VerticalAlignment="Center" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5">
+                    <TextBlock.RenderTransform>
+                        <ScaleTransform ScaleX="-1" />
+                    </TextBlock.RenderTransform>
                     <Hyperlink Command="{Binding ClickFoldingMarkRightCommand}" TextDecorations="None">
-                        <Image Width="25" Source="/img/p2.png"/>
+                        <Image Width="30" HorizontalAlignment="Right" Source="/img/bear.png" />
                     </Hyperlink>
                 </TextBlock>
-                
+
             </Grid>
 
-            <GridSplitter Grid.Column="3" Visibility="{Binding VisibleRightRegion.Value}"
-                Width="5" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
 
-            <Grid Grid.Column="4" Visibility="{Binding VisibleRightRegion.Value}">
+            <Grid Grid.Column="4">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <ContentControl prism:RegionManager.RegionName="RightRegion" />
                 </ScrollViewer>
             </Grid>
 
+            
         </Grid>
-        
+
     </DockPanel>
 </Window>
