@@ -5,65 +5,85 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:behav="clr-namespace:Behavior"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="350" Width="525">
+        Title="{Binding Title.Value}" Height="350" Width="525">
+     
     
-                    <i:Interaction.Behaviors>
-                        <behav:WindowBehavior />
-                    </i:Interaction.Behaviors>
+    <i:Interaction.Behaviors>
+        <behav:WindowBehavior
+            FoldingMarkWidth="25"
+            AnimationTime="200"
+            Offset = "30" />
+        <!--VisibleFoldingMark="{Binding VisibleFoldingMarkFromBehavior.Value, Mode=OneWayToSource}"-->
+    </i:Interaction.Behaviors>
+
+
     
-    <Grid>
+    <DockPanel>
 
-        <!--<ContentControl prism:RegionManager.RegionName="ContentRegion" />-->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
-        <Menu Grid.Row="0">
-            <MenuItem Header="File(_F)" />
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" />
+                <MenuItem Header="_Open" />
+                <MenuItem Header="_Save" InputGestureText="Ctrl+S"/>
+                <Separator />
+                <MenuItem Header="Exit" />
+            </MenuItem>
         </Menu>
-        <Grid Grid.Row="1">
+        
+        <StatusBar DockPanel.Dock="Bottom" Height="30">
+            <StatusBarItem>
+                <TextBlock Text="{Binding StatusMessage.Value}"/>
+            </StatusBarItem>
+        </StatusBar>
 
-            
+        <Grid>
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Name="A" Width="Auto" />
-                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition MinWidth="0" Width="{Binding ColumnWidthLeft.Value, Mode=TwoWay}"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="mainDefinition" Width="80*"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition MinWidth="0" Width="{Binding ColumnWidthRight.Value, Mode=TwoWay}"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
-                <Button Content="Button1" 
-                    Command="{Binding NavigateCommand}" CommandParameter="PropertyGridUserControl"
-                    HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top" Width="75"/>
-                <Button Content="Button2" 
-                    Command="{Binding Button2Command}"
-                    HorizontalAlignment="Left" Margin="20,35,0,0" VerticalAlignment="Top" Width="75"/>
-                <Rectangle Width="30" Name="rectangle1" Stroke="Black" Fill="BurlyWood"
-                           HorizontalAlignment="Right"
-                           >
-
-                </Rectangle>
-
-                <Image x:Name="image01" Source="/img/p2.png" 
-                       VerticalAlignment="Center" HorizontalAlignment="Right" Width="25"
-                       Opacity="0.4">
-                    <Image.Style>
-                        <Style TargetType="Image">
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Opacity" Value="1.0"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Image.Style>
-                </Image>
+            <Grid Grid.Column="0" Visibility="{Binding VisibleLeftRegion.Value}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <ContentControl prism:RegionManager.RegionName="LeftRegion" />
+                </ScrollViewer>
             </Grid>
-            <GridSplitter 
-                Grid.Column="1" Width="5" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
-            <Grid 
-                Grid.Column="2">
-                <ContentControl prism:RegionManager.RegionName="SubRegion" />
+
+            <GridSplitter Grid.Column="1" Visibility="{Binding VisibleLeftRegion.Value}"
+                Width="5" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+
+            <Grid Grid.Column="2">
+                
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+                </ScrollViewer>
+                
+                <TextBlock x:Name="foldingMarkLeft" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Hyperlink Command="{Binding ClickFoldingMarkLeftCommand}" TextDecorations="None">
+                        <Image Width="25" Source="/img/p2.png"/>
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock x:Name="foldingMarkRight" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <Hyperlink Command="{Binding ClickFoldingMarkRightCommand}" TextDecorations="None">
+                        <Image Width="25" Source="/img/p2.png"/>
+                    </Hyperlink>
+                </TextBlock>
+                
             </Grid>
+
+            <GridSplitter Grid.Column="3" Visibility="{Binding VisibleRightRegion.Value}"
+                Width="5" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+
+            <Grid Grid.Column="4" Visibility="{Binding VisibleRightRegion.Value}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <ContentControl prism:RegionManager.RegionName="RightRegion" />
+                </ScrollViewer>
+            </Grid>
+
         </Grid>
-    </Grid>
+        
+    </DockPanel>
 </Window>

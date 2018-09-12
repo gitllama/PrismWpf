@@ -67,7 +67,7 @@ namespace PrismAutofac
         public void Initialize()
         {
             //_builder.RegisterTypeForNavigation<PropertyGridUserControl>();
-            //_regionManager.RegisterViewWithRegion("SubRegion", typeof(PropertyGridUserControl));
+            _regionManager.RegisterViewWithRegion("ContentRegion", typeof(ContentUserControl));
         }
 
     }

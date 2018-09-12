@@ -12,8 +12,8 @@ namespace PrismAutofac.Models
         bool _isChangeable = true;
         public bool isChangeable { get => _isChangeable; set => SetProperty(ref _isChangeable, value); }
 
-        private string _text = "Prism Unity Application";
-        public string Text { get => _text; set { if (isChangeable) { SetProperty(ref _text, value); } } }
+        private string _Title = "Prism Autofac Application";
+        public string Title { get => _Title; set { if (isChangeable) { SetProperty(ref _Title, value); } } }
 
     }
 }

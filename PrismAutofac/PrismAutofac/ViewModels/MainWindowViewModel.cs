@@ -7,6 +7,7 @@ using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Specialized;
+using System.Reactive.Linq;
 
 namespace PrismAutofac.ViewModels
 {
@@ -15,17 +16,29 @@ namespace PrismAutofac.ViewModels
         private ModelBase model;
         private IRegionManager _regionManager;
 
+        // TitleBar
 
-        private string _title = "Prism Application";
-        public string Title
-        {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
-        }
+        public ReactiveProperty<string> Title { get; private set; }
 
-        public ReactiveProperty<string> text { get; private set; }
+        // StatusBar
 
-        public ReactiveCommand NavigateCommand { get; private set; }
+        public ReactiveProperty<string> StatusMessage { get; private set; }
+
+        // FoldingMark
+
+        //public ReactiveProperty<bool> VisibleFoldingMarkFromBehavior { get; private set; }
+        //public ReactiveProperty<string> VisibleFoldingMarkToView { get; private set; }
+
+        // Visible SubRegion
+
+        public ReactiveProperty<string> VisibleLeftRegion { get; private set; }
+        public ReactiveProperty<string> VisibleRightRegion { get; private set; }
+        private string _columnWidthLeft;
+        private string _columnWidthRight;
+        public ReactiveProperty<string> ColumnWidthLeft { get; private set; }
+        public ReactiveProperty<string> ColumnWidthRight { get; private set; }
+        public ReactiveCommand ClickFoldingMarkLeftCommand { get; private set; }
+        public ReactiveCommand ClickFoldingMarkRightCommand { get; private set; }
 
 
         public MainWindowViewModel(ModelBase model, IRegionManager rm)
@@ -33,24 +46,76 @@ namespace PrismAutofac.ViewModels
             this.model = model;
             this._regionManager = rm;
 
-            //mm.LoadModule("MainWindowModule");
-            //this.mm.LoadModuleCompleted += this.ModuleManager_LoadModuleCompleted;
-            //_regionManager.Regions.CollectionChanged += Regions_CollectionChanged;
+            // TitleBar
 
-            this.text = model.ObserveProperty(x => x.Text).ToReactiveProperty();
+            this.Title = model.ObserveProperty(x => x.Title).ToReactiveProperty();
 
 
+            // StatusBar
 
-            this.NavigateCommand = new ReactiveCommand();
-            this.NavigateCommand.Subscribe(x =>
+            this.StatusMessage = new ReactiveProperty<string>("StatusMessage");
+
+            // FoldingMark
+
+            //this.VisibleFoldingMarkFromBehavior = new ReactiveProperty<bool>();
+            //this.VisibleFoldingMarkToView = VisibleFoldingMarkFromBehavior.Select(x => x ? "Visible" : "Collapsed").ToReactiveProperty();
+
+            // Visible SubRegion
+
+            this.VisibleLeftRegion = new ReactiveProperty<string>("Visible");
+            this.VisibleRightRegion = new ReactiveProperty<string>("Visible");
+            this.ColumnWidthLeft = new ReactiveProperty<string>("10*");
+            this.ColumnWidthRight = new ReactiveProperty<string>("10*");
+            this._columnWidthLeft = null;
+            this._columnWidthRight = null;
+            this.ClickFoldingMarkLeftCommand = new ReactiveCommand();
+            this.ClickFoldingMarkLeftCommand.Subscribe(_ =>
             {
-                _regionManager.RequestNavigate("SubRegion", x.ToString());
-                //this.RegionManager.RequestNavigate("MainRegion", nameof(AView), new NavigationParameters($"id={x}"));
-                //_regionManager.RegisterViewWithRegion("SubRegion", typeof(PropertyGridUserControl));
+                if (_columnWidthLeft == null)
+                {
+                    _columnWidthLeft = ColumnWidthLeft.Value;
+                    ColumnWidthLeft.Value = "0";
+                    VisibleLeftRegion.Value = "Hidden";
+                }
+                else
+                {
+                    ColumnWidthLeft.Value = _columnWidthLeft;
+                    _columnWidthLeft = null;
+                    VisibleLeftRegion.Value = "Visible";
+                }
             });
+            this.ClickFoldingMarkRightCommand = new ReactiveCommand();
+            this.ClickFoldingMarkRightCommand.Subscribe(_ =>
+            {
+                if (_columnWidthRight == null)
+                {
+                    _columnWidthRight = ColumnWidthRight.Value;
+                    ColumnWidthRight.Value = "0";
+                    VisibleRightRegion.Value = "Hidden";
+                }
+                else
+                {
+                    ColumnWidthRight.Value = _columnWidthRight;
+                    _columnWidthRight = null;
+                    VisibleRightRegion.Value = "Visible";
+                }
+            });
+
 
         }
 
+
+    }
+
+
+
+}
+
+/*
+            //mm.LoadModule("MainWindowModule");
+            //this.mm.LoadModuleCompleted += this.ModuleManager_LoadModuleCompleted;
+            //_regionManager.Regions.CollectionChanged += Regions_CollectionChanged;
+     
         private void Regions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             //if (e.Action == NotifyCollectionChangedAction.Add)
@@ -70,7 +135,8 @@ namespace PrismAutofac.ViewModels
             //{
             //    Views.Remove(e.OldItems[0].GetType().Name);
             //}
-        }
-    }
-}
-
+        }     
+     
+     
+     
+     */
