@@ -5,9 +5,8 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:behav="clr-namespace:Behavior"
         xmlns:MahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"  
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title.Value}" TitleCaps="False" Height="480" Width="640" >
+        Title="{Binding Title.Value}" Height="350" Width="525" >
 
 
     <i:Interaction.Behaviors>
@@ -27,18 +26,6 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <MahApps:MetroWindow.LeftWindowCommands>
-        <MahApps:WindowCommands>
-            <wpf:PopupBox Background="Aqua" Opacity="1">
-                <StackPanel>
-                    <Button Content="Hello World"/>
-                    <Button Content="Nice Popup"/>
-                    <Button Content="Goodbye"/>
-                </StackPanel>
-            </wpf:PopupBox>
-        </MahApps:WindowCommands>
-    </MahApps:MetroWindow.LeftWindowCommands>
-    
     <DockPanel>
 
         <Menu DockPanel.Dock="Top">

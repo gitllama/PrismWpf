@@ -15,5 +15,7 @@ namespace PrismAutofac.Models
         private string _Title = "Prism Autofac Application";
         public string Title { get => _Title; set { if (isChangeable) { SetProperty(ref _Title, value); } } }
 
+
+
     }
 }

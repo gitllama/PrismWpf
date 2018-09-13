@@ -14,7 +14,11 @@ namespace PrismAutofac.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private ModelBase model;
-        private IRegionManager _regionManager;
+        private IRegionManager regionManager;
+
+        // Loaded
+
+        public ReactiveCommand LoadedCommand { get; private set; }
 
         // TitleBar
 
@@ -24,26 +28,28 @@ namespace PrismAutofac.ViewModels
 
         public ReactiveProperty<string> StatusMessage { get; private set; }
 
-        // FoldingMark
+        // Region
 
-        //public ReactiveProperty<bool> VisibleFoldingMarkFromBehavior { get; private set; }
-        //public ReactiveProperty<string> VisibleFoldingMarkToView { get; private set; }
+        public ReactiveProperty<string> LeftRegion { get; private set; }
+        public ReactiveProperty<string> RightRegion { get; private set; }
+
+        public ReactiveCommand NavigateCommand { get; private set; }
 
         // Visible SubRegion
 
-        public ReactiveProperty<bool> VisibleLeftRegion { get; private set; }
-        public ReactiveProperty<bool> VisibleRightRegion { get; private set; }
+        public ReactiveProperty<bool> LeftRegionVisible { get; private set; }
+        public ReactiveProperty<bool> RightRegionVisible { get; private set; }
 
-        public ReactiveProperty<string> ColumnWidthLeft { get; private set; }
-        public ReactiveProperty<string> ColumnWidthRight { get; private set; }
-        public ReactiveCommand ClickFoldingMarkLeftCommand { get; private set; }
-        public ReactiveCommand ClickFoldingMarkRightCommand { get; private set; }
+        public ReactiveCommand ClickFoldingMarkCommand { get; private set; }
 
+        // ShortCut 
+
+        public ReactiveCommand ShortcutCommand { get; private set; }
 
         public MainWindowViewModel(ModelBase model, IRegionManager rm)
         {
             this.model = model;
-            this._regionManager = rm;
+            this.regionManager = rm;
 
             // TitleBar
 
@@ -54,29 +60,67 @@ namespace PrismAutofac.ViewModels
 
             this.StatusMessage = new ReactiveProperty<string>("StatusMessage");
 
-            // FoldingMark
+            // Region
 
-            //this.VisibleFoldingMarkFromBehavior = new ReactiveProperty<bool>();
-            //this.VisibleFoldingMarkToView = VisibleFoldingMarkFromBehavior.Select(x => x ? "Visible" : "Collapsed").ToReactiveProperty();
+            this.LeftRegion = new ReactiveProperty<string>("");
+            this.RightRegion = new ReactiveProperty<string>("");
+            this.LeftRegion.Subscribe(x => regionManager.RequestNavigate("LeftRegion", x.ToString()) );
+            this.RightRegion.Subscribe(x =>
+            {
+                Console.WriteLine(x.ToString());
+                regionManager.RequestNavigate("RightRegion", x.ToString());
+            });
+
+            this.NavigateCommand = new ReactiveCommand();
+            this.NavigateCommand.Subscribe(x =>
+            {
+                regionManager.RequestNavigate("RightRegion", x.ToString());
+                //this.RegionManager.RequestNavigate("MainRegion", nameof(AView), new NavigationParameters($"id={x}"));
+                //_regionManager.RegisterViewWithRegion("SubRegion", typeof(PropertyGridUserControl));
+            });
+
 
             // Visible SubRegion
 
-            this.VisibleLeftRegion = new ReactiveProperty<bool>(true);
-            this.VisibleRightRegion = new ReactiveProperty<bool>(true);
-            this.ColumnWidthLeft = new ReactiveProperty<string>("1*");
-            this.ColumnWidthRight = new ReactiveProperty<string>("1*");
-            this.ClickFoldingMarkLeftCommand = new ReactiveCommand();
-            this.ClickFoldingMarkLeftCommand.Subscribe(_ =>
+            this.LeftRegionVisible = new ReactiveProperty<bool>();
+            this.RightRegionVisible = new ReactiveProperty<bool>();
+
+            this.ClickFoldingMarkCommand = new ReactiveCommand();
+            this.ClickFoldingMarkCommand.Subscribe(x =>
             {
-                VisibleLeftRegion.Value = !VisibleLeftRegion.Value;
+                switch (x.ToString().Trim().ToLower())
+                {
+                    case "left":
+                        LeftRegionVisible.Value = !LeftRegionVisible.Value;
+                        break;
+                    case "right":
+                        RightRegionVisible.Value = !RightRegionVisible.Value;
+                        break;
+                    default:
+                        break;
+                }
+                
             });
-            this.ClickFoldingMarkRightCommand = new ReactiveCommand();
-            this.ClickFoldingMarkRightCommand.Subscribe(_ =>
+
+            // ShortcutCommand
+
+            this.ShortcutCommand = new ReactiveCommand();
+            this.ShortcutCommand.Subscribe(x =>
             {
-                VisibleRightRegion.Value = !VisibleRightRegion.Value;
+                StatusMessage.Value = x.ToString();
             });
 
 
+            LoadedCommand = new ReactiveCommand();
+            this.LoadedCommand.Subscribe(x =>
+            {
+                //初期化
+                LeftRegionVisible.Value = true;
+                RightRegionVisible.Value = false;
+
+                LeftRegion.Value = "TreeUserControl";
+                RightRegion.Value = "PropertyGridUserControl";
+            });
         }
 
 
