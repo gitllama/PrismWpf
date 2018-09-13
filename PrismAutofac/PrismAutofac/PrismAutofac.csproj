@@ -57,6 +57,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Behavior\BehaviorBase.cs" />
+    <Compile Include="Behavior\UserControl\SliderUserControl.xaml.cs">
+      <DependentUpon>SliderUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Behavior\WindowBehavior.cs" />
     <Compile Include="Behavior\DynamicBehavior.cs" />
     <Compile Include="ViewModels\ContentUserControlViewModel.cs" />
@@ -75,6 +78,10 @@
     <Compile Include="Views\TreeUserControl.xaml.cs">
       <DependentUpon>TreeUserControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="Behavior\UserControl\SliderUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ContentUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

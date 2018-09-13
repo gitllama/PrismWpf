@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PrismAutofac.Behavior;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,27 +58,36 @@ namespace Behavior
             {
 
             };
-            foreach(var i in a)
+            foreach(var i in new string[] { "a", "b" })
             {
-                var dock = new DockPanel();
-
-                var label = new Label()
+                var s = new SliderUserControl()
                 {
-                    Content = i.title,
-                    Width = 70
+                    TitleName = "JsonTest"
                 };
-                Binding binding = new Binding(i.binding);
-                var textbox = new TextBox()
-                {
-
-                };
-                textbox.SetBinding(TextBox.TextProperty, binding);
-
-                dock.Children.Add(label);
-                dock.Children.Add(textbox);
-
-                stack.Children.Add(dock);
+                stack.Children.Add(s);
             }
+
+            //foreach(var i in a)
+            //{
+            //    var dock = new DockPanel();
+
+            //    var label = new Label()
+            //    {
+            //        Content = i.title,
+            //        Width = 70
+            //    };
+            //    Binding binding = new Binding(i.binding);
+            //    var textbox = new TextBox()
+            //    {
+
+            //    };
+            //    textbox.SetBinding(TextBox.TextProperty, binding);
+
+            //    dock.Children.Add(label);
+            //    dock.Children.Add(textbox);
+
+            //    stack.Children.Add(dock);
+            //}
             win.Children.Add(stack);
 
         }
