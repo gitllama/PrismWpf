@@ -79,6 +79,7 @@ namespace PrismAutofac
             base.Load(builder);
 
             //builder.RegisterType<MainWindowModule>();
+            builder.RegisterTypeForNavigation<DynamicUserControl>();
             builder.RegisterTypeForNavigation<TreeUserControl>();
             builder.RegisterTypeForNavigation<PropertyGridUserControl>();
         }

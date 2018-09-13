@@ -118,7 +118,8 @@ namespace PrismAutofac.ViewModels
                 LeftRegionVisible.Value = true;
                 RightRegionVisible.Value = false;
 
-                LeftRegion.Value = "TreeUserControl";
+                //LeftRegion.Value = "TreeUserControl";
+                LeftRegion.Value = "DynamicUserControl";
                 RightRegion.Value = "PropertyGridUserControl";
             });
         }
