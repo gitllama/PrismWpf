@@ -1,0 +1,66 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="PrismAutofac.Views.ConfigurationView"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+             xmlns:c="clr-namespace:PrismAutofac.Controls"
+             d:DesignWidth="640" d:DesignHeight="480">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ComboBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <materialDesignConverters:BooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" TrueValue="Collapsed" FalseValue="Visible" />
+
+            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignComboBox}">
+                <Setter Property="Margin" Value="0 8 0 8" />
+            </Style>
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <StackPanel Margin="8" HorizontalAlignment="Left" MinWidth="300">
+            
+            <Label FontSize="30" FontWeight="Bold">Configuration</Label>
+            
+            <Separator/>
+            <ToggleButton
+              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+              ToolTip="Default ToggleButton Style" />
+            
+            <DatePicker
+              Width="100"
+              materialDesign:HintAssist.Hint="Pick Date" />
+                          <!--Style="{StaticResource MaterialDesignFloatingHintDatePicker}"--> 
+            
+            <ComboBox materialDesign:HintAssist.Hint="OS" 
+                      SelectedItem="{Binding a.Value}"
+                      ItemsSource="{Binding b.Value}" />
+  
+            <ComboBox materialDesign:HintAssist.Hint="OS" IsEditable="True">
+                <ComboBoxItem>Android</ComboBoxItem>
+                <ComboBoxItem>iOS</ComboBoxItem>
+                <ComboBoxItem>Windows</ComboBoxItem>
+            </ComboBox>
+            <Expander HorizontalAlignment="Stretch" Header="Expander JsonForm">
+                <c:JsonForm Data="{Binding obj.Value}" Json="{Binding list.Value}"/>
+            </Expander>
+            
+        </StackPanel>
+    </Grid>
+</UserControl>

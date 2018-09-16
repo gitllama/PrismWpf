@@ -10,9 +10,6 @@ namespace Behavior
 {
     public class BehaviorBase<T> : Behavior<T> where T : FrameworkElement
     {
-
-        #region field
-
         /// <summary>
         /// セットアップ状態
         /// </summary>
@@ -27,10 +24,6 @@ namespace Behavior
         /// 対象オブジェクト
         /// </summary>
         private WeakReference weakTarget;
-
-        #endregion  // field
-
-        #region Method
 
         /// <summary>
         /// Changedハンドラ
@@ -177,8 +170,6 @@ namespace Behavior
             isSetup = false;
             OnCleanup();
         }
-
-        #endregion  // Method
 
     }
 }

@@ -3,11 +3,11 @@
 namespace PrismAutofac.Views
 {
     /// <summary>
-    /// Interaction logic for DynamicUserControl
+    /// Interaction logic for AboutView
     /// </summary>
-    public partial class DynamicUserControl : UserControl
+    public partial class AboutView : UserControl
     {
-        public DynamicUserControl()
+        public AboutView()
         {
             InitializeComponent();
         }

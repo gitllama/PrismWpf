@@ -57,20 +57,30 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Behavior\BehaviorBase.cs" />
-    <Compile Include="Behavior\UserControl\SliderUserControl.xaml.cs">
+    <Compile Include="Controls\JsonForm.xaml.cs">
+      <DependentUpon>JsonForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Histogram.xaml.cs">
+      <DependentUpon>Histogram.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SliderUserControl.xaml.cs">
       <DependentUpon>SliderUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behavior\WindowBehavior.cs" />
-    <Compile Include="Behavior\DynamicBehavior.cs" />
+    <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationViewModel.cs" />
     <Compile Include="ViewModels\ContentUserControlViewModel.cs" />
-    <Compile Include="ViewModels\DynamicUserControlViewModel.cs" />
     <Compile Include="ViewModels\PropertyGridUserControlViewModel.cs" />
     <Compile Include="ViewModels\TreeUserControlViewModel.cs" />
-    <Compile Include="Views\ContentUserControl.xaml.cs">
-      <DependentUpon>ContentUserControl.xaml</DependentUpon>
+    <Compile Include="ViewModels\ViewSelectorViewModel.cs" />
+    <Compile Include="Views\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DynamicUserControl.xaml.cs">
-      <DependentUpon>DynamicUserControl.xaml</DependentUpon>
+    <Compile Include="Views\ConfigurationView.xaml.cs">
+      <DependentUpon>ConfigurationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentUserControl.xaml.cs">
+      <DependentUpon>ContentUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PropertyGridUserControl.xaml.cs">
       <DependentUpon>PropertyGridUserControl.xaml</DependentUpon>
@@ -78,15 +88,30 @@
     <Compile Include="Views\TreeUserControl.xaml.cs">
       <DependentUpon>TreeUserControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="Behavior\UserControl\SliderUserControl.xaml">
+    <Compile Include="Views\ViewSelectorView.xaml.cs">
+      <DependentUpon>ViewSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Controls\JsonForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Histogram.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ContentUserControl.xaml">
+    <Page Include="Controls\SliderUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DynamicUserControl.xaml">
+    <Page Include="Views\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigurationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -114,6 +139,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ViewSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -133,6 +162,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="B.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="A.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -146,8 +181,14 @@
     <PackageReference Include="MahApps.Metro">
       <Version>1.6.5</Version>
     </PackageReference>
+    <PackageReference Include="MahApps.Metro.SimpleChildWindow">
+      <Version>1.5.0</Version>
+    </PackageReference>
     <PackageReference Include="MaterialDesignThemes">
       <Version>2.5.0-ci1165</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="Prism.Autofac" Version="6.3.0" />
     <PackageReference Include="ReactiveProperty">

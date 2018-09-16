@@ -1,0 +1,22 @@
+﻿{
+  "titleWidth": 100,
+  "children": [
+    {
+      "name": "Title",
+      "childType": "TextBox"
+    },
+    {
+      "name": "MaxValue",
+      "childType": "NumericUpDown"
+    },
+    {
+      "name": "MinValue",
+      "childType": "Slider"
+    },
+    {
+      "name": "EnumType",
+      "childType": "ComboBox",
+      "ComboItems": [ "A", "B" ]
+    }
+  ]
+}

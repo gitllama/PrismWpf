@@ -4,9 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace PrismAutofac.Models
 {
+    public enum EnumTypes
+    {
+        A,
+        B,
+        C
+    }
+
     public abstract class ModelBase : BindableBase
     {
         bool _isChangeable = true;
@@ -15,7 +23,20 @@ namespace PrismAutofac.Models
         private string _Title = "Prism Autofac Application";
         public string Title { get => _Title; set { if (isChangeable) { SetProperty(ref _Title, value); } } }
 
+        private Brush _BarColor = Brushes.AliceBlue;
+        public Brush BarColor { get => _BarColor; set => SetProperty(ref _BarColor, value); }
 
 
+        private int[] _Data = new int[] { 10, 20, 30, 20, 10 };
+        public int[] Data { get => _Data; set => SetProperty(ref _Data, value); }
+
+        private int _MaxValue = 0;
+        public int MaxValue { get => _MaxValue; set => SetProperty(ref _MaxValue, value); }
+
+        private int _MinValue = 2;
+        public int MinValue { get => _MinValue; set => SetProperty(ref _MinValue, value); }
+
+        private EnumTypes _EnumType = EnumTypes.A;
+        public EnumTypes EnumType { get => _EnumType; set => SetProperty(ref _EnumType, value); }
     }
 }

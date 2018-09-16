@@ -67,7 +67,9 @@ namespace PrismAutofac
         public void Initialize()
         {
             //_builder.RegisterTypeForNavigation<PropertyGridUserControl>();
-            _regionManager.RegisterViewWithRegion("ContentRegion", typeof(ContentUserControl));
+
+            //_regionManager.RegisterViewWithRegion("ContentRegion", typeof(ContentUserControl));
+            _regionManager.RegisterViewWithRegion("LeftRegion", typeof(ViewSelectorView));
         }
 
     }
@@ -79,9 +81,11 @@ namespace PrismAutofac
             base.Load(builder);
 
             //builder.RegisterType<MainWindowModule>();
-            builder.RegisterTypeForNavigation<DynamicUserControl>();
+            builder.RegisterTypeForNavigation<ConfigurationView>();
+            //builder.RegisterTypeForNavigation<ViewSelectorView>();
             builder.RegisterTypeForNavigation<TreeUserControl>();
             builder.RegisterTypeForNavigation<PropertyGridUserControl>();
+            builder.RegisterTypeForNavigation<AboutView>();
         }
     }
     

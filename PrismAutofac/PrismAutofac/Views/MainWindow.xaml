@@ -9,7 +9,6 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title.Value}" TitleCaps="False" Height="480" Width="640" >
 
-
     <i:Interaction.Behaviors>
         <behav:GridSplitterBehavior
             FoldingMarkWidth="30"
@@ -29,8 +28,8 @@
 
     <MahApps:MetroWindow.LeftWindowCommands>
         <MahApps:WindowCommands>
-            <wpf:PopupBox Background="Aqua" Opacity="1">
-                <StackPanel>
+            <wpf:PopupBox>
+                <StackPanel Background="DarkGray" Opacity="1">
                     <Button Content="Hello World"/>
                     <Button Content="Nice Popup"/>
                     <Button Content="Goodbye"/>

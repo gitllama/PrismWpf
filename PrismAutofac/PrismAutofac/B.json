@@ -1,0 +1,9 @@
+﻿{
+  "titleWidth": 200,
+  "children": [
+    {
+      "name": "Title",
+      "childType": "TextBox"
+    }
+  ]
+}
