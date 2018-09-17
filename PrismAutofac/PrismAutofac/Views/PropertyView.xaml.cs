@@ -6,9 +6,9 @@ namespace PrismAutofac.Views
     /// <summary>
     /// Interaction logic for PropertyGridUserControl
     /// </summary>
-    public partial class PropertyGridUserControl : UserControl
+    public partial class PropertyView : UserControl
     {
-        public PropertyGridUserControl()
+        public PropertyView()
         {
             InitializeComponent();
         }

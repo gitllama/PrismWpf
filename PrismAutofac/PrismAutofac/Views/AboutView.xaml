@@ -10,7 +10,6 @@
              prism:ViewModelLocator.AutoWireViewModel="True" 
              d:DesignWidth="640" d:DesignHeight="480">
 
-
     <UserControl.Resources>
         <SolidColorBrush x:Key="NormalButtonBrush" Color="#F7D10C"/>
         <SolidColorBrush x:Key="HoverButtonBrush" Color="#ffffff"/>
@@ -26,31 +25,43 @@
     </UserControl.Resources>
 
     <Grid>
-        <StackPanel Margin="0,50,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
             
-            <Label Content="PrismAutofac" FontSize="54" 
-                   HorizontalAlignment="Stretch"
-                   HorizontalContentAlignment="Center"
-                    VerticalAlignment="Center"/>
-            
+        <Label Grid.Row="0"  Content="{Binding Title}" 
+                FontSize="54" 
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                VerticalAlignment="Center"/>
+
+        <StackPanel Grid.Row="1">
             <TextBlock FontSize="16" 
-                       HorizontalAlignment="Stretch"
-                       TextAlignment="Center"
-                       Margin="0,20,0,20" TextWrapping="Wrap" 
-                       >
-                Ver 0.0.1 (x64)<LineBreak />
-                Copyright© 2018 Gitllama
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Center">
-                <Hyperlink Command="{Binding ClickCommand}" TextDecorations="None">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="GithubCircle" Height="30" Width="30" />
-                        <TextBlock Text="{Binding Html}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Hyperlink>
-            </TextBlock>
-
+                    HorizontalAlignment="Stretch"
+                    TextAlignment="Center"
+                    Margin="5" TextWrapping="Wrap"
+                    Text="{Binding Version}"
+                    />
+        <TextBlock FontSize="16" 
+                    HorizontalAlignment="Stretch"
+                    TextAlignment="Center"
+                    Margin="5" TextWrapping="Wrap"
+                    Text="{Binding Copyright}"
+                    />
         </StackPanel>
+            
+        <TextBlock Grid.Row="2" HorizontalAlignment="Center">
+            <Hyperlink Command="{Binding ClickCommand}" TextDecorations="None">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="GithubCircle" Height="30" Width="30" />
+                    <TextBlock Text="{Binding Html}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Hyperlink>
+        </TextBlock>
+
+    
     </Grid>
+
 </UserControl>

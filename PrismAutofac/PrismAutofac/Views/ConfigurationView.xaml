@@ -39,6 +39,9 @@
             <Label FontSize="30" FontWeight="Bold">Configuration</Label>
             
             <Separator/>
+            
+            <Button Command="{Binding ClickCommand}"/>
+            
             <ToggleButton
               Style="{StaticResource MaterialDesignSwitchToggleButton}"
               ToolTip="Default ToggleButton Style" />

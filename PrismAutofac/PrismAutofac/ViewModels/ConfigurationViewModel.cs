@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using MahApps.Metro.SimpleChildWindow;
 
 namespace PrismAutofac.ViewModels
 {
@@ -22,6 +24,8 @@ namespace PrismAutofac.ViewModels
         public ReactiveProperty<object> obj { get; private set; }
         public ReactiveProperty<string> list { get; private set; }
         public ReactiveProperty<TestEnum> a { get; private set; }
+
+        public ReactiveCommand ClickCommand { get; private set; }
 
         public ConfigurationViewModel(ModelBase model)
         {
@@ -49,6 +53,13 @@ namespace PrismAutofac.ViewModels
                 }
             });
 
+            ClickCommand = new ReactiveCommand();
+            ClickCommand.Subscribe(async(x) =>
+            {
+                //await this.ShowChildWindowAsync(new Views.ChildWindow() { IsModal = false });
+            });
+            
         }
+
     }
 }

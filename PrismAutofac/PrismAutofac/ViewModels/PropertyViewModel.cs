@@ -9,16 +9,16 @@ using System.Linq;
 
 namespace PrismAutofac.ViewModels
 {
-    public class PropertyGridUserControlViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
+    public class PropertyViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
         private ModelBase model;
 
         public ReactiveProperty<object> obj { get; private set; }
 
-        public PropertyGridUserControlViewModel(ModelBase model)
+        public PropertyViewModel(ModelBase model)
         {
             this.model = model;
-            obj = new ReactiveProperty<object>((object)model);
+            obj = new ReactiveProperty<object>((object)model.WindowModelBase);
         }
 
         public bool KeepAlive

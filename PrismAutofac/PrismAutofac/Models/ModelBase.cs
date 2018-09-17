@@ -17,6 +17,10 @@ namespace PrismAutofac.Models
 
     public abstract class ModelBase : BindableBase
     {
+        WindowModelBase _WindowModelBase = new WindowModelBase();
+        public WindowModelBase WindowModelBase { get => _WindowModelBase; set => SetProperty(ref _WindowModelBase, value); }
+
+
         bool _isChangeable = true;
         public bool isChangeable { get => _isChangeable; set => SetProperty(ref _isChangeable, value); }
 
@@ -38,5 +42,15 @@ namespace PrismAutofac.Models
 
         private EnumTypes _EnumType = EnumTypes.A;
         public EnumTypes EnumType { get => _EnumType; set => SetProperty(ref _EnumType, value); }
+    }
+
+
+    public class WindowModelBase : BindableBase
+    {
+        private double _Scale = 1;
+        public double Scale { get => _Scale; set => SetProperty(ref _Scale, value); }
+
+        private bool _AutoScale = true;
+        public bool AutoScale { get => _AutoScale; set => SetProperty(ref _AutoScale, value); }
     }
 }

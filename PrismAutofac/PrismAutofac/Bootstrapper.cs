@@ -84,7 +84,8 @@ namespace PrismAutofac
             builder.RegisterTypeForNavigation<ConfigurationView>();
             //builder.RegisterTypeForNavigation<ViewSelectorView>();
             builder.RegisterTypeForNavigation<TreeUserControl>();
-            builder.RegisterTypeForNavigation<PropertyGridUserControl>();
+            builder.RegisterTypeForNavigation<PropertyView>();
+            builder.RegisterTypeForNavigation<ContentView>();
             builder.RegisterTypeForNavigation<AboutView>();
         }
     }
