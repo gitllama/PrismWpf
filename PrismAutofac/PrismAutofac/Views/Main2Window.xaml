@@ -45,7 +45,7 @@
 
             <Button>
                 <StackPanel Orientation="Horizontal">
-                    <wpf:PackIcon Kind="Play" />
+                    <wpf:PackIcon Kind="Play"/>
                     <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="Run" />
                 </StackPanel>
             </Button>
@@ -61,14 +61,16 @@
                     <wpf:PackIcon Kind="Stop" />
                 </StackPanel>
             </Button>
-            
-            <Button>
-                <StackPanel Orientation="Horizontal">
-                    <wpf:PackIcon Kind="ContrastCircle" />
-                </StackPanel>
-            </Button>
 
-            
+            <wpf:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                <wpf:PopupBox.Content>
+                    <wpf:PackIcon Kind="ContrastCircle" />
+                </wpf:PopupBox.Content>
+                <StackPanel Background="DarkGray" Opacity="1">
+                    <Slider Orientation="Vertical" Height="100"/>
+                </StackPanel>
+            </wpf:PopupBox>
+
         </MahApps:WindowCommands>
     </MahApps:MetroWindow.LeftWindowCommands>
 
