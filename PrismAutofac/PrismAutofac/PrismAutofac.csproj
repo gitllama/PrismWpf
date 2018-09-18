@@ -68,36 +68,39 @@
       <DependentUpon>SliderUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behavior\WindowBehavior.cs" />
-    <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\Main2WindowViewModel.cs" />
+    <Compile Include="ViewModels\Regions\AboutViewModel.cs" />
     <Compile Include="ViewModels\ChildWindowViewModel.cs" />
-    <Compile Include="ViewModels\ConfigurationViewModel.cs" />
-    <Compile Include="ViewModels\ContentUserControlViewModel.cs" />
-    <Compile Include="ViewModels\ContentViewModel.cs" />
-    <Compile Include="ViewModels\PropertyViewModel.cs" />
-    <Compile Include="ViewModels\TreeUserControlViewModel.cs" />
-    <Compile Include="ViewModels\ViewSelectorViewModel.cs" />
-    <Compile Include="Views\AboutView.xaml.cs">
+    <Compile Include="ViewModels\Regions\ConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\Regions\ContentViewModel.cs" />
+    <Compile Include="ViewModels\Regions\PropertyViewModel.cs" />
+    <Compile Include="ViewModels\Regions\TreeUserControlViewModel.cs" />
+    <Compile Include="ViewModels\Regions\ViewSelectorViewModel.cs" />
+    <Compile Include="Views\Main2Window.xaml.cs">
+      <DependentUpon>Main2Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Regions\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChildWindow.xaml.cs">
       <DependentUpon>ChildWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ConfigurationView.xaml.cs">
+    <Compile Include="Views\Regions\ConfigurationView.xaml.cs">
       <DependentUpon>ConfigurationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ContentUserControl.xaml.cs">
+    <Compile Include="Views\Regions\ContentUserControl.xaml.cs">
       <DependentUpon>ContentUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ContentView.xaml.cs">
+    <Compile Include="Views\Regions\ContentView.xaml.cs">
       <DependentUpon>ContentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PropertyView.xaml.cs">
+    <Compile Include="Views\Regions\PropertyView.xaml.cs">
       <DependentUpon>PropertyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TreeUserControl.xaml.cs">
+    <Compile Include="Views\Regions\TreeUserControl.xaml.cs">
       <DependentUpon>TreeUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ViewSelectorView.xaml.cs">
+    <Compile Include="Views\Regions\ViewSelectorView.xaml.cs">
       <DependentUpon>ViewSelectorView.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\JsonForm.xaml">
@@ -112,7 +115,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AboutView.xaml">
+    <Page Include="Views\Main2Window.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Regions\AboutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -120,15 +127,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ConfigurationView.xaml">
+    <Page Include="Views\Regions\ConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ContentUserControl.xaml">
+    <Page Include="Views\Regions\ContentUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ContentView.xaml">
+    <Page Include="Views\Regions\ContentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,15 +155,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\PropertyView.xaml">
+    <Page Include="Views\Regions\PropertyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TreeUserControl.xaml">
+    <Page Include="Views\Regions\TreeUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ViewSelectorView.xaml">
+    <Page Include="Views\Regions\ViewSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -11,6 +11,7 @@ namespace PrismAutofac
 {
     class Bootstrapper : AutofacBootstrapper
     {
+        private bool flag = true;
         protected override DependencyObject CreateShell()
         {
             // Bootstrapper.Run()内、CreateShell～InitializeShellで
@@ -22,7 +23,10 @@ namespace PrismAutofac
                 Newtonsoft.Json.JsonSerializer.CreateDefault().Populate(sr, model);
             }
             */
-            return Container.Resolve<MainWindow>();
+            if (flag)
+                return Container.Resolve<Main2Window>();
+            else
+                return Container.Resolve<MainWindow>();
         }
 
         protected override void InitializeShell()
