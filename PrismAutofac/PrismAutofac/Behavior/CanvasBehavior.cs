@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -69,8 +70,8 @@ namespace Behavior
             this.AssociatedObject.MouseDown -= AssociatedObject_MouseDown;
             //this.AssociatedObject.KeyDown -= AssociatedObject_KeyDown;
             //this.AssociatedObject.SizeChanged -= AssociatedObject_LayoutUpdated;
-            //this.AssociatedObject.LayoutUpdated -= AssociatedObject_LayoutUpdated;
-            this.AssociatedObject.ScrollChanged -= AssociatedObject_LayoutUpdated;
+            this.AssociatedObject.LayoutUpdated -= AssociatedObject_LayoutUpdated;
+            //this.AssociatedObject.ScrollChanged -= AssociatedObject_LayoutUpdated;
             //cnv = null;
             base.OnCleanup();
         }
@@ -135,38 +136,41 @@ namespace Behavior
             ReDraw();
         }
 
-
         public void ReDraw()
         {
             if (cnv == null) return;
-            var canvas = cnv.FindName("canvas") as Canvas;
-            var image = cnv.FindName("image") as ImageBrush;
+            var vb = cnv.FindName("viewbox") as Viewbox;
+            var grid = cnv.FindName("canvas") as Canvas;
+            var image = cnv.FindName("image") as Image;
+            var a = cnv.FindName("scale") as ScaleTransform;
+
+            grid.Width = image.Source.Width;
+            grid.Height = image.Source.Height;
 
             if (AutoScale)
             {
+                a.ScaleX = 1;
+                a.ScaleY = 1;
+
+                image.Width = image.Source.Width * 1;
+                image.Height = image.Source.Height * 1;
+                vb.Stretch = Stretch.Uniform;
                 cnv.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
                 cnv.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
-                //親要素
-                var w = cnv.ActualWidth / image.ImageSource.Width;
-                var h = cnv.ActualHeight / image.ImageSource.Height;
-                var w1 = cnv.ExtentWidth / image.ImageSource.Width;
-                var h2 = cnv.ExtentHeight / image.ImageSource.Height;
-
-                Console.WriteLine($"{cnv.ActualWidth} {((Grid)cnv.Parent).DesiredSize.Width}");
-                var _scale = w > h ? h : w;
-                
-                canvas.Width = image.ImageSource.Width * _scale;
-                canvas.Height = image.ImageSource.Height * _scale;
             }
             else
             {
+                vb.Stretch = Stretch.None;
                 cnv.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
                 cnv.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+                a.ScaleX = Scale;
+                a.ScaleY = Scale;
+                a.CenterX = image.Source.Width / 2;
+                a.CenterY = image.Source.Height / 2;
 
-                canvas.Width = image.ImageSource.Width * Scale;
-                canvas.Height = image.ImageSource.Height * Scale;
+                image.Width = image.Source.Width * Scale;
+                image.Height = image.Source.Height * Scale;
             }
         }
-
     }
 }
