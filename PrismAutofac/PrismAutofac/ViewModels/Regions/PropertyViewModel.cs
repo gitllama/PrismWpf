@@ -18,7 +18,7 @@ namespace PrismAutofac.ViewModels
         public PropertyViewModel(ModelBase model)
         {
             this.model = model;
-            obj = new ReactiveProperty<object>((object)model.WindowModelBase);
+            obj = new ReactiveProperty<object>((object)model);
         }
 
         public bool KeepAlive

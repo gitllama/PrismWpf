@@ -62,11 +62,11 @@
                 </StackPanel>
             </Button>
 
-            <wpf:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+            <wpf:PopupBox >
                 <wpf:PopupBox.Content>
                     <wpf:PackIcon Kind="ContrastCircle" />
                 </wpf:PopupBox.Content>
-                <StackPanel Background="DarkGray" Opacity="1">
+                <StackPanel Background="DarkGray" Opacity="1" Width="300" Height="500">
                     <Slider Orientation="Vertical" Height="100"/>
                 </StackPanel>
             </wpf:PopupBox>

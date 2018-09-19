@@ -17,6 +17,8 @@ namespace PrismAutofac.Models
 
     public abstract class ModelBase : BindableBase
     {
+        public string ModelName => this.GetType().FullName;
+
         WindowModelBase _WindowModelBase = new WindowModelBase();
         public WindowModelBase WindowModelBase { get => _WindowModelBase; set => SetProperty(ref _WindowModelBase, value); }
 
@@ -47,6 +49,8 @@ namespace PrismAutofac.Models
 
     public class WindowModelBase : BindableBase
     {
+        public string ModelName => nameof(WindowModelBase);
+
         private double _Scale = 1;
         public double Scale { get => _Scale; set => SetProperty(ref _Scale, value); }
 

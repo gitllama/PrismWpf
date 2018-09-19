@@ -6,27 +6,20 @@ using Prism.Autofac;
 using PrismAutofac.Models;
 using Prism.Regions;
 using System;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace PrismAutofac
 {
+
     class Bootstrapper : AutofacBootstrapper
     {
-        private bool flag = true;
+        JObject json = JObject.Parse(File.ReadAllText("config.json"));
+
         protected override DependencyObject CreateShell()
         {
-            // Bootstrapper.Run()内、CreateShell～InitializeShellで
-            // コンストラクタが呼ばれるので、初期化するなら直前がよさそう
-            /*
-            using (var sr = new System.IO.StreamReader("config.json"))
-            {
-                var model = Container.Resolve<Models.ModelBase>();
-                Newtonsoft.Json.JsonSerializer.CreateDefault().Populate(sr, model);
-            }
-            */
-            if (flag)
-                return Container.Resolve<Main2Window>();
-            else
-                return Container.Resolve<MainWindow>();
+            return Container.CreateWindow(json);
+            //return Container.Resolve<MainWindow>();
         }
 
         protected override void InitializeShell()
@@ -43,15 +36,11 @@ namespace PrismAutofac
         protected override void ConfigureContainerBuilder(ContainerBuilder builder)
         {
             base.ConfigureContainerBuilder(builder);
-            
+
             //Modelの登録
-            builder.RegisterType<Model>().As<ModelBase>().SingleInstance();
-            //builder.RegisterType<Model>().As<ModelBase>()
-            //    .WithParameter("ParamName", "ParamValue")
-            //    .SingleInstance();
-　　　　　　 
+            builder.CreateModel(json);
+
             //Viewの登録
-            //builder.RegisterTypeForNavigation<PropertyGridUserControl>();
             builder.RegisterModule<MainWindowModulRegistry>();
         }
     }
@@ -91,6 +80,51 @@ namespace PrismAutofac
             builder.RegisterTypeForNavigation<PropertyView>();
             builder.RegisterTypeForNavigation<ContentView>();
             builder.RegisterTypeForNavigation<AboutView>();
+        }
+    }
+
+    // Bootstrapper.Run()内、CreateShell～InitializeShellで
+    // コンストラクタが呼ばれるので、初期化するなら直前がよさそう
+    static class ModelBilder
+    {
+        public static void CreateModel(this ContainerBuilder builder, JObject json)
+        {
+            switch (json["Model"].Value<string>())
+            {
+                case "A":
+                    builder.RegisterType<ModelA>().As<ModelBase>().SingleInstance();
+                    break;
+                case "B":
+                    builder.RegisterType<ModelB>().As<ModelBase>().SingleInstance();
+                    break;
+            }
+            //builder.RegisterType<Model>().As<ModelBase>()
+            //    .WithParameter("ParamName", "ParamValue")
+            //    .SingleInstance();
+
+            //using (var sr = new System.IO.StreamReader("config.json"))
+            //{
+            //  Newtonsoft.Json.JsonSerializer.CreateDefault().Populate(sr, model);
+            //}
+        }
+
+        public static DependencyObject CreateWindow(this IContainer container, JObject json)
+        {
+            //Modelの初期化
+            var model = container.Resolve<Models.ModelBase>();
+            using (var sr = json["Config"].CreateReader())
+            {
+                Newtonsoft.Json.JsonSerializer.CreateDefault().Populate(sr, model);
+            }
+     
+            switch (json["MainWindow"].Value<string>())
+            {
+                case "0":
+                    return container.Resolve<MainWindow>();
+                case "1":
+                    return container.Resolve<Main2Window>();
+            }
+            return null;
         }
     }
     

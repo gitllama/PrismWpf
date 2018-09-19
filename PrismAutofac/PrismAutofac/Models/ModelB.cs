@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PrismAutofac.Models
 {
-    public class Model : ModelBase
+    public class ModelB : ModelBase
     {
 
     }
