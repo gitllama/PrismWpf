@@ -34,40 +34,17 @@
     
     <MahApps:MetroWindow.LeftWindowCommands>
         <MahApps:WindowCommands ShowSeparators="False">
-            
+
             <wpf:PopupBox>
+                <wpf:PopupBox.ToggleContent>
+                    <Grid Margin="5,0,0,0"  Width="20" Height="20" HorizontalAlignment="Center">
+                        <controls:BBear/>
+                    </Grid>
+                </wpf:PopupBox.ToggleContent>
                 <StackPanel Background="DarkGray" Opacity="1">
-                    <Button Content="Hello World"/>
-                    <Button Content="Nice Popup"/>
-                    <Button Content="Goodbye"/>
-                </StackPanel>
-            </wpf:PopupBox>
-
-            <Button>
-                <StackPanel Orientation="Horizontal">
-                    <wpf:PackIcon Kind="Play"/>
-                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="Run" />
-                </StackPanel>
-            </Button>
-            
-            <Button>
-                <StackPanel Orientation="Horizontal">
-                    <wpf:PackIcon Kind="RecordRec" />
-                </StackPanel>
-            </Button>
-            
-            <Button>
-                <StackPanel Orientation="Horizontal">
-                    <wpf:PackIcon Kind="Stop" />
-                </StackPanel>
-            </Button>
-
-            <wpf:PopupBox >
-                <wpf:PopupBox.Content>
-                    <wpf:PackIcon Kind="ContrastCircle" />
-                </wpf:PopupBox.Content>
-                <StackPanel Background="DarkGray" Opacity="1" Width="300" Height="500">
-                    <Slider Orientation="Vertical" Height="100"/>
+                    <Button Content="Menu A"/>
+                    <Button Content="Menu B"/>
+                    <Button Content="Menu C"/>
                 </StackPanel>
             </wpf:PopupBox>
 
