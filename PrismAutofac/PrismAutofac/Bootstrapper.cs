@@ -59,12 +59,9 @@ namespace PrismAutofac
 
         public void Initialize()
         {
-            //_builder.RegisterTypeForNavigation<PropertyGridUserControl>();
-
+            //MainWindowViewModelのLoadedに権利移譲
             //_regionManager.RegisterViewWithRegion("ContentRegion", typeof(ContentUserControl));
-            _regionManager.RegisterViewWithRegion("LeftRegion", typeof(ViewSelectorView));
         }
-
     }
 
     public class MainWindowModulRegistry : Module
@@ -73,13 +70,34 @@ namespace PrismAutofac
         {
             base.Load(builder);
 
+            // Moduleの登録
             //builder.RegisterType<MainWindowModule>();
+
+            // Viewの登録
+            // Reflectionで代用
+            var asm = System.Reflection.Assembly.GetExecutingAssembly();
+            Type[] ts = asm.GetTypes();
+            var method = typeof(AutofacExtensions).GetMethod("RegisterTypeForNavigation");
+            foreach (Type t in ts)
+            {
+                if (t.Namespace == $"{nameof(BTCV)}.{nameof(Views)}")
+                {
+                    if (t.FullName.EndsWith("View"))
+                    {
+                        var constructed = method.MakeGenericMethod(t);
+                        constructed.Invoke(null, new object[] { builder, null });
+                    }
+                }
+            }
+            builder.RegisterTypeForNavigation<TreeUserControl>();
+            
+            /* Reflectionを使用しない場合ex.
             builder.RegisterTypeForNavigation<ConfigurationView>();
             //builder.RegisterTypeForNavigation<ViewSelectorView>();
-            builder.RegisterTypeForNavigation<TreeUserControl>();
             builder.RegisterTypeForNavigation<PropertyView>();
             builder.RegisterTypeForNavigation<ContentView>();
             builder.RegisterTypeForNavigation<AboutView>();
+            */
         }
     }
 
