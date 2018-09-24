@@ -7,7 +7,10 @@
         xmlns:MahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"  
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title.Value}" TitleCaps="False" Height="480" Width="640" >
+        Title="{Binding Title.Value}" 
+        TitleCaps="False" 
+        Height="480" 
+        Width="640" >
         
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -38,7 +41,7 @@
             <wpf:PopupBox>
                 <wpf:PopupBox.ToggleContent>
                     <Grid Margin="5,0,0,0"  Width="20" Height="20" HorizontalAlignment="Center">
-                        <controls:BBear/>
+                        <!--<controls:BBear/>-->
                     </Grid>
                 </wpf:PopupBox.ToggleContent>
                 <StackPanel Background="DarkGray" Opacity="1">
@@ -54,4 +57,5 @@
     <Grid>
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
     </Grid>
+
 </MahApps:MetroWindow>

@@ -4,9 +4,17 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:behav="clr-namespace:Behavior"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:controls="clr-namespace:PrismAutofac.Controls"
              prism:ViewModelLocator.AutoWireViewModel="True">
+    
     <Grid>
-        <ScrollViewer>
+        <controls:ScalingCanvas  
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            Scale="{Binding Scale.Value, Mode=OneWay}"
+            AutoScale="{Binding AutoScale.Value, Mode=OneWay}"
+            Image="{Binding Image.Value, Mode=OneWay}"/>
+        <!--<ScrollViewer>
             <i:Interaction.Behaviors>
                 <behav:CanvasBehavior
                 Scale="{Binding Scale.Value, Mode=OneWay}"
@@ -16,14 +24,12 @@
             <Viewbox x:Name="viewbox">
                 <Grid>
                     <Canvas x:Name="canvas" Panel.ZIndex="2">
-                        <Canvas.RenderTransform>
-                            <ScaleTransform x:Name="scale" ScaleX="1" ScaleY="1" />
-                        </Canvas.RenderTransform>
-                        <TextBlock Width="30" Height="30" Background="AntiqueWhite">AAA</TextBlock>
+                        
                     </Canvas>
                     <Image Panel.ZIndex="1" x:Name="image" Source="{Binding Image.Value}"/>
                 </Grid>
             </Viewbox>
-        </ScrollViewer>
+        </ScrollViewer>-->
     </Grid>
+
 </UserControl>

@@ -61,6 +61,11 @@ namespace PrismAutofac
         {
             //MainWindowViewModelのLoadedに権利移譲
             //_regionManager.RegisterViewWithRegion("ContentRegion", typeof(ContentUserControl));
+            //_regionManager.RegisterViewWithRegion("MenuRegion", typeof(MenuView));
+            _regionManager.RegisterViewWithRegion("VSplitGridRegion", typeof(VSplitGridView));
+
+            _regionManager.RegisterViewWithRegion("RightRegion", typeof(PropertyView));
+
         }
     }
 
@@ -80,7 +85,7 @@ namespace PrismAutofac
             var method = typeof(AutofacExtensions).GetMethod("RegisterTypeForNavigation");
             foreach (Type t in ts)
             {
-                if (t.Namespace == $"{nameof(BTCV)}.{nameof(Views)}")
+                if (t.Namespace == $"{nameof(PrismAutofac)}.{nameof(Views)}")
                 {
                     if (t.FullName.EndsWith("View"))
                     {
@@ -89,11 +94,11 @@ namespace PrismAutofac
                     }
                 }
             }
-            builder.RegisterTypeForNavigation<TreeUserControl>();
+            //builder.RegisterTypeForNavigation<TreeUserControl>();
             
             /* Reflectionを使用しない場合ex.
             builder.RegisterTypeForNavigation<ConfigurationView>();
-            //builder.RegisterTypeForNavigation<ViewSelectorView>();
+            builder.RegisterTypeForNavigation<ViewSelectorView>();
             builder.RegisterTypeForNavigation<PropertyView>();
             builder.RegisterTypeForNavigation<ContentView>();
             builder.RegisterTypeForNavigation<AboutView>();

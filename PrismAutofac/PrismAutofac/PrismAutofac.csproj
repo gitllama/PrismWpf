@@ -58,18 +58,33 @@
     </ApplicationDefinition>
     <Compile Include="Behavior\BehaviorBase.cs" />
     <Compile Include="Behavior\CanvasBehavior.cs" />
+    <Compile Include="Behavior\ShortcutBehavior.cs" />
+    <Compile Include="Behavior\GridSplitterBehavior.cs" />
     <Compile Include="Controls\JsonForm.xaml.cs">
       <DependentUpon>JsonForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Histogram.xaml.cs">
       <DependentUpon>Histogram.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MaterialIcon.xaml.cs">
+      <DependentUpon>MaterialIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OutLineText.xaml.cs">
+      <DependentUpon>OutLineText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ScalingCanvas.xaml.cs">
+      <DependentUpon>ScalingCanvas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SliderUserControl.xaml.cs">
       <DependentUpon>SliderUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behavior\WindowBehavior.cs" />
+    <Compile Include="Controls\SVGIcon.xaml.cs">
+      <DependentUpon>SVGIcon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\ModelB.cs" />
     <Compile Include="ViewModels\Main2WindowViewModel.cs" />
+    <Compile Include="ViewModels\Main3WindowViewModel.cs" />
     <Compile Include="ViewModels\Regions\AboutViewModel.cs" />
     <Compile Include="ViewModels\ChildWindowViewModel.cs" />
     <Compile Include="ViewModels\Regions\ConfigurationViewModel.cs" />
@@ -77,8 +92,12 @@
     <Compile Include="ViewModels\Regions\PropertyViewModel.cs" />
     <Compile Include="ViewModels\Regions\TreeUserControlViewModel.cs" />
     <Compile Include="ViewModels\Regions\ViewSelectorViewModel.cs" />
+    <Compile Include="ViewModels\VSplitGridViewViewModel.cs" />
     <Compile Include="Views\Main2Window.xaml.cs">
       <DependentUpon>Main2Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Main3Window.xaml.cs">
+      <DependentUpon>Main3Window.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Regions\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
@@ -104,6 +123,9 @@
     <Compile Include="Views\Regions\ViewSelectorView.xaml.cs">
       <DependentUpon>ViewSelectorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VSplitGridView.xaml.cs">
+      <DependentUpon>VSplitGridView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Controls\JsonForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -112,13 +134,33 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\MaterialIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OutLineText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ScalingCanvas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SliderUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SVGIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Main2Window.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Main3Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Regions\AboutView.xaml">
       <SubType>Designer</SubType>
@@ -168,6 +210,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\VSplitGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -196,11 +242,11 @@
     <None Include="config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Docs\README.md" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit">
@@ -222,12 +268,25 @@
     <PackageReference Include="ReactiveProperty">
       <Version>5.2.0</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="img\dot.png" />
+    <PackageReference Include="SharpVectors">
+      <Version>1.0.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\bear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="img\baseline-camera-24px.svg" />
+    <Content Include="img\baseline-camera_alt-24px.svg" />
+    <Content Include="img\baseline-iso-24px.svg" />
+    <EmbeddedResource Include="img\lock.svg" />
+    <EmbeddedResource Include="img\lock_open.svg" />
+    <Content Include="img\baseline-shutter_speed-24px.svg" />
+    <Content Include="sample.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\image.svg" />
+    <EmbeddedResource Include="img\Connect.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

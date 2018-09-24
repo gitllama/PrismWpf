@@ -12,7 +12,20 @@
     <!--<UserControl.Resources>
         <c:SliderAngleConverter x:Key="dateConverter"/>
     </UserControl.Resources>-->
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <StackPanel Margin="30" HorizontalAlignment="Left">
             <ToggleButton IsChecked="False" Content="Unchecked"/>
@@ -29,10 +42,10 @@
                 <MahApps:ToggleSwitch Margin="0,20,0,0"  Width="100" OnLabel="On" OffLabel="Off"  />
             </Grid>
             
-            <c:Histogram 
+            <!--<c:Histogram 
                 Data="{Binding Data.Value}" Width="400" Height="40" 
                 MaxValue="{Binding MaxValue.Value}"
-                MinValue="{Binding MinValue.Value}"/>
+                MinValue="{Binding MinValue.Value}"/>-->
             
             <MahApps:RangeSlider 
                 Minimum="0.0" Maximum="5"
@@ -42,9 +55,18 @@
                 AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="0"
                 MinRange="1" SnapsToDevicePixels="True" ExtendedMode = "False"
                 IsSnapToTickEnabled="True" IsMoveToPointEnabled="True" />
-            
 
-        
+            <CheckBox Style="{StaticResource MaterialDesignCheckBox}">
+                Check
+            </CheckBox>
+
+            <ToggleButton
+              Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
+              ToolTip="MaterialDesignSwitchDarkToggleButton"
+              IsChecked="True" />
+
+            
+            
         </StackPanel>
     </Grid>
 </UserControl>

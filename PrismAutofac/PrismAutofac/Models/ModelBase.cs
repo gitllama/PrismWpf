@@ -22,12 +22,30 @@ namespace PrismAutofac.Models
         WindowModelBase _WindowModelBase = new WindowModelBase();
         public WindowModelBase WindowModelBase { get => _WindowModelBase; set => SetProperty(ref _WindowModelBase, value); }
 
+        bool _isBusy = false;
+        public bool isBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
+        }
 
         bool _isChangeable = true;
-        public bool isChangeable { get => _isChangeable; set => SetProperty(ref _isChangeable, value); }
+        public bool isChangeable
+        {
+            get => _isChangeable;
+            set => SetProperty(ref _isChangeable, value);
+        }
 
         private string _Title = "Prism Autofac Application";
         public string Title { get => _Title; set { if (isChangeable) { SetProperty(ref _Title, value); } } }
+
+        private string _StatusMessage = "Prism Autofac Application";
+        public string StatusMessage
+        {
+            get => _StatusMessage;
+            private set => SetProperty(ref _StatusMessage, value);
+        }
+
 
         private Brush _BarColor = Brushes.AliceBlue;
         public Brush BarColor { get => _BarColor; set => SetProperty(ref _BarColor, value); }

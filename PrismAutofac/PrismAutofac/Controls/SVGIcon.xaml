@@ -1,0 +1,50 @@
+﻿<ToggleButton x:Class="PrismAutofac.Controls.SVGIcon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+              mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="50"
+             x:Name="root">
+    
+    <ToggleButton.Template>
+        <ControlTemplate>
+            <Rectangle Fill="WhiteSmoke" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                           x:Name="svg1" StrokeThickness="0">
+                    <Rectangle.OpacityMask>
+                        <ImageBrush x:Name="img" Stretch="Uniform"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+
+                <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="svg1" Property="Fill" Value="Blue"/>
+                </Trigger>
+                <!--<Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="svg1" Property="Fill" Value="Black"/>
+                </Trigger>-->
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </ToggleButton.Template>
+
+<!--<ControlTemplate TargetType="ToggleButton">
+        <Border CornerRadius="0" 
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}">
+            <ContentPresenter x:Name="contentPresenter" 
+                                            ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                            Content="{TemplateBinding Content}"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="BorderBrush" Value="#007ACC"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="False">
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>-->
+</ToggleButton>
