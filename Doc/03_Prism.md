@@ -4,7 +4,7 @@ https://github.com/PrismLibrary/Prism-Samples-Wpf
 
 ## Property Notifies
 
-```C#
+```cs
   private string _title = "Prism Unity Application";
   public string Title { get => _title; set => SetProperty(ref _title, value); }
 
@@ -19,7 +19,7 @@ https://github.com/PrismLibrary/Prism-Samples-Wpf
   }
 ```
 
-```C#  
+```cs
   public void ViewModel()
   {
     model.PropertyChanged += Model_PropertyChanged;
@@ -32,7 +32,7 @@ https://github.com/PrismLibrary/Prism-Samples-Wpf
 
 ## Command
 
-```C#
+```cs
   public DelegateCommand ToUpperCommand { get; }
   public DelegateCommandSampleViewModel()
   {
@@ -48,7 +48,7 @@ https://github.com/PrismLibrary/Prism-Samples-Wpf
 
 ## PopupWindowAction
 
-```XML
+```cs
     <i:Interaction.Triggers>
         <prism:InteractionRequestTrigger SourceObject="{Binding NotificationRequest}">
             <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True" />
@@ -56,7 +56,7 @@ https://github.com/PrismLibrary/Prism-Samples-Wpf
     </i:Interaction.Triggers>
 ```
 
-```C#
+```cs
   public InteractionRequest<INotification> NotificationRequest { get; set; }
   public DelegateCommand NotificationCommand { get; set; }
 
@@ -76,7 +76,7 @@ https://github.com/PrismLibrary/Prism-Samples-Wpf
 
 ### Bindingを強制的に評価
 
-```C#
+```cs
   private void Button_Click(object sender, RoutedEventArgs e)
   {
     var expression = this.e.GetBindingExpression(TextBox.TextProperty);

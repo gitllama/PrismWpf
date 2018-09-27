@@ -9,7 +9,7 @@ _ => などは using Systemが必要なので注意
 
 ### 基本
 
-```C#
+```cs
     public ReactiveProperty<string> Input { get; private set; }
     public ReactiveProperty<string> Output { get; private set; }
 
