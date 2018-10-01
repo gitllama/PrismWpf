@@ -29,33 +29,19 @@
     <MahApps:MetroWindow.LeftWindowCommands>
         <MahApps:WindowCommands ShowSeparators="False">
 
-            <controls:SVGIcon 
-                Width="18" Height="18"
-                IsChecked="{Binding ElementName=yourMahAppFlyout, Path=IsOpen}" 
-                              />
-
+            <ToggleButton x:Name="image" Width="18" Height="18" 
+                          IsChecked="{Binding ElementName=flyoutLeft, Path=IsOpen}"/>
 
         </MahApps:WindowCommands>
     </MahApps:MetroWindow.LeftWindowCommands>
 
-    <MahApps:MetroWindow.Flyouts>
-        <MahApps:FlyoutsControl>
-            <MahApps:Flyout x:Name="yourMahAppFlyout" Width="200" Position="Left">
-                <StackPanel>
-                    <Button Content="Document" 
-                        Command="{Binding NavigateCommand}" CommandParameter="Content"/>
-                    <Button Content="Property" 
-                        Command="{Binding NavigateCommand}" CommandParameter="Property"/>
-                </StackPanel>
-            </MahApps:Flyout>/>
-        </MahApps:FlyoutsControl>
-    </MahApps:MetroWindow.Flyouts>
-    
 
     <MahApps:MetroWindow.RightWindowCommands>
         <MahApps:WindowCommands ShowSeparators="False">
-            
-                <!--<controls:SVGIcon  Width="30" Height="30"
+            <ListBox>
+                
+            </ListBox>
+            <!--<controls:SVGIcon  Width="30" Height="30"
                     Kind1="Connect"
                     Kind2="UnConnect" />
             <Grid Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -88,7 +74,28 @@
 
         </MahApps:WindowCommands>
     </MahApps:MetroWindow.RightWindowCommands>
+    
+    <MahApps:MetroWindow.Flyouts>
+        <MahApps:FlyoutsControl>
 
+            <MahApps:Flyout x:Name="flyoutLeft" Width="200" Position="Left"
+
+                            >
+                <ContentControl prism:RegionManager.RegionName="FlyoutLeftRegion"/>
+            </MahApps:Flyout> />
+        
+            <MahApps:Flyout x:Name="flyoutRight" Width="200" Position="Right">
+                <StackPanel>
+                    <Button Content="Document" 
+                        Command="{Binding NavigateCommand}" CommandParameter="Content"/>
+                    <Button Content="Property" 
+                        Command="{Binding NavigateCommand}" CommandParameter="Property"/>
+                </StackPanel>
+            </MahApps:Flyout> />
+
+        </MahApps:FlyoutsControl>
+    </MahApps:MetroWindow.Flyouts>
+    
     <Grid>
         
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
@@ -125,17 +132,6 @@
             <Label VerticalAlignment="Bottom"  HorizontalAlignment="Center" Content="Loading..."/>
         </Grid>
 
-        
-
-
     </Grid>
 
 </MahApps:MetroWindow>
-
-<!--<controls:MaterialIcon Width="28" Height="28"
-                                   IconSize="24"
-                                   Kind="Stop"
-                                   Text="TTT" />-->
-<!--<controls:SVGIcon  Width="30" Height="30"
-                    Kind1="Connect"
-                    Kind2="UnConnect" />-->

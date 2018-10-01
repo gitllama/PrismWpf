@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="PrismAutofac.Views.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <StackPanel>
+        <Button  Content="A" Command="{Binding NavigateCommand}" CommandParameter="A"/>
+        <Button  Content="B" Command="{Binding NavigateCommand}" CommandParameter="A"/>
+        <Button  Content="C" Command="{Binding NavigateCommand}" CommandParameter="A"/>
+        <Button  Content="D" Command="{Binding NavigateCommand}" CommandParameter="A"/>
+        <Button  Content="E" Command="{Binding NavigateCommand}" CommandParameter="A"/>
+    </StackPanel>
+</UserControl>

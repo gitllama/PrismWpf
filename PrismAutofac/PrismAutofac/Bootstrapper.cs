@@ -62,9 +62,10 @@ namespace PrismAutofac
             //MainWindowViewModelのLoadedに権利移譲
             //_regionManager.RegisterViewWithRegion("ContentRegion", typeof(ContentUserControl));
             //_regionManager.RegisterViewWithRegion("MenuRegion", typeof(MenuView));
-            _regionManager.RegisterViewWithRegion("VSplitGridRegion", typeof(VSplitGridView));
+            //_regionManager.RegisterViewWithRegion("VSplitGridRegion", typeof(VSplitGridView));
 
             _regionManager.RegisterViewWithRegion("RightRegion", typeof(PropertyView));
+            _regionManager.RegisterViewWithRegion("FlyoutLeftRegion", typeof(MenuView));
 
         }
     }

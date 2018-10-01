@@ -1,6 +1,4 @@
-﻿using SharpVectors.Converters;
-using SharpVectors.Renderers.Wpf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,13 +18,6 @@ using System.Windows.Markup;
 using System.Xml;
 using System.Windows.Controls.Primitives;
 
-// 埋め込まれたリソース:WPF 以前
-//  <Image Source="images/Open.png" />
-//  var stream = assembly.GetManifestResourceStream("ResourceTest.images.content.jpg");
-// Resource : wpf専用？
-//  
-
-//  ImageSource="{svgc:SvgImage ./img/test.svg}"
 
 namespace PrismAutofac.Controls
 {
@@ -151,12 +142,29 @@ namespace PrismAutofac.Controls
         {
             SVGIcon.IsCheckedProperty.OverrideMetadata(
                 typeof(SVGIcon), 
-                new FrameworkPropertyMetadata((d,s)=>(d as SVGIcon)?.Update2()));
+                new FrameworkPropertyMetadata((d,s)=>(d as SVGIcon)?.Update()));
 
         }
 
         private void Update()
         {
+            var svg1 = this.GetTemplateChild("svg1") as Rectangle;
+            if (IsChecked ?? false)
+            {
+
+            }
+            else
+            {
+                if (IsMouseOver)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+
             //var i = this.Resources["a"];
 
 
@@ -167,44 +175,14 @@ namespace PrismAutofac.Controls
             //}
 
 
-            if (IsMouseOver)
-            {
-                //svg1.Fill = Brushes.Beige;
-            }
-            else
-            {
-                ///svg1.Fill = Brushes.BlanchedAlmond;
-            }
         }
 
-        private void Update2()
-        {
-            var svg1 = this.GetTemplateChild("svg1") as Rectangle;
-            if (IsChecked ?? false)
-            {
-                KindToImageSource("lock", svg1);
-                svg1.Fill = Color3;
-            }
-            else
-            {
-                if (IsMouseOver)
-                {
-                    KindToImageSource("lock_open", svg1);
-                    svg1.Fill = Color2;
-                }
-                else
-                {
-                    KindToImageSource("lock", svg1);
-                    svg1.Fill = Color1;
-                }
-            }
-        }
 
 
 
         private void SVGIcon_MouseMove(object sender, MouseEventArgs e)
         {
-            Update2();
+            Update();
         }
 
         //public Rectangle svg1;
@@ -217,117 +195,6 @@ namespace PrismAutofac.Controls
             Update();
 
         }
-
-
-        public void KindToImageSource(string kind, Rectangle target)
-        {
-            if (kind == null) return;
-
-            var myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            using (var memStream = new MemoryStream())
-            using (var sr = myAssembly.GetManifestResourceStream($"PrismAutofac.img.{kind}.svg"))
-            {
-                var settings = new WpfDrawingSettings()
-                {
-                    IncludeRuntime = false,
-                    TextAsGeometry = false
-                };
-                var converter = new StreamSvgConverter(settings);
-                if (converter.Convert(sr, memStream))
-                {
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.StreamSource = memStream;
-                    bitmap.EndInit();
-
-                    
-
-                    var img = this.GetTemplateChild("img") as ImageBrush;
-
-                    img.ImageSource = bitmap;
-                    //target.OpacityMask = new ImageBrush()
-                    //{
-                    //    ImageSource = bitmap,
-                    //    Stretch = Stretch.Fill,
-                    //    TileMode = TileMode.Tile
-                    //};
-                }
-            }
-        }
-
-        public void KindToImageSource2(string kind, Rectangle target)
-        {
-            if (kind == null) return;
-
-            var myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            using (var memStream = new MemoryStream())
-            using (var sr = myAssembly.GetManifestResourceStream($"PrismAutofac.img.{kind}.svg"))
-            {
-                var settings = new WpfDrawingSettings()
-                {
-                    IncludeRuntime = true,
-                    TextAsGeometry = false
-                };
-                //SvgViewbox svg = new SvgViewbox();
-                //svg.Source = new Uri("test.svg", UriKind.Relative);
-                //svg.
-            }
-        }
-
-        public void StringToImageSource(string kind, Rectangle target)
-        {
-            //Uri uri = new Uri("PrismAutofac;component/img/Lock.svg", UriKind.Relative);
-
-            //if (uri.OriginalString.ToLower().Trim().EndsWith("svg"))
-            //{
-            //    var settings = new WpfDrawingSettings()
-            //    {
-            //        IncludeRuntime = true,
-            //        TextAsGeometry = false
-            //    };
-            //    var converter = new StreamSvgConverter(settings);
-            //    //var info = Application.GetResourceStream(uri);
-            //    XmlReader xmlReader = XmlReader.Create(uri.LocalPath);
-
-            //    using (var memStream = new MemoryStream())
-            //    {
-            //        if (converter.Convert(xmlReader, memStream))
-            //        {
-            //            BitmapImage bitmap = new BitmapImage();
-            //            bitmap.BeginInit();
-            //            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            //            bitmap.StreamSource = memStream;
-            //            bitmap.EndInit();
-
-            //            svg2.OpacityMask = new ImageBrush() { ImageSource = bitmap, Stretch = Stretch.Uniform };
-
-            //            // Set the image source.
-            //            //svgImage.Source = bitmap;
-            //            //svg1.OpacityMask = new ImageBrush() { ImageSource =  this.Source1, Stretch = Stretch.Uniform };
-
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    var converter = new ImageSourceConverter();
-            //    var e = (ImageSource)converter.ConvertFromString(uri.AbsolutePath);
-            //    svg2.OpacityMask = new ImageBrush() { ImageSource = e, Stretch = Stretch.Uniform };
-            //}
-        }
-
-        public void GetResource(string kind, Rectangle target)
-        {
-            var myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-
-            string[] resnames = myAssembly.GetManifestResourceNames();
-            foreach (string res in resnames)
-            {
-                Console.WriteLine("resource {0}", res);
-            }
-        }
-
 
 
     }
@@ -370,3 +237,53 @@ namespace PrismAutofac.Controls
         </ControlTemplate>
     </UserControl.Template> 
 */
+
+//if (kind == null) return;
+
+//var myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+//using (var memStream = new MemoryStream())
+//using (var sr = myAssembly.GetManifestResourceStream($"PrismAutofac.img.{kind}.svg"))
+//{
+//    var settings = new WpfDrawingSettings()
+//    {
+//        IncludeRuntime = false,
+//        TextAsGeometry = false
+//    };
+//    var converter = new StreamSvgConverter(settings);
+//    if (converter.Convert(sr, memStream))
+//    {
+//        BitmapImage bitmap = new BitmapImage();
+//        bitmap.BeginInit();
+//        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+//        bitmap.StreamSource = memStream;
+//        bitmap.EndInit();
+
+
+
+//        var img = this.GetTemplateChild("img") as ImageBrush;
+
+//        img.ImageSource = bitmap;
+//        //target.OpacityMask = new ImageBrush()
+//        //{
+//        //    ImageSource = bitmap,
+//        //    Stretch = Stretch.Fill,
+//        //    TileMode = TileMode.Tile
+//        //};
+//    }
+//}
+
+//if (kind == null) return;
+
+//var myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+//using (var memStream = new MemoryStream())
+//using (var sr = myAssembly.GetManifestResourceStream($"PrismAutofac.img.{kind}.svg"))
+//{
+//    var settings = new WpfDrawingSettings()
+//    {
+//        IncludeRuntime = true,
+//        TextAsGeometry = false
+//    };
+//    //SvgViewbox svg = new SvgViewbox();
+//    //svg.Source = new Uri("test.svg", UriKind.Relative);
+//    //svg.
+//}

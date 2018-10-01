@@ -7,44 +7,40 @@
               mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="50"
              x:Name="root">
-    
+
+    <ToggleButton.Resources>
+
+        <Canvas x:Key="broken" x:Shared="False" Width="24" Height="24">
+            <Path Fill="{Binding Path=Foreground,  RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}" 
+                  Data="M21,5V11.59L18,8.58L14,12.59L10,8.59L6,12.59L3,9.58V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5M18,11.42L21,14.43V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V12.42L6,15.41L10,11.41L14,15.41"  />
+        </Canvas>
+
+    </ToggleButton.Resources>
+
     <ToggleButton.Template>
         <ControlTemplate>
-            <Rectangle Fill="WhiteSmoke" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                           x:Name="svg1" StrokeThickness="0">
-                    <Rectangle.OpacityMask>
-                        <ImageBrush x:Name="img" Stretch="Uniform"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
+            
+            <Grid>
+                <Viewbox VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Uniform">
+                    <ContentControl Content="{StaticResource broken}" Foreground="WhiteSmoke"/>
+                    <Viewbox.Effect>
+                        <BlurEffect Radius="3"/>
+                    </Viewbox.Effect>
+                </Viewbox>
+                <Viewbox VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Uniform">
+                    <ContentControl Content="{StaticResource broken}" Foreground="blue"/>
+                </Viewbox>
 
-                <ControlTemplate.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter TargetName="svg1" Property="Fill" Value="Blue"/>
-                </Trigger>
-                <!--<Trigger Property="IsChecked" Value="True">
-                    <Setter TargetName="svg1" Property="Fill" Value="Black"/>
-                </Trigger>-->
-            </ControlTemplate.Triggers>
+                <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="Null"
+                           Foreground="WhiteSmoke">
+                    <TextBlock.Effect>
+                        <BlurEffect Radius="3"/>
+                    </TextBlock.Effect>
+                </TextBlock>
+                <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="Null" />
+            </Grid>
+            
         </ControlTemplate>
     </ToggleButton.Template>
 
-<!--<ControlTemplate TargetType="ToggleButton">
-        <Border CornerRadius="0" 
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}">
-            <ContentPresenter x:Name="contentPresenter" 
-                                            ContentTemplate="{TemplateBinding ContentTemplate}" 
-                                            Content="{TemplateBinding Content}"/>
-        </Border>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter Property="BorderBrush" Value="#007ACC"/>
-                <Setter Property="BorderThickness" Value="1"/>
-            </Trigger>
-            <Trigger Property="IsChecked" Value="False">
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="0"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>-->
 </ToggleButton>
