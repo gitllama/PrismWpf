@@ -22,7 +22,7 @@ _ => などは using Systemが必要なので注意
     }
 ```
 
-```C#
+```cs
     public ReactiveProperty<string> Output { get; private set; }
 
     public MainViewModel()
@@ -68,7 +68,7 @@ _ => などは using Systemが必要なので注意
 
 ### 合成
 
-```C#
+```cs
 	public ReactiveProperty<int> Lhs { get; }
   	public ReactiveProperty<int> Rhs { get; }
   	public ReadOnlyReactiveProperty<int> Answer { get; }
@@ -81,7 +81,7 @@ _ => などは using Systemが必要なので注意
 
 ### 入力検査
 
-```C#
+```cs
            this.Name = model
                 .ToReactivePropertyAsSynchronized(x => x.Name)
                 .SetValidateNotifyError((IObservable<string> ox) => // 入力値のストリーム
@@ -122,7 +122,7 @@ this.Name = model
 
 のようなケースではDisposeしないと予期しない動作する可能性あり。
 
-```C#
+```cs
 	//Aパターン
 	private CompositeDisposable Disposable { get; } = new CompositeDisposable();
     public Main()
@@ -153,18 +153,26 @@ this.Name = model
 
 ### その他
 
-```C#
+```cs
             this.Output = this.Input
                 .Delay(TimeSpan.FromSeconds(1)) // 1秒間待機して
                 .Select(x => x.ToUpper()) // 大文字に変換して
                 .ToReactiveProperty(); // ReactiveProperty化する
 ```
 
+#### 時間毎の実行
+
+```cs
+public ReactiveProperty<string> Name { get; } = Observable.Interval(TimeSpan.FromSeconds(1))
+        .Select(x => $"tanaka {x}")
+        .ToReactiveProperty();
+```
+
 ## Command
 
 ###基本
 
-```C#
+```cs
 	public ReactiveCommand ClearCommand { get; private set; }
 
 	this.ClearCommand = this.Input
@@ -175,7 +183,7 @@ this.Name = model
 
 ### 合成
 
-```C#
+```cs
         IsCheckedA = new ReactiveProperty<bool>();
         IsCheckedB = new ReactiveProperty<bool>();
         IsCheckedC = new ReactiveProperty<bool>();
