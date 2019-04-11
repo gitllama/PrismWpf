@@ -1,0 +1,9 @@
+﻿<prism:PrismApplication x:Class="PrismDryloc_For_Prism7._1.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	     xmlns:prism="http://prismlibrary.com/"
+             xmlns:local="clr-namespace:PrismDryloc_For_Prism7._1">
+    <Application.Resources>
+         
+    </Application.Resources>
+</prism:PrismApplication>
