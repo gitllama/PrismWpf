@@ -270,7 +270,7 @@
       <Version>2.5.0-ci1165</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>11.0.2</Version>
+      <Version>13.0.2</Version>
     </PackageReference>
     <PackageReference Include="Prism.Autofac" Version="6.3.0" />
     <PackageReference Include="ReactiveProperty">
